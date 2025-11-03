@@ -1,21 +1,335 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GKVP3QRX9Y"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GKVP3QRX9Y');
+    </script>
+
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>海拉的钱包</title>
     <script src="https://unpkg.com/vue@3.4.21/dist/vue.global.js"></script>
-    <style>
+        <style>
+            /* 设置整个网页背景 */
+            body {
+                background: #1a1a1a;
+                margin: 0;
+                padding: 0;
+            }
+
+            /* 顶部菜单栏样式 */
+            .top-menu-bar {
+            background: #2a2a2a;
+            border-bottom: 2px solid #8B0000;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 10000;
+        }
+
+        /* 弹窗模态框样式 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: #2a2a2a; /* 深灰色背景 */
+            border: 2px solid #333333; /* 厚重边框 */
+            border-radius: 8px;
+            padding: 0;
+            max-width: 500px;
+            width: 90%;
+            max-height: 70vh; /* 稍微降低最大高度，确保滚动条可见 */
+            overflow: hidden; /* 改为hidden，让内部元素处理滚动 */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3), 
+                        inset 0 0 0 1px rgba(255, 107, 107, 0.2); /* 厚重阴影和红色内边框 */
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            
+            /* 自定义滚动条 */
+            scrollbar-width: thin; /* Firefox */
+            scrollbar-color: #8B0000 #333333; /* Firefox */
+        }
+
+        /* Webkit浏览器自定义滚动条 (Chrome, Safari, Edge) - 应用到内容区域 */
+        .modal-body::-webkit-scrollbar {
+            width: 12px; /* 滚动条宽度 */
+        }
+
+        .modal-body::-webkit-scrollbar-track {
+            background: #2a2a2a; /* 滚动条轨道背景 */
+            border-radius: 6px;
+            margin: 5px 0;
+            box-shadow: inset 0 0 3px rgba(0,0,0,0.5);
+        }
+
+        .modal-body::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #8B0000, #FF4500); /* 深红到橙红渐变 */
+            border-radius: 6px;
+            border: 2px solid #2a2a2a;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #FF4500, #FF6B6B); /* 悬停时更亮 */
+            box-shadow: 0 0 8px rgba(255, 69, 0, 0.5);
+        }
+
+        .modal-body::-webkit-scrollbar-thumb:active {
+            background: linear-gradient(135deg, #FF6B6B, #FF8C00); /* 点击时最亮 */
+        }
+
+        .modal-body::-webkit-scrollbar-corner {
+            background: #2a2a2a; /* 滚动条角落背景 */
+        }
+
+        /* 移除modal-content的滚动条样式，因为现在内容区域单独滚动 */
+        .modal-content::-webkit-scrollbar {
+            display: none; /* 隐藏外层滚动条 */
+        }
+
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #FF4500, #FF6B6B); /* 悬停时更亮 */
+            box-shadow: 0 0 8px rgba(255, 69, 0, 0.5);
+        }
+
+        .modal-content::-webkit-scrollbar-thumb:active {
+            background: linear-gradient(135deg, #FF6B6B, #FF8C00); /* 点击时最亮 */
+        }
+
+        .modal-content::-webkit-scrollbar-corner {
+            background: #2a2a2a; /* 滚动条角落背景 */
+        }
+
+        /* 为弹窗内容区域也添加滚动条样式 */
+        .modal-body {
+            padding: 25px;
+            color: #CCCCCC;
+            line-height: 1.6;
+            overflow-y: auto; /* 内容区域单独滚动 */
+            flex: 1; /* 占据剩余空间 */
+            
+            /* 自定义滚动条 */
+            scrollbar-width: thin;
+            scrollbar-color: #8B0000 #333333;
+        }
+
+        .modal-body::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        .modal-body::-webkit-scrollbar-track {
+            background: #2a2a2a;
+            border-radius: 5px;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #8B0000, #FF4500);
+            border-radius: 5px;
+            border: 2px solid #2a2a2a;
+        }
+
+        .modal-body::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #FF4500, #FF6B6B);
+        }
+
+        /* 添加锁链装饰元素 */
+        .modal-content::after {
+            content: "⛓️";
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            font-size: 16px;
+            color: #8B0000; /* 深红色 */
+            opacity: 0.7;
+        }
+
+        .modal-header {
+            background: #333333; /* 深灰色背景 */
+            padding: 20px;
+            border-bottom: 1px solid #444444;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky; /* 改为sticky定位 */
+            top: 0;
+            z-index: 10;
+            flex-shrink: 0; /* 防止标题栏被压缩 */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2); /* 添加阴影增强层次感 */
+        }
+        .modal-title {
+            color: #FF6B6B; /* 亮红色 */
+            font-size: 20px;
+            font-weight: bold;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #FF6B6B;
+            font-size: 24px;
+            cursor: pointer;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: #3a3a3a;
+            color: #FF4500;
+        }
+
+        .modal-body {
+            padding: 25px;
+            color: #CCCCCC;
+            line-height: 1.6;
+        }
+
+        .modal-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #333333; /* 深灰色背景 */
+            border-radius: 6px;
+            border-left: 4px solid #FF4500; /* 橙红色边框 */
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.3);
+        }
+
+        .modal-section-title {
+            color: #FF6B6B; /* 亮红色 */
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+        }
+
+        .modal-list {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .modal-list li {
+            margin-bottom: 8px;
+            color: #CCCCCC;
+        }
+
+        .modal-highlight {
+            color: #FF4500; /* 橙红色 */
+            font-weight: bold;
+        }
+
+        .modal-footer {
+            padding: 15px 25px;
+            background: #333333; /* 深灰色背景 */
+            border-top: 1px solid #444444;
+            border-radius: 0 0 8px 8px;
+            text-align: center;
+            flex-shrink: 0; /* 防止底部被压缩 */
+        }
+
+        .modal-contact {
+            color: #FF6B6B;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* 移动端弹窗适配 */
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                max-height: 85vh;
+            }
+            
+            .modal-header {
+                padding: 15px;
+            }
+            
+            .modal-body {
+                padding: 20px;
+            }
+            
+            .modal-title {
+                font-size: 18px;
+            }
+        }
+
+        .menu-title {
+            color: #FF6B6B; /* 亮红色 */
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .menu-right {
+            display: flex;
+            gap: 15px;
+            margin-left: auto;
+        }
+
+        .menu-btn {
+            background: #333333; /* 深灰色背景 */
+            color: #FF6B6B; /* 亮红色 */
+            border: 1px solid #555555;
+            border-radius: 6px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .menu-btn:hover {
+            background: #3a3a3a;
+            border-color: #FF4500;
+            color: #FF4500; /* 橙红色悬停 */
+        }
+
         /* 基础样式 - 修改颜色方案 */
         .gacha-calculator {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
             font-family: 'Microsoft YaHei', Arial, sans-serif;
-            background: #1a1a1a; /* 深黑色背景 */
+            background: transparent;
             min-height: 100vh;
             position: relative;
             overflow: hidden;
+            margin-top: 70px;
         }
 
         .pie-canvas {
@@ -29,9 +343,9 @@
         }
 
         /* 添加栅栏效果背景 */
-        .gacha-calculator::before {
+        body::before {
             content: "";
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             right: 0;
@@ -41,7 +355,7 @@
                 linear-gradient(0deg, rgba(139, 0, 0, 0.1) 1px, transparent 1px);
             background-size: 20px 20px;
             pointer-events: none;
-            z-index: 0;
+            z-index: -1;
         }
 
         .calculator-layout {
@@ -142,15 +456,14 @@
         /* 更强大的固定定位方案 */
         .sticky-panel {
             position: sticky;
-            top: 20px;
+            top: 90px; /* 增加顶部距离，避免被菜单栏遮挡 */
             align-self: flex-start;
-            z-index: 1000; /* 更高的z-index */
+            z-index: 1000;
             background: #2a2a2a;
             border-radius: 8px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.4);
             margin-bottom: 20px;
-            /* 确保有足够的空间 */
-            max-height: calc(100vh - 40px);
+            max-height: calc(100vh - 110px); /* 调整最大高度 */
             overflow-y: auto;
         }
 
@@ -322,6 +635,53 @@
             min-width: 40px;
             text-align: center;
             text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+        }
+
+        /* 派遣声望按钮样式 */
+        .dispatch-buttons {
+            margin-top: 10px;
+        }
+
+        .dispatch-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .dispatch-column {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .dispatch-btn {
+            padding: 10px 8px;
+            border: 2px solid #555555;
+            background: #2a2a2a;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #CCCCCC;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .dispatch-btn:hover {
+            border-color: #FF4500;
+            background: #3a3a3a;
+            color: #FFFFFF;
+        }
+
+        .dispatch-btn.active {
+            border-color: #FF4500;
+            background: #8B0000;
+            color: white;
+            box-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
         }
 
         /* 暗域开关组样式 */
@@ -1130,6 +1490,72 @@
             background: #333333;
         }
 
+        /* 零镜系统按钮样式 */
+        .zero-mirror-buttons {
+            margin-top: 10px;
+        }
+
+        .zero-mirror-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .zero-mirror-column {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .zero-mirror-btn {
+            padding: 10px 8px;
+            border: 2px solid #555555;
+            background: #2a2a2a;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #CCCCCC;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .zero-mirror-btn:hover {
+            border-color: #FF4500;
+            background: #3a3a3a;
+            color: #FFFFFF;
+        }
+
+        .zero-mirror-btn.active {
+            border-color: #FF4500;
+            background: #8B0000;
+            color: white;
+            box-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .zero-mirror-columns {
+                grid-template-columns: 1fr;
+            }
+
+            .zero-mirror-btn {
+                font-size: 11px;
+                padding: 8px 6px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .zero-mirror-btn {
+                font-size: 10px;
+                padding: 6px 4px;
+            }
+        }
+
         /* 新增角色养成模块样式 */
         .character-development-input {
             display: flex;
@@ -1341,7 +1767,62 @@
 
         /* 移动端适配 */
         @media (max-width: 768px) {
+            /* 顶部菜单栏移动端适配 */
+            .top-menu-bar {
+                padding: 10px 15px;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 10000;
+            }
+            
+            .gacha-calculator {
+                margin-top: 60px;
+                padding: 10px;
+                background: transparent;
+            }
+            
+            .menu-title {
+                font-size: 20px;
+                position: static;
+                transform: none;
+                text-align: center;
+                flex: 1;
+            }
+            
+            .menu-right {
+                gap: 10px;
+            }
+            
+            .menu-btn {
+                padding: 6px 12px;
+                font-size: 12px;
+            }
 
+            /* 弹窗移动端适配 */
+            .modal-content {
+                width: 95%;
+                max-height: 85vh;
+                margin: 10px;
+            }
+            
+            .modal-header {
+                padding: 15px;
+            }
+            
+            .modal-body {
+                padding: 15px;
+            }
+            
+            .modal-title {
+                font-size: 18px;
+            }
+            
+            .modal-section {
+                padding: 12px;
+                margin-bottom: 15px;
+            }
             /* 新增：异方晶修正输入框移动端适配 */
             .resource-input {
                 flex-direction: column !important;
@@ -1375,12 +1856,13 @@
             
             .sticky-panel {
                 position: sticky;
-                top: 10px;
+                top: 70px; /* 移动端也增加顶部距离 */
                 z-index: 100;
-                background: #2a2a2a; /* 深灰色背景 */
+                background: #2a2a2a;
                 border-radius: 8px;
                 box-shadow: 0 5px 15px rgba(0,0,0,0.3);
                 margin-bottom: 15px;
+                max-height: calc(100vh - 80px); /* 调整移动端最大高度 */
             }
 
             /* 其他移动端样式保持不变，只调整颜色 */
@@ -1577,6 +2059,25 @@
             .resource-icon.small {
                 width: 18px;
                 height: 18px;
+            }
+
+            /* 移动端适配 */
+            @media (max-width: 768px) {
+                .dispatch-columns {
+                    grid-template-columns: 1fr;
+                }
+
+                .dispatch-btn {
+                    font-size: 11px;
+                    padding: 8px 6px;
+                }
+            }
+
+            @media (max-width: 480px) {
+                .dispatch-btn {
+                    font-size: 10px;
+                    padding: 6px 4px;
+                }
             }
 
             /* 角色养成模块移动端适配 */
@@ -1792,6 +2293,13 @@
 
             .gacha-calculator {
                 padding: 5px;
+                margin-top: 55px;
+                background: transparent;
+            }
+            
+            .sticky-panel {
+                top: 65px; /* 更小屏幕调整顶部距离 */
+                max-height: calc(100vh - 75px);
             }
             
             .card {
@@ -1986,12 +2494,422 @@
         .pie-chart-section canvas:hover {
             transform: scale(1.02);
         }
+
+        /* 白天模式样式 */
+        body.light-mode {
+            background: #f5f7fa;
+        }
+
+        .light-mode .gacha-calculator {
+            background: transparent;
+        }
+
+        .light-mode .top-menu-bar {
+            background: #ffffff;
+            border-bottom: 2px solid #1890ff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .light-mode .menu-title {
+            color: #1890ff;
+        }
+
+        .light-mode .menu-btn {
+            background: #f0f8ff;
+            color: #1890ff;
+            border: 1px solid #d9e7ff;
+        }
+
+        .light-mode .menu-btn:hover {
+            background: #e6f7ff;
+            border-color: #1890ff;
+            color: #096dd9;
+        }
+
+        .light-mode .card {
+            background: #ffffff;
+            border: 2px solid #e8f4ff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08), 
+                        inset 0 0 0 1px rgba(24, 144, 255, 0.1);
+        }
+
+        .light-mode .card::after {
+            color: #1890ff;
+        }
+
+        .light-mode .section-header {
+            color: #1890ff;
+        }
+
+        .light-mode .section-header:hover {
+            color: #096dd9;
+        }
+
+        .light-mode .collapse-icon {
+            color: #1890ff;
+        }
+
+        .light-mode .sub-section {
+            background: #f8fbff;
+            border-left: 4px solid #1890ff;
+        }
+
+        .light-mode .sub-title {
+            color: #1890ff;
+        }
+
+        .light-mode .resource-input-vertical {
+            background: #f8fbff;
+            border: 1px solid #e6f7ff;
+        }
+
+        .light-mode .resource-input-vertical label {
+            color: #1890ff;
+        }
+
+        .light-mode .resource-input-vertical input {
+            background: #ffffff;
+            border: 1px solid #d9e7ff;
+            color: #333333;
+        }
+
+        .light-mode .skin-item.compact {
+            background: #f8fbff;
+            border: 1px solid #e6f7ff;
+        }
+
+        .light-mode .skin-price {
+            color: #1890ff;
+        }
+
+        .light-mode .skin-btn {
+            background: #ffffff;
+            border: 1px solid #d9e7ff;
+            color: #1890ff;
+        }
+
+        .light-mode .skin-btn:hover {
+            background: #e6f7ff;
+            border-color: #1890ff;
+        }
+
+        .light-mode .switch-group .switch-label {
+            color: #666666;
+        }
+
+        .light-mode .switch-group .switch-label.active {
+            color: #1890ff;
+        }
+
+        .light-mode .time-option {
+            background: #f8fbff;
+            border: 2px solid #e6f7ff;
+            color: #666666;
+        }
+
+        .light-mode .time-option.active {
+            border-color: #1890ff;
+            background: #e6f7ff;
+        }
+
+        .light-mode .time-title {
+            color: #1890ff;
+        }
+
+        .light-mode .time-days {
+            color: #096dd9;
+        }
+
+        .light-mode .summary-section {
+            background: #f8fbff;
+            border-left: 4px solid #1890ff;
+        }
+
+        .light-mode .summary-label {
+            color: #1890ff;
+        }
+
+        .light-mode .summary-value {
+            color: #096dd9;
+        }
+
+        .light-mode .shop-section {
+            background: #ffffff;
+            border: 1px solid #e6f7ff;
+        }
+
+        .light-mode .shop-title {
+            color: #1890ff;
+        }
+
+        .light-mode .accumulation-item {
+            background: #f8fbff;
+        }
+
+        .light-mode .item-title {
+            color: #1890ff;
+        }
+
+        .light-mode .item-value {
+            color: #096dd9;
+        }
+
+        .light-mode .training-btn, 
+        .light-mode .dispatch-btn,
+        .light-mode .main-story-btn,
+        .light-mode .ex-btn,
+        .light-mode .memory-storm-btn,
+        .light-mode .pollution-nest-btn,
+        .light-mode .cleanup-operation-btn,
+        .light-mode .palma-ruins-btn,
+        .light-mode .target-btn,
+        .light-mode .rating-btn,
+        .light-mode .zero-mirror-btn {
+            background: #ffffff;
+            border: 2px solid #e6f7ff;
+            color: #666666;
+        }
+
+        .light-mode .training-btn:hover, 
+        .light-mode .dispatch-btn:hover,
+        .light-mode .main-story-btn:hover,
+        .light-mode .ex-btn:hover,
+        .light-mode .memory-storm-btn:hover,
+        .light-mode .pollution-nest-btn:hover,
+        .light-mode .cleanup-operation-btn:hover,
+        .light-mode .palma-ruins-btn:hover,
+        .light-mode .target-btn:hover,
+        .light-mode .rating-btn:hover,
+        .light-mode .zero-mirror-btn:hover {
+            border-color: #1890ff;
+            background: #e6f7ff;
+            color: #333333;
+        }
+
+        .light-mode .training-btn.active, 
+        .light-mode .dispatch-btn.active,
+        .light-mode .main-story-btn.active,
+        .light-mode .ex-btn.active,
+        .light-mode .memory-storm-btn.active,
+        .light-mode .pollution-nest-btn.active,
+        .light-mode .cleanup-operation-btn.active,
+        .light-mode .palma-ruins-btn.active,
+        .light-mode .target-btn.active,
+        .light-mode .rating-btn.active,
+        .light-mode .zero-mirror-btn.active {
+            border-color: #1890ff;
+            background: #1890ff;
+            color: white;
+        }
+
+        /* 模态框白天模式 */
+        .light-mode .modal-content {
+            background: #ffffff;
+            border: 2px solid #e8f4ff;
+        }
+
+        .light-mode .modal-header {
+            background: #f8fbff;
+        }
+
+        .light-mode .modal-title {
+            color: #1890ff;
+        }
+
+        .light-mode .modal-section {
+            background: #f8fbff;
+            border-left: 4px solid #1890ff;
+        }
+
+        .light-mode .modal-section-title {
+            color: #1890ff;
+        }
+
+        .light-mode .modal-highlight {
+            color: #096dd9;
+        }
+
+        .light-mode .modal-footer {
+            background: #f8fbff;
+        }
+
+        .light-mode .modal-contact {
+            color: #1890ff;
+        }
+
+        /* 饼状图白天模式 */
+        .light-mode .pie-chart-section {
+            background: #ffffff;
+            border: 2px solid #e8f4ff;
+        }
+
+        .light-mode .pie-legend {
+            background: #f8fbff;
+            border: 1px solid #e6f7ff;
+        }
+
+        .light-mode .legend-text {
+            color: #666666;
+        }
+
+        .light-mode .legend-total {
+            color: #1890ff;
+        }
+
+        /* 滑块白天模式 */
+        .light-mode .score-slider::-webkit-slider-track,
+        .light-mode .inspection-slider::-webkit-slider-track {
+            background: #e6f7ff;
+        }
+
+        .light-mode .score-slider::-moz-range-track,
+        .light-mode .inspection-slider::-moz-range-track {
+            background: #e6f7ff;
+        }
+
+        .light-mode .slider-value {
+            color: #096dd9;
+        }
+
+        /* 滚动条白天模式 */
+        .light-mode .modal-body::-webkit-scrollbar-track {
+            background: #f8fbff;
+        }
+
+        .light-mode .modal-body::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #1890ff, #69c0ff);
+        }
+
+        .light-mode .modal-body::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #096dd9, #1890ff);
+        }
+
+        /* 白天模式背景网格 */
+        .light-mode::before {
+            background-image: 
+                linear-gradient(90deg, rgba(24, 144, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(0deg, rgba(24, 144, 255, 0.1) 1px, transparent 1px);
+        }
+
     </style>
 </head>
 <body>
     <div id="app">
+        <!-- 顶部菜单栏 -->
+        <div class="top-menu-bar">
+            <div class="menu-title">海拉的钱包</div>
+            <div class="menu-right">
+                <button class="menu-btn" @click="showWebpageInfo">说明</button>
+                <button class="menu-btn" @click="showFeedback">反馈</button>
+                <button class="menu-btn theme-toggle" @click="toggleTheme" :title="isDarkMode ? '切换到白天模式' : '切换到夜晚模式'">
+                    {{ isDarkMode ? '🌙' : '☀️' }}
+                </button>
+            </div>
+        </div>
+        
+        <!-- 网页说明弹窗 -->
+        <div v-if="showWebpageInfoModal" class="modal-overlay" @click.self="closeWebpageInfo">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">📖 网页说明</h3>
+                    <button class="modal-close" @click="closeWebpageInfo">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-section">
+                        <div class="modal-section-title">📱 工具简介</div>
+                        <p>这是一个<strong class="modal-highlight">无期迷途抽卡资源计算器</strong>，可以帮助你科学规划抽卡资源，避免资源浪费。</p>
+                    </div>
+                    
+                    <div class="modal-section">
+                        <div class="modal-section-title">🚀 使用指南</div>
+                        <ol class="modal-list">
+                            <li>在<strong class="modal-highlight">右侧「当前资源」</strong>模块输入你现有的抽卡资源</li>
+                            <li>根据实际情况在<strong class="modal-highlight">各个模块</strong>中设置相关参数</li>
+                            <li>查看<strong class="modal-highlight">顶部总计</strong>了解可获得的总抽数</li>
+                            <li>通过<strong class="modal-highlight">饼状图分析</strong>了解各模块资源占比</li>
+                            <li>合理规划你的抽卡策略！</li>
+                        </ol>
+                    </div>
+
+                    <div class="modal-section">
+                        <div class="modal-section-title">⚡ 主要功能</div>
+                        <ul class="modal-list">
+                            <li>💎 <strong>当前资源管理</strong> - 记录异方晶、璀璨晶源、搜索令等</li>
+                            <li>📈 <strong>日常积累计算</strong> - 自动计算日常、周常、月常奖励</li>
+                            <li>🎯 <strong>活动资源估算</strong> - 估算活动可获得抽卡资源</li>
+                            <li>🔮 <strong>潜在资源统计</strong> - 统计主线关卡等潜在资源</li>
+                            <li>💰 <strong>氪金资源规划</strong> - 规划月卡、礼包等付费内容</li>
+                        </ul>
+                    </div>
+
+                    <div class="modal-section">
+                        <div class="modal-section-title">⚡ 25.11.03更新日志</div>
+                        <ul class="modal-list">
+                            <li>新增<strong>监管收菜</strong></li>
+                            <li>新增<strong>多项合金兑换</strong></li>
+                            <li>新增<strong>记忆复现</strong></li>
+                            <li>新增<strong>梦境&人格色谱</strong></li>
+                            <li>新增<strong>零境系统</strong></li>
+                            <li>新增<strong>灰烬之潮-重塑</strong></li>
+                            <li>新增<strong>派遣区域声望</strong></li>
+                            <li>新增<strong>说明&反馈</strong></li>
+                            <li>新增<strong>日夜模式切换</strong></li> 
+                            <li>修复<strong>少量BUG</strong></li>                                                        
+                        </ul>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <div class="modal-contact">祝局长十连三金！ 🎉</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 反馈弹窗 -->
+        <div v-if="showFeedbackModal" class="modal-overlay" @click.self="closeFeedback">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">💬 反馈与建议</h3>
+                    <button class="modal-close" @click="closeFeedback">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-section">
+                        <div class="modal-section-title">🐛 问题反馈</div>
+                        <p>如果您在使用过程中遇到<strong class="modal-highlight">任何问题或发现BUG</strong>，请通过以下渠道反馈：</p>
+                        <ul class="modal-list">
+                            <li>🖥️ 通过B站后台私信@是醉染哦</li>
+                            <li>👥 通过QQ群联系开发者：1049297956</li>
+                            <li>📧 邮件反馈2309141313@qq.com</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="modal-section">
+                        <div class="modal-section-title">💡 功能建议</div>
+                        <p>如果您有<strong class="modal-highlight">新的功能想法或改进建议</strong>，我们非常欢迎！</p>
+                        <ul class="modal-list">
+                            <li>✨ 新的计算模块建议</li>
+                            <li>🎨 界面优化建议</li>
+                            <li>📊 数据展示改进</li>
+                            <li>🔧 其他实用功能</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="modal-section">
+                        <div class="modal-section-title">⚠️ 注意事项</div>
+                        <ul class="modal-list">
+                            <li>部分活动资源为<strong class="modal-highlight">估算值</strong>，实际以游戏内为准</li>
+                            <li>数据会<strong class="modal-highlight">自动保存</strong>在本地浏览器中</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="modal-contact">感谢局长的使用与支持！ ❤️</div>
+                </div>
+            </div>
+        </div>
+
         <div class="gacha-calculator">
-            <h1><img :src="hlIcon" class="resource-icon" alt="海拉" style="width: 40px; height: 40px;"> 海拉的钱包</h1>
+            <h1 style="display: none;"><img :src="hlIcon" class="resource-icon" alt="海拉" style="width: 40px; height: 40px;"> 海拉的钱包</h1>
             
             <div class="calculator-layout">
                 <!-- 左侧：卡池时间和攒抽预测 -->
@@ -2008,29 +2926,29 @@
                         <div class="summary-item" style="display: flex; align-items: center; gap: 8px; margin: 0;">
                             <img :src="crystalIcon" class="resource-icon" alt="异方晶">
                             <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 2px;">
-                                <span class="summary-value">{{ totalCrystalSummary }}</span>
-                                <div style="font-size: 12px; color: #666;">({{ Math.floor(totalCrystalSummary / 180) }}抽)</div>
+                                <span class="summary-value">{{ totalAllCrystal }}</span>
+                                <div style="font-size: 12px; color: #666;">({{ Math.floor(totalAllCrystal / 180) }})</div>
                             </div>
                         </div>
                         <div class="summary-item" style="display: flex; align-items: center; gap: 8px; margin: 0;">
                             <img :src="premiumCrystalIcon" class="resource-icon" alt="璀璨晶源">
                             <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 2px;">
-                                <span class="summary-value">{{ totalPremiumCrystalSummary }}</span>
-                                <div style="font-size: 12px; color: #666;">({{ Math.floor(totalPremiumCrystalSummary / 180) }}抽)</div>
+                                <span class="summary-value">{{ totalAllPremiumCrystal }}</span>
+                                <div style="font-size: 12px; color: #666;">({{ Math.floor(totalAllPremiumCrystal / 180) }})</div>
                             </div>
                         </div>
                         <div class="summary-item" style="display: flex; align-items: center; gap: 8px; margin: 0;">
                             <img :src="ticketIcon" class="resource-icon" alt="搜索令">
                             <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 2px;">
-                                <span class="summary-value">{{ totalTicketsSummary }}</span>
-                                <div style="font-size: 12px; color: #666;">({{ totalTicketsSummary }}抽)</div>
+                                <span class="summary-value">{{ totalAllTickets }}</span>
+                                <div style="font-size: 12px; color: #666;">({{ totalAllTickets }})</div>
                             </div>
                         </div>
                         <div class="summary-item" style="display: flex; align-items: center; gap: 8px; margin: 0;">
                             <img :src="limitedCouponIcon" class="resource-icon" alt="限定券">
                             <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 2px;">
-                                <span class="summary-value">{{ totalLimitedCouponsSummary }}</span>
-                                <div style="font-size: 12px; color: #666;">({{ totalLimitedCouponsSummary }}抽)</div>
+                                <span class="summary-value">{{ totalAllLimitedCoupons }}</span>
+                                <div style="font-size: 12px; color: #666;">({{ totalAllLimitedCoupons }})</div>
                             </div>
                         </div>
                     </div>
@@ -2291,6 +3209,49 @@
                                     </div>
                                 </div>
 
+                                <!-- 监管收菜异方晶 -->
+                                <div class="accumulation-item">
+                                    <div class="item-info">
+                                        <span class="item-title">监管收菜：</span>
+                                        <span class="item-value">
+                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶">{{ supervisionHarvestCrystal }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <!-- 多项合金兑换 -->
+                                <div class="accumulation-item">
+                                    <div class="item-info">
+                                        <span class="item-title">多项合金兑换：</span>
+                                        <span class="item-value">
+                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶">{{ alloyExchangeCrystal }}
+                                        </span>
+                                    </div>
+                                    <div class="certification-controls">
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <input 
+                                                type="number" 
+                                                v-model.number="alloyCount" 
+                                                placeholder="0" 
+                                                min="0" 
+                                                step="1" 
+                                                @input="validateAlloyInput"
+                                                @focus="clearAlloyIfZero"
+                                                @blur="setAlloyDefaultIfEmpty"
+                                                style="width: 80px; padding: 8px; border: 1px solid #555555; border-radius: 5px; text-align: center; background: #333333; color: #FFFFFF; box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);"
+                                            >
+                                            <img :src="alloyIcon" class="resource-icon" alt="多项合金">
+                                        </div>
+                                    </div>
+                                    <div class="switch-group small">
+                                        <label class="switch">
+                                            <input type="checkbox" v-model="useAlloyExchange">
+                                            <span class="slider"></span>
+                                        </label>
+                                        <span class="switch-label">使用合金兑换</span>
+                                    </div>
+                                </div>
+
                                 <!-- 监察密令模块 - 整合到背景框中 -->
                                 <div class="nightmare-score" style="margin-top: 20px;">
                                     
@@ -2332,6 +3293,67 @@
                                     </div>
                                 </div>
 
+                            </div>
+
+                            <!-- 商店兑换 -->
+                            <div class="shop-section">
+                                <div class="shop-title">商店兑换</div>
+                                
+                                <div class="accumulation-item">
+                                    <div class="item-info">
+                                        <span class="item-title">追踪认证-常规：</span>
+                                        <span class="item-value"> <img :src="ticketIcon" class="resource-icon" alt="搜索令"> {{ remainingTrackingExchange }}</span>
+                                    </div>
+                                    <div class="switch-group small">
+                                        <label class="switch">
+                                            <input type="checkbox" v-model="trackingExchanged">
+                                            <span class="slider"></span>
+                                        </label>
+                                        <span class="switch-label">本月已兑换</span>
+                                    </div>
+                                </div>
+
+                                <div class="accumulation-item">
+                                    <div class="item-info">
+                                        <span class="item-title">追踪认证-机密：</span>
+                                        <span class="item-value"> <img :src="ticketIcon" class="resource-icon" alt="搜索令"> {{ trackingCertificationTickets }}</span>
+                                    </div>
+                                    <div class="certification-controls">
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <input 
+                                                type="number" 
+                                                v-model.number="trackingCertificationCount" 
+                                                placeholder="0" 
+                                                min="0" 
+                                                step="1" 
+                                                @input="validateCertificationInput"
+                                                style="width: 80px; padding: 8px; border: 1px solid #555555; border-radius: 5px; text-align: center; background: #333333; color: #FFFFFF; box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);"
+                                            >
+                                            <img :src="yellowTicketIcon" class="resource-icon" alt="黄票">
+                                        </div>
+                                    </div>
+                                    <div class="switch-group small">
+                                        <label class="switch">
+                                            <input type="checkbox" v-model="useTrackingCertification">
+                                            <span class="slider"></span>
+                                        </label>
+                                        <span class="switch-label">使用黄票兑换</span>
+                                    </div>
+                                </div>
+
+                                <div class="accumulation-item">
+                                    <div class="item-info">
+                                        <span class="item-title">友情兑换：</span>
+                                        <span class="item-value"> <img :src="ticketIcon" class="resource-icon" alt="搜索令"> {{ remainingFriendshipExchange }}</span>
+                                    </div>
+                                    <div class="switch-group small">
+                                        <label class="switch">
+                                            <input type="checkbox" v-model="friendshipExchanged">
+                                            <span class="slider"></span>
+                                        </label>
+                                        <span class="switch-label">本月已兑换</span>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- 破碎防线模块 -->
@@ -2489,7 +3511,7 @@
 
                             <!-- 祸海之厄模块 - 移入日常积累 -->
                             <div class="sub-section">
-                                <h3 class="sub-title">无尽梦魇</h3>
+                                <h3 class="sub-title">无尽梦魇-更替</h3>
                                 <div class="accumulation-item">
                                     <div class="item-info">
                                         <span class="item-title">祸海之厄：</span>
@@ -2504,67 +3526,6 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <!-- 商店兑换 -->
-                            <div class="shop-section">
-                                <div class="shop-title">商店兑换</div>
-                                
-                                <div class="accumulation-item">
-                                    <div class="item-info">
-                                        <span class="item-title">追踪认证-常规：</span>
-                                        <span class="item-value"> <img :src="ticketIcon" class="resource-icon" alt="搜索令"> {{ remainingTrackingExchange }}</span>
-                                    </div>
-                                    <div class="switch-group small">
-                                        <label class="switch">
-                                            <input type="checkbox" v-model="trackingExchanged">
-                                            <span class="slider"></span>
-                                        </label>
-                                        <span class="switch-label">本月已兑换</span>
-                                    </div>
-                                </div>
-
-                                <div class="accumulation-item">
-                                    <div class="item-info">
-                                        <span class="item-title">追踪认证-机密：</span>
-                                        <span class="item-value"> <img :src="ticketIcon" class="resource-icon" alt="搜索令"> {{ trackingCertificationTickets }}</span>
-                                    </div>
-                                    <div class="certification-controls">
-                                        <div style="display: flex; align-items: center; gap: 8px;">
-                                            <input 
-                                                type="number" 
-                                                v-model.number="trackingCertificationCount" 
-                                                placeholder="0" 
-                                                min="0" 
-                                                step="1" 
-                                                @input="validateCertificationInput"
-                                                style="width: 80px; padding: 8px; border: 1px solid #555555; border-radius: 5px; text-align: center; background: #333333; color: #FFFFFF; box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);"
-                                            >
-                                            <img :src="yellowTicketIcon" class="resource-icon" alt="黄票">
-                                        </div>
-                                    </div>
-                                    <div class="switch-group small">
-                                        <label class="switch">
-                                            <input type="checkbox" v-model="useTrackingCertification">
-                                            <span class="slider"></span>
-                                        </label>
-                                        <span class="switch-label">使用黄票兑换</span>
-                                    </div>
-                                </div>
-
-                                <div class="accumulation-item">
-                                    <div class="item-info">
-                                        <span class="item-title">友情兑换：</span>
-                                        <span class="item-value"> <img :src="ticketIcon" class="resource-icon" alt="搜索令"> {{ remainingFriendshipExchange }}</span>
-                                    </div>
-                                    <div class="switch-group small">
-                                        <label class="switch">
-                                            <input type="checkbox" v-model="friendshipExchanged">
-                                            <span class="slider"></span>
-                                        </label>
-                                        <span class="switch-label">本月已兑换</span>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
 
@@ -2575,122 +3536,6 @@
                             <span class="collapse-icon">{{ sections.potential ? '−' : '+' }}</span>
                         </h2>
                         <div v-if="sections.potential" class="section-content">
-                            <!-- 无尽梦魇子模块 -->
-                            <div class="sub-section">
-                                <h3 class="sub-title">无尽梦魇</h3>
-                                
-                                <!-- 积分奖励 -->
-                                <div class="nightmare-score">
-                                    <h4 class="score-title">
-                                        积分奖励 
-                                        <span style="font-size: 14px; font-weight: normal; margin-left: 10px;">
-                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ nightmareRemainingCrystal }} 
-                                            <img :src="ticketIcon" class="resource-icon" alt="搜索令"> {{ nightmareTicketReward }}
-                                        </span>
-                                    </h4>
-                                    <div class="slider-container">
-                                        <div class="slider-labels">
-                                            <span>0</span>
-                                            <span>60000</span>
-                                        </div>
-                                        <input 
-                                            type="range" 
-                                            v-model.number="nightmareScore" 
-                                            min="0" 
-                                            max="60000" 
-                                            step="1000"
-                                            class="score-slider"
-                                        >
-                                        <div class="slider-value">
-                                            当前积分: {{ nightmareScore }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 角色养成模块 -->
-                            <div class="sub-section">
-                                <h3 class="sub-title">角色养成</h3>
-                                
-                                <div class="character-development-input">
-                                    <span class="character-development-label">
-                                        未3阶角色数量：
-                                        <span class="character-development-value">
-                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ characterDevelopment.tier3 * 180 }}
-                                        </span>
-                                    </span>
-                                    <div class="character-development-controls">
-                                        <input type="number" v-model.number="characterDevelopment.tier3" placeholder="0" min="0" step="1" @input="validateCharacterDevInput('tier3')" @focus="clearCharacterDevIfZero('tier3')" @blur="setCharacterDevDefaultIfEmpty('tier3')">
-                                    </div>
-                                </div>
-
-                                <div class="character-development-input">
-                                    <span class="character-development-label">
-                                        未满混响狂级角色数量：
-                                        <span class="character-development-value">
-                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ characterDevelopment.maxReverbS * 210 }}
-                                        </span>
-                                    </span>
-                                    <div class="character-development-controls">
-                                        <input type="number" v-model.number="characterDevelopment.maxReverbS" placeholder="0" min="0" step="1" @input="validateCharacterDevInput('maxReverbS')" @focus="clearCharacterDevIfZero('maxReverbS')" @blur="setCharacterDevDefaultIfEmpty('maxReverbS')">
-                                    </div>
-                                </div>
-
-                                <div class="character-development-input">
-                                    <span class="character-development-label">
-                                        未满混响危级角色数量：
-                                        <span class="character-development-value">
-                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ characterDevelopment.maxReverbA * 60 }}
-                                        </span>
-                                    </span>
-                                    <div class="character-development-controls">
-                                        <input type="number" v-model.number="characterDevelopment.maxReverbA" placeholder="0" min="0" step="1" @input="validateCharacterDevInput('maxReverbA')" @focus="clearCharacterDevIfZero('maxReverbA')" @blur="setCharacterDevDefaultIfEmpty('maxReverbA')">
-                                    </div>
-                                </div>
-
-                                <div class="character-development-input">
-                                    <span class="character-development-label">
-                                        未满混响普级角色数量：
-                                        <span class="character-development-value">
-                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ characterDevelopment.maxReverbB * 20 }}
-                                        </span>
-                                    </span>
-                                    <div class="character-development-controls">
-                                        <input type="number" v-model.number="characterDevelopment.maxReverbB" placeholder="0" min="0" step="1" @input="validateCharacterDevInput('maxReverbB')" @focus="clearCharacterDevIfZero('maxReverbB')" @blur="setCharacterDevDefaultIfEmpty('maxReverbB')">
-                                    </div>
-                                </div>
-
-                                <div class="character-development-input">
-                                    <span class="character-development-label">
-                                        未审查狂级角色数量：
-                                        <span class="character-development-value">
-                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ characterDevelopment.reviewS * 200 }}
-                                        </span>
-                                    </span>
-                                    <div class="character-development-controls">
-                                        <input type="number" v-model.number="characterDevelopment.reviewS" placeholder="0" min="0" step="1" @input="validateCharacterDevInput('reviewS')" @focus="clearCharacterDevIfZero('reviewS')" @blur="setCharacterDevDefaultIfEmpty('reviewS')">
-                                    </div>
-                                </div>
-
-                                <div class="character-development-input">
-                                    <span class="character-development-label">
-                                        未审查危级角色数量：
-                                        <span class="character-development-value">
-                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ characterDevelopment.reviewA * 150 }}
-                                        </span>
-                                    </span>
-                                    <div class="character-development-controls">
-                                        <input type="number" v-model.number="characterDevelopment.reviewA" placeholder="0" min="0" step="1" @input="validateCharacterDevInput('reviewA')" @focus="clearCharacterDevIfZero('reviewA')" @blur="setCharacterDevDefaultIfEmpty('reviewA')">
-                                    </div>
-                                </div>
-                                
-                                <button 
-                                    class="character-development-btn" 
-                                    :class="{ active: characterDevelopment.haylaReviewed }"
-                                    @click="toggleHaylaReview">
-                                    {{ characterDevelopment.haylaReviewed ? '已审查海拉！' : '未审查海拉！' }}
-                                </button>
-                            </div>
 
                             <!-- 狄斯城（主线） -->
                             <div class="sub-section">
@@ -2832,6 +3677,125 @@
                                         >
                                         <div class="slider-value">
                                             当前状态: {{ actionSummaryText }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 零镜系统（世界观）模块 -->
+                            <div class="sub-section">
+                                <h3 class="sub-title">零镜系统（世界观）</h3>
+                                <div class="zero-mirror-buttons">
+                                    <div class="zero-mirror-columns">
+                                        <div class="zero-mirror-column">
+                                            <!-- 入夜纪年 -->
+                                            <button 
+                                                class="zero-mirror-btn" 
+                                                :class="{ active: zeroMirror.nightChronicle }"
+                                                @click="toggleZeroMirror('nightChronicle')">
+                                                入夜纪年<img :src="crystalIcon" class="resource-icon" alt="异方晶">200
+                                            </button>
+                                            
+                                            <!-- 狄斯城 -->
+                                            <button 
+                                                class="zero-mirror-btn" 
+                                                :class="{ active: zeroMirror.disCity }"
+                                                @click="toggleZeroMirror('disCity')">
+                                                狄斯城<img :src="crystalIcon" class="resource-icon" alt="异方晶">20
+                                            </button>
+                                            
+                                            <!-- 辛迪加 -->
+                                            <button 
+                                                class="zero-mirror-btn" 
+                                                :class="{ active: zeroMirror.syndicate }"
+                                                @click="toggleZeroMirror('syndicate')">
+                                                辛迪加<img :src="crystalIcon" class="resource-icon" alt="异方晶">180
+                                            </button>
+                                            
+                                            <!-- 新城 -->
+                                            <button 
+                                                class="zero-mirror-btn" 
+                                                :class="{ active: zeroMirror.newCity }"
+                                                @click="toggleZeroMirror('newCity')">
+                                                新城<img :src="crystalIcon" class="resource-icon" alt="异方晶">80
+                                            </button>
+                                            
+                                            <!-- 锈河 -->
+                                            <button 
+                                                class="zero-mirror-btn" 
+                                                :class="{ active: zeroMirror.rustRiver }"
+                                                @click="toggleZeroMirror('rustRiver')">
+                                                锈河<img :src="crystalIcon" class="resource-icon" alt="异方晶">60
+                                            </button>
+                                        </div>
+                                        <div class="zero-mirror-column">
+                                            <!-- 外邦 -->
+                                            <button 
+                                                class="zero-mirror-btn" 
+                                                :class="{ active: zeroMirror.foreignLand }"
+                                                @click="toggleZeroMirror('foreignLand')">
+                                                外邦<img :src="crystalIcon" class="resource-icon" alt="异方晶">120
+                                            </button>
+                                            
+                                            <!-- 内海 -->
+                                            <button 
+                                                class="zero-mirror-btn" 
+                                                :class="{ active: zeroMirror.innerSea }"
+                                                @click="toggleZeroMirror('innerSea')">
+                                                内海<img :src="crystalIcon" class="resource-icon" alt="异方晶">80
+                                            </button>
+                                            
+                                            <!-- 上庭 -->
+                                            <button 
+                                                class="zero-mirror-btn" 
+                                                :class="{ active: zeroMirror.upperCourt }"
+                                                @click="toggleZeroMirror('upperCourt')">
+                                                上庭<img :src="crystalIcon" class="resource-icon" alt="异方晶">0
+                                            </button>
+                                            
+                                            <!-- 狂厄 -->
+                                            <button 
+                                                class="zero-mirror-btn" 
+                                                :class="{ active: zeroMirror.madEvil }"
+                                                @click="toggleZeroMirror('madEvil')">
+                                                狂厄<img :src="crystalIcon" class="resource-icon" alt="异方晶">320
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 常驻活动模块 -->
+                            <div class="sub-section">
+                                <h3 class="sub-title">常驻活动</h3>
+                                <div class="permanent-activity">
+                                    <div class="summary-header" style="background: #2a2a2a; padding: 12px 15px; border-radius: 8px; border: 1px solid #e1e5e9; margin-bottom: 15px;">
+                                        <div style="display: flex; align-items: center; gap: 15px;">
+                                            <span class="summary-text" style="font-size: 16px; font-weight: bold; color: #FF4500; flex: 1;">
+                                                记忆复现
+                                            </span>
+                                            <span class="summary-crystal" style="font-size: 14px; font-weight: bold; color: #1890ff; white-space: nowrap;">
+                                                <img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ memoryReviewCrystal }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 弥合阈值滑块 -->
+                                    <div class="slider-container" style="margin-top: 15px;">
+                                        <div class="slider-labels">
+                                            <span>0</span>
+                                            <span>10000</span>
+                                        </div>
+                                        <input 
+                                            type="range" 
+                                            v-model.number="memoryReviewThreshold" 
+                                            min="0" 
+                                            max="10000"
+                                            step="1000"
+                                            class="score-slider"
+                                        >
+                                        <div class="slider-value">
+                                            弥合阈值: {{ memoryReviewThreshold }}
                                         </div>
                                     </div>
                                 </div>
@@ -3007,6 +3971,254 @@
                                             启迪<img :src="crystalIcon" class="resource-icon" alt="异方晶">280
                                         </button>
                                     </div>
+                                </div>
+                            </div>
+
+                            <!-- 派遣声望模块 -->
+                            <div class="sub-section">
+                                <h3 class="sub-title">派遣声望</h3>
+                                <div class="dispatch-reputation">
+                                    <!-- 按钮区域 -->
+                                    <div class="dispatch-buttons">
+                                        <div class="dispatch-columns">
+                                            <div class="dispatch-column">
+                                                <button 
+                                                    class="dispatch-btn" 
+                                                    :class="{ active: selectedDispatchArea === 'syndicate' }"
+                                                    @click="selectDispatchArea('syndicate')">
+                                                    辛迪加<img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ dispatchReputation.syndicate.crystal }}
+                                                </button>
+                                                <button 
+                                                    class="dispatch-btn" 
+                                                    :class="{ active: selectedDispatchArea === 'newCity' }"
+                                                    @click="selectDispatchArea('newCity')">
+                                                    新城<img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ dispatchReputation.newCity.crystal }}
+                                                </button>
+                                            </div>
+                                            <div class="dispatch-column">
+                                                <button 
+                                                    class="dispatch-btn" 
+                                                    :class="{ active: selectedDispatchArea === 'innerBay' }"
+                                                    @click="selectDispatchArea('innerBay')">
+                                                    里湾<img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ dispatchReputation.innerBay.crystal }}
+                                                </button>
+                                                <button 
+                                                    class="dispatch-btn" 
+                                                    :class="{ active: selectedDispatchArea === 'sandSea' }"
+                                                    @click="selectDispatchArea('sandSea')">
+                                                    砂海<img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ dispatchReputation.sandSea.crystal }}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- 滑块区域 -->
+                                    <div class="slider-container" style="margin-top: 15px;">
+                                        <div class="slider-labels">
+                                            <span>0</span>
+                                            <span>10000</span>
+                                        </div>
+                                        <input 
+                                            type="range" 
+                                            v-model.number="dispatchReputation[selectedDispatchArea].level" 
+                                            min="0" 
+                                            max="10000"
+                                            step="1000"
+                                            class="score-slider"
+                                            list="dispatch-levels"
+                                            @input="snapDispatchLevel"
+                                        >
+                                        <datalist id="dispatch-levels">
+                                            <option value="0">0</option>
+                                            <option value="1000">1000</option>
+                                            <option value="3000">3000</option>
+                                            <option value="6000">6000</option>
+                                            <option value="10000">10000</option>
+                                        </datalist>
+                                        <div class="slider-value">
+                                            {{ getDispatchAreaName(selectedDispatchArea) }}声望: {{ dispatchReputation[selectedDispatchArea].level }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 角色养成模块 -->
+                            <div class="sub-section">
+                                <h3 class="sub-title">角色养成</h3>
+                                
+                                <div class="character-development-input">
+                                    <span class="character-development-label">
+                                        未3阶角色数量：
+                                        <span class="character-development-value">
+                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ characterDevelopment.tier3 * 180 }}
+                                        </span>
+                                    </span>
+                                    <div class="character-development-controls">
+                                        <input type="number" v-model.number="characterDevelopment.tier3" placeholder="0" min="0" step="1" @input="validateCharacterDevInput('tier3')" @focus="clearCharacterDevIfZero('tier3')" @blur="setCharacterDevDefaultIfEmpty('tier3')">
+                                    </div>
+                                </div>
+
+                                <div class="character-development-input">
+                                    <span class="character-development-label">
+                                        未满混响狂级角色数量：
+                                        <span class="character-development-value">
+                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ characterDevelopment.maxReverbS * 210 }}
+                                        </span>
+                                    </span>
+                                    <div class="character-development-controls">
+                                        <input type="number" v-model.number="characterDevelopment.maxReverbS" placeholder="0" min="0" step="1" @input="validateCharacterDevInput('maxReverbS')" @focus="clearCharacterDevIfZero('maxReverbS')" @blur="setCharacterDevDefaultIfEmpty('maxReverbS')">
+                                    </div>
+                                </div>
+
+                                <div class="character-development-input">
+                                    <span class="character-development-label">
+                                        未满混响危级角色数量：
+                                        <span class="character-development-value">
+                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ characterDevelopment.maxReverbA * 60 }}
+                                        </span>
+                                    </span>
+                                    <div class="character-development-controls">
+                                        <input type="number" v-model.number="characterDevelopment.maxReverbA" placeholder="0" min="0" step="1" @input="validateCharacterDevInput('maxReverbA')" @focus="clearCharacterDevIfZero('maxReverbA')" @blur="setCharacterDevDefaultIfEmpty('maxReverbA')">
+                                    </div>
+                                </div>
+
+                                <div class="character-development-input">
+                                    <span class="character-development-label">
+                                        未满混响普级角色数量：
+                                        <span class="character-development-value">
+                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ characterDevelopment.maxReverbB * 20 }}
+                                        </span>
+                                    </span>
+                                    <div class="character-development-controls">
+                                        <input type="number" v-model.number="characterDevelopment.maxReverbB" placeholder="0" min="0" step="1" @input="validateCharacterDevInput('maxReverbB')" @focus="clearCharacterDevIfZero('maxReverbB')" @blur="setCharacterDevDefaultIfEmpty('maxReverbB')">
+                                    </div>
+                                </div>
+
+                                <div class="character-development-input">
+                                    <span class="character-development-label">
+                                        未审查狂级角色数量：
+                                        <span class="character-development-value">
+                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ characterDevelopment.reviewS * 200 }}
+                                        </span>
+                                    </span>
+                                    <div class="character-development-controls">
+                                        <input type="number" v-model.number="characterDevelopment.reviewS" placeholder="0" min="0" step="1" @input="validateCharacterDevInput('reviewS')" @focus="clearCharacterDevIfZero('reviewS')" @blur="setCharacterDevDefaultIfEmpty('reviewS')">
+                                    </div>
+                                </div>
+
+                                <div class="character-development-input">
+                                    <span class="character-development-label">
+                                        未审查危级角色数量：
+                                        <span class="character-development-value">
+                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ characterDevelopment.reviewA * 150 }}
+                                        </span>
+                                    </span>
+                                    <div class="character-development-controls">
+                                        <input type="number" v-model.number="characterDevelopment.reviewA" placeholder="0" min="0" step="1" @input="validateCharacterDevInput('reviewA')" @focus="clearCharacterDevIfZero('reviewA')" @blur="setCharacterDevDefaultIfEmpty('reviewA')">
+                                    </div>
+                                </div>
+                                
+                                <button 
+                                    class="character-development-btn" 
+                                    :class="{ active: characterDevelopment.haylaReviewed }"
+                                    @click="toggleHaylaReview">
+                                    {{ characterDevelopment.haylaReviewed ? '已审查海拉！' : '未审查海拉！' }}
+                                </button>
+                            </div>
+
+                            <!-- 梦境&人格色谱模块 -->
+                            <div class="sub-section">
+                                <h3 class="sub-title">梦境&人格色谱</h3>
+                                
+                                <!-- 未完成窥心 -->
+                                <div class="character-development-input">
+                                    <span class="character-development-label">
+                                        未完成窥心数量：
+                                        <span class="character-development-value">
+                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ dreamInsightCrystal }}
+                                        </span>
+                                    </span>
+                                    <div class="character-development-controls">
+                                        <input type="number" v-model.number="dreamInsightCount" placeholder="0" min="0" step="1" @input="validateDreamInput('dreamInsightCount')" @focus="clearDreamIfZero('dreamInsightCount')" @blur="setDreamDefaultIfEmpty('dreamInsightCount')">
+                                    </div>
+                                </div>
+
+                                <!-- 未完成溯时 -->
+                                <div class="character-development-input">
+                                    <span class="character-development-label">
+                                        未完成溯时数量：
+                                        <span class="character-development-value">
+                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ dreamRetrospectCrystal }}
+                                        </span>
+                                    </span>
+                                    <div class="character-development-controls">
+                                        <input type="number" v-model.number="dreamRetrospectCount" placeholder="0" min="0" step="1" @input="validateDreamInput('dreamRetrospectCount')" @focus="clearDreamIfZero('dreamRetrospectCount')" @blur="setDreamDefaultIfEmpty('dreamRetrospectCount')">
+                                    </div>
+                                </div>
+
+                                <!-- 未完成人格色谱 -->
+                                <div class="character-development-input">
+                                    <span class="character-development-label">
+                                        未完成人格色谱数量：
+                                        <span class="character-development-value">
+                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ personalitySpectrumCrystal }}
+                                        </span>
+                                    </span>
+                                    <div class="character-development-controls">
+                                        <input type="number" v-model.number="personalitySpectrumCount" placeholder="0" min="0" step="1" @input="validateDreamInput('personalitySpectrumCount')" @focus="clearDreamIfZero('personalitySpectrumCount')" @blur="setDreamDefaultIfEmpty('personalitySpectrumCount')">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 无尽梦魇子模块 -->
+                            <div class="sub-section">
+                                <h3 class="sub-title">无尽梦魇-常驻</h3>
+                                
+                                <!-- 积分奖励 -->
+                                <div class="nightmare-score">
+                                    <h4 class="score-title">
+                                        积分奖励 
+                                        <span style="font-size: 14px; font-weight: normal; margin-left: 10px;">
+                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ nightmareRemainingCrystal }} 
+                                            <img :src="ticketIcon" class="resource-icon" alt="搜索令"> {{ nightmareTicketReward }}
+                                        </span>
+                                    </h4>
+                                    <div class="slider-container">
+                                        <div class="slider-labels">
+                                            <span>0</span>
+                                            <span>60000</span>
+                                        </div>
+                                        <input 
+                                            type="range" 
+                                            v-model.number="nightmareScore" 
+                                            min="0" 
+                                            max="60000" 
+                                            step="1000"
+                                            class="score-slider"
+                                        >
+                                        <div class="slider-value">
+                                            当前积分: {{ nightmareScore }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 灰烬之潮-重塑模块 -->
+                            <div class="sub-section">
+                                <h3 class="sub-title">灰烬之潮-重塑</h3>
+                                <div class="training-buttons">
+                                    <button 
+                                        class="training-btn" 
+                                        :class="{ active: ashTide.ashApostle }"
+                                        @click="toggleAshTide('ashApostle')">
+                                        灰烬使徒<img :src="crystalIcon" class="resource-icon" alt="异方晶">180
+                                    </button>
+                                    <button 
+                                        class="training-btn" 
+                                        :class="{ active: ashTide.disasterLocust }"
+                                        @click="toggleAshTide('disasterLocust')">
+                                        灾蝗使徒<img :src="crystalIcon" class="resource-icon" alt="异方晶">180
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -3284,10 +4496,18 @@
                             <div class="sub-section">
                                 <div class="accumulation-item">
                                     <div class="item-info">
-                                        <span class="item-title">{{ signInRewardTitle }}：</span>
+                                        <span class="item-title">签到奖励：</span>
                                         <span class="item-value">
-                                            <img :src="signInRewardIcon" class="resource-icon" alt="奖励">
-                                            {{ signInRewardDisplayAmount }}
+                                            <template v-if="selectedTime === 'nextVersion'">
+                                                <img :src="ticketIcon" class="resource-icon" alt="搜索令">
+                                                {{ signInRewardTickets }}
+                                            </template>
+                                            <template v-else>
+                                                <img :src="limitedCouponIcon" class="resource-icon" alt="限定券">
+                                                {{ signInRewardLimitedCoupons }}
+                                                <img :src="ticketIcon" class="resource-icon" alt="搜索令" style="margin-left: 8px;">
+                                                {{ signInRewardTickets }}
+                                            </template>
                                         </span>
                                     </div>
                                 </div>
@@ -3329,23 +4549,32 @@
         const app = createApp({
             name: 'GachaCalculator',
             data() {
-
                 let savedData = {};
                 try {
                     const saved = localStorage.getItem('gachaCalculatorData');
                     if (saved) {
                         savedData = JSON.parse(saved);
-                        // 验证数据完整性
                         if (typeof savedData !== 'object') {
                             throw new Error('Invalid data format');
                         }
                     }
                 } catch (e) {
                     console.error('解析localStorage失败，清除损坏数据并使用默认数据', e);
-                    localStorage.removeItem('gachaCalculatorData'); // 清除损坏数据
+                    localStorage.removeItem('gachaCalculatorData');
                     savedData = {};
-                }                
+                }
+                
                 return {
+                    // 主题模式
+                    isDarkMode: savedData.isDarkMode !== undefined ? savedData.isDarkMode : true,
+                    
+                    // 监管模块 - 确保有默认值
+                    alloyCount: savedData.alloyCount || 0,
+                    useAlloyExchange: savedData.useAlloyExchange || false,
+
+                    // 顶部菜单栏功能
+                    showWebpageInfoModal: false,
+                    showFeedbackModal: false,
 
                     // 饼状图悬停状态
                     hoveredPieModule: null,
@@ -3388,6 +4617,7 @@
                     yellowTicketIcon: 'icons/yellow_ticket.png',
                     hlIcon:'icons/hl.gif',
                     limitedCouponIcon: 'icons/Limitedcoupon.png',
+                    alloyIcon: 'icons/Multiplealloys.png',
 
                     actionSummaryLevel: savedData?.actionSummaryLevel || 0,
                     actionSummaryList: [
@@ -3412,8 +4642,24 @@
                         "N6·残锋"
                     ],
 
+                    // 新增：零镜系统数据
+                    zeroMirror: savedData?.zeroMirror || {
+                        nightChronicle: false,
+                        disCity: false,
+                        syndicate: false,
+                        newCity: false,
+                        rustRiver: false,
+                        foreignLand: false,
+                        innerSea: false,
+                        upperCourt: false,
+                        madEvil: false
+                    },
+
+                    // 新增：记忆复习数据
+                    memoryReviewThreshold: savedData?.memoryReviewThreshold || 0,
+
                     // 原有数据保持不变
-                    resources: savedData?.resources || {
+                    resources: savedData.resources || {
                         crystal: 0,
                         premiumCrystal: 0,
                         tickets: 0
@@ -3433,7 +4679,7 @@
                         skin2580: 0
                     },
                     customAdjustment: savedData?.customAdjustment || 0,
-                    sections: savedData?.sections || {
+                    sections: savedData.sections || {
                         resources: false,
                         daily: false,
                         potential: false,
@@ -3539,7 +4785,16 @@
                         supernatural: false,
                         inspiration: false
                     },
-                    
+
+                    // 新增：派遣声望数据
+                    selectedDispatchArea: savedData?.selectedDispatchArea || 'syndicate',
+                    dispatchReputation: savedData?.dispatchReputation || {
+                        syndicate: { level: 0, crystal: 0 },
+                        newCity: { level: 0, crystal: 0 },
+                        innerBay: { level: 0, crystal: 0 },
+                        sandSea: { level: 0, crystal: 0 }
+                    },
+        
                     // 新增角色养成模块数据
                     characterDevelopment: savedData?.characterDevelopment || {
                         tier3: 0,
@@ -3551,6 +4806,17 @@
                         haylaReviewed: false
                     },
                     
+                    // 灰烬之潮-重塑数据
+                    ashTide: savedData?.ashTide || {
+                        ashApostle: false,
+                        disasterLocust: false
+                    },
+
+                    // 新增：梦境&人格色谱数据
+                    dreamInsightCount: savedData?.dreamInsightCount || 0,
+                    dreamRetrospectCount: savedData?.dreamRetrospectCount || 0,
+                    personalitySpectrumCount: savedData?.personalitySpectrumCount || 0,
+
                     nightmareRewards: [
                         { score: 1000, crystal: 100, tickets: 0 },
                         { score: 1500, crystal: 120, tickets: 0 },
@@ -3615,6 +4881,94 @@
             },
             computed: {
 
+            // 灰烬之潮-重塑奖励计算
+            ashTideRewards() {
+                let crystal = 0;
+                
+                if (this.ashTide.ashApostle) crystal += 180;
+                if (this.ashTide.disasterLocust) crystal += 180;
+                
+                return {
+                    crystal,
+                    total: crystal
+                };
+            },
+
+            // 监管收菜异方晶计算
+            supervisionHarvestCrystal() {
+                try {
+                    const secondsPerCrystal = 3456;
+                    const now = new Date();
+                    
+                    // 计算到目标日期（卡池结束或开放）
+                    let targetDate;
+                    if (this.selectedTime === 'nextVersion') {
+                        targetDate = this.calculateToPoolEnd ? 
+                            new Date(this.poolDates.nextVersion.getTime() + (this.versionWeeks * 7 * 24 * 60 * 60 * 1000)) :
+                            this.poolDates.nextVersion;
+                    } else {
+                        targetDate = this.calculateToPoolEnd ? 
+                            new Date(this.poolDates.newYear.getTime() + (this.versionWeeks * 7 * 24 * 60 * 60 * 1000)) :
+                            this.poolDates.newYear;
+                    }
+                    
+                    const timeDiff = Math.max(0, (targetDate - now) / 1000);
+                    const crystals = Math.floor(timeDiff / secondsPerCrystal);
+                    
+                    return crystals;
+                } catch (error) {
+                    console.error('监管收菜计算错误:', error);
+                    return 0;
+                }
+            },
+
+            // 多项合金兑换异方晶计算
+            alloyExchangeCrystal() {
+                if (!this.useAlloyExchange) {
+                    return 0;
+                }
+                
+                const alloyPerCrystal = 231;
+                const crystalsPerExchange = 4;
+                
+                // 计算可兑换的异方晶数量（每231个合金兑换4个异方晶）
+                const exchanges = Math.floor(this.alloyCount / alloyPerCrystal);
+                const crystals = exchanges * crystalsPerExchange;
+                
+                return crystals;
+            },
+
+                // 统计所有模块的异方晶
+                totalAllCrystal() {
+                    const baseCrystal = this.resources.crystal || 0;
+                    const totalIncome = this.totalCrystalIncome;
+                    return baseCrystal + totalIncome + this.customAdjustment;
+                },
+
+                // 统计所有模块的璀璨晶源
+                totalAllPremiumCrystal() {
+                    const basePremiumCrystal = this.resources.premiumCrystal || 0;
+                    const monthlyCardPremium = this.monthlyCardPremiumCrystal;
+                    const disiPremium = this.disiPremiumCrystal;
+                    
+                    return basePremiumCrystal + monthlyCardPremium + disiPremium - this.totalSkinReserve;
+                },
+
+                // 统计所有模块的搜索令
+                totalAllTickets() {
+                    return this.baseTicketsSummary +
+                        this.dailyAccumulationTickets +
+                        this.activityRewardsTickets +
+                        this.otherSystemsTickets +
+                        this.rechargeTickets +
+                        this.signInRewardTickets;
+                },
+
+                // 统计所有模块的限定券
+                totalAllLimitedCoupons() {
+                    return this.signInRewardLimitedCoupons;
+                },
+
                 // 计算大于滑块等级的所有异方晶奖励总和
                 nightmareRemainingCrystal() {
                     let totalCrystal = 0;
@@ -3629,14 +4983,17 @@
                     return totalCrystal;
                 },
 
-                // 签到奖励显示数量
+                // 签到奖励显示数量 - 修改为显示详细信息
                 signInRewardDisplayAmount() {
                     if (this.selectedTime === 'nextVersion') {
                         // 主线版本：显示搜索令数量
-                        return this.calculateToPoolEnd ? 14 : 3;
+                        const tickets = this.calculateToPoolEnd ? 14 : 3;
+                        return `${tickets}张搜索令`;
                     } else {
-                        // 新年版本：显示限定券数量
-                        return this.calculateToPoolEnd ? 24 : 11;
+                        // 新年版本：显示限定券和搜索令数量
+                        const limitedCoupons = this.calculateToPoolEnd ? 24 : 11;
+                        const tickets = 14; // 新年版本搜索令固定14张
+                        return `${limitedCoupons}张限定券 + ${tickets}张搜索令`;
                     }
                 },
 
@@ -3648,10 +5005,10 @@
                 // 分模块抽数数据 - 精确计算，确保与顶部总计一致
                 modulePullsData() {
                     // 使用与 totalPulls 完全相同的计算逻辑
-                    const totalCrystal = this.totalCrystalSummary;
-                    const totalPremiumCrystal = this.totalPremiumCrystalSummary;
-                    const totalTickets = this.totalTicketsSummary;
-                    const totalLimitedCoupons = this.totalLimitedCouponsSummary;
+                    const totalCrystal = this.totalAllCrystal;
+                    const totalPremiumCrystal = this.totalAllPremiumCrystal;
+                    const totalTickets = this.totalAllTickets;
+                    const totalLimitedCoupons = this.totalAllLimitedCoupons;
                     
                     // 顶部总计的计算方式
                     const headerCrystalPulls = Math.floor(totalCrystal / 180);
@@ -3814,22 +5171,11 @@
                     }
                 },
 
-                // 签到奖励标题
-                signInRewardTitle() {
-                    if (this.selectedTime === 'nextVersion') {
-                        return '签到奖励';
-                    } else {
-                        return '签到奖励';
-                    }
-                },
-
-                // 签到奖励图标
+                // 签到奖励图标 - 新年版本需要显示两个图标
                 signInRewardIcon() {
-                    if (this.selectedTime === 'nextVersion') {
-                        return this.ticketIcon;
-                    } else {
-                        return this.limitedCouponIcon;
-                    }
+                    // 由于新年版本需要显示两种资源，这里返回空或者主要图标
+                    // 实际显示在signInRewardDisplayAmount中处理
+                    return this.selectedTime === 'nextVersion' ? this.ticketIcon : this.limitedCouponIcon;
                 },
 
                 // 签到奖励数量（搜索令）
@@ -3838,8 +5184,8 @@
                         // 主线版本：签到给搜索令
                         return this.calculateToPoolEnd ? 14 : 3;
                     } else {
-                        // 新年版本：签到给限定券，搜索令为0
-                        return 0;
+                        // 新年版本：签到给搜索令（固定14张）
+                        return 14;
                     }
                 },
 
@@ -3946,6 +5292,61 @@
                     const totalCrystal = 3800;
                     const crystalPerStep = 200;
                     return totalCrystal - (this.actionSummaryLevel * crystalPerStep);
+                },
+
+                // 新增：零镜系统计算属性
+                zeroMirrorCrystal() {
+                    let totalCrystal = 0;
+                    
+                    // 定义每个区域的异方晶奖励
+                    const rewards = {
+                        nightChronicle: 200,
+                        disCity: 20,
+                        syndicate: 180,
+                        newCity: 80,
+                        rustRiver: 60,
+                        foreignLand: 120,
+                        innerSea: 80,
+                        upperCourt: 0,  // 上庭为0异方晶
+                        madEvil: 320
+                    };
+                    
+                    // 计算所有激活区域的异方晶总和
+                    for (const [key, value] of Object.entries(this.zeroMirror)) {
+                        if (value) { // 如果按钮是激活状态（已打开）
+                            totalCrystal += rewards[key];
+                        }
+                    }
+                    
+                    return totalCrystal;
+                },
+
+                // 新增：记忆复习异方晶计算
+                memoryReviewCrystal() {
+                    // 弥合阈值奖励配置
+                    const thresholdRewards = [
+                        { threshold: 1000, crystal: 100 },
+                        { threshold: 2000, crystal: 100 },
+                        { threshold: 3000, crystal: 100 },
+                        { threshold: 4000, crystal: 100 },
+                        { threshold: 5000, crystal: 100 },
+                        { threshold: 6000, crystal: 100 },
+                        { threshold: 7000, crystal: 100 },
+                        { threshold: 8000, crystal: 100 },
+                        { threshold: 9000, crystal: 100 },
+                        { threshold: 10000, crystal: 100 }
+                    ];
+                    
+                    let totalCrystal = 0;
+                    
+                    // 计算大于当前阈值的所有奖励
+                    for (const reward of thresholdRewards) {
+                        if (this.memoryReviewThreshold < reward.threshold) {
+                            totalCrystal += reward.crystal;
+                        }
+                    }
+                    
+                    return totalCrystal;
                 },
 
                 daysToNextVersion() {
@@ -4352,6 +5753,18 @@
                     return crystal;
                 },
 
+                // 新增：派遣声望计算属性
+                dispatchReputationTotalCrystal() {
+                    let totalCrystal = 0;
+                    
+                    // 计算所有区域的异方晶总和
+                    for (const area of Object.values(this.dispatchReputation)) {
+                        totalCrystal += area.crystal;
+                    }
+                    
+                    return totalCrystal;
+                },
+
                 // 角色养成模块奖励计算
                 characterDevelopmentRewards() {
                     let crystal = 0;
@@ -4373,34 +5786,52 @@
                     };
                 },
 
+                // 新增：梦境&人格色谱计算属性
+                dreamInsightCrystal() {
+                    return this.dreamInsightCount * 100;
+                },
+                
+                dreamRetrospectCrystal() {
+                    return this.dreamRetrospectCount * 400;
+                },
+                
+                personalitySpectrumCrystal() {
+                    return this.personalitySpectrumCount * 400;
+                },
+                
+                // 梦境&人格色谱总计
+                dreamPersonalityTotalCrystal() {
+                    return this.dreamInsightCrystal + this.dreamRetrospectCrystal + this.personalitySpectrumCrystal;
+                },
+
                 totalNewModuleRewards() {
                     return this.mainStoryRewards.total + 
-                           this.darkShadowExRewards + 
-                           this.memoryStormRewards + 
-                           this.pollutionNestRewards + 
-                           this.cleanupOperationRewards + 
-                           this.palmaRuinsRewards +
-                           this.characterDevelopmentRewards.total;
+                        this.darkShadowExRewards + 
+                        this.memoryStormRewards + 
+                        this.pollutionNestRewards + 
+                        this.cleanupOperationRewards + 
+                        this.palmaRuinsRewards +
+                        this.characterDevelopmentRewards.total +
+                        this.ashTideRewards.total; // 新增：灰烬之潮总计
                 },
                 
                 // 分模块计算 - 日常积累
                 dailyAccumulationCrystal() {
-                    return this.dailyActiveTotal + 
-                        this.totalWeeklyActive + 
-                        this.totalDarkZone +
-                        this.totalDarkZoneFirst +
-                        this.totalEmotionDetectionForSummary +
-                        this.totalSignInRewardForSummary +
-                        this.totalDailyShare +
-                        this.nightmareSeaReward;  // 新增：将祸海之厄的异方晶计入日常积累
-                },
-
-
-                // 分模块计算 - 商店兑换
-                shopExchangeCrystal() {
-                    return (this.totalTrackingExchange * 180) +
-                        (this.totalFriendshipExchange * 180) +
-                        this.totalTrackingCertification;
+                    try {
+                        return this.dailyActiveTotal + 
+                            this.totalWeeklyActive + 
+                            this.totalDarkZone +
+                            this.totalDarkZoneFirst +
+                            this.totalEmotionDetectionForSummary +
+                            this.totalSignInRewardForSummary +
+                            this.totalDailyShare +
+                            this.nightmareSeaReward +
+                            (this.supervisionHarvestCrystal || 0) +  // 安全访问监管收菜
+                            (this.alloyExchangeCrystal || 0);        // 安全访问合金兑换
+                    } catch (error) {
+                        console.error('日常积累计算错误:', error);
+                        return 0;
+                    }
                 },
 
                 // 复刻活动异方晶奖励
@@ -4514,10 +5945,15 @@
                 // 分模块计算 - 其他系统
                 otherSystemsCrystal() {
                     return this.trainingRewards.total +
-                        this.nightmareRemainingCrystal +  // 无尽梦魇异方晶
+                        this.nightmareRemainingCrystal +
                         this.dataGapRewards +
                         this.totalNewModuleRewards +
-                        this.actionSummaryCrystal;
+                        this.actionSummaryCrystal +
+                        this.memoryReviewCrystal + //：记忆复现
+                        this.dreamPersonalityTotalCrystal + // 新增：梦境&人格色谱异方晶
+                        this.zeroMirrorCrystal + // 新增：零镜系统异方晶
+                        this.dispatchReputationTotalCrystal + // 新增：派遣声望异方晶
+                        this.ashTideRewards.crystal; // 新增：灰烬之潮异方晶
                 },
 
                 // 分模块计算 - 氪金资源
@@ -4527,16 +5963,21 @@
                         (this.disiActive ? this.disiRewardTotal : 0);
                 },
 
-                // 总计 - 替换原来的 totalCrystalIncome
+                // 总计
                 totalCrystalIncome() {
                     return this.dailyAccumulationCrystal +
                         this.shopExchangeCrystal +
                         this.activityRewardsCrystal +
                         this.otherSystemsCrystal +
                         this.rechargeCrystal +
-                        this.previewCodeCrystal + // 新增：前瞻兑换码异方晶
+                        this.previewCodeCrystal + // 前瞻兑换码异方晶
                         this.maintenanceCrystal + // 停服更新异方晶
                         this.maintenanceRepairCrystal; // 停服维护异方晶
+                },
+
+                // 分模块计算 - 商店兑换
+                shopExchangeCrystal() {
+                    return this.totalTrackingCertification || 0; // 确保返回数字类型
                 },
 
                 totalSkinReserve() {
@@ -5044,6 +6485,19 @@
                     },
                     deep: true
                 },
+                // 新增：派遣声望监听
+                selectedDispatchArea() {
+                    this.saveToLocalStorage();
+                },
+                
+                dispatchReputation: {
+                    handler(newValue) {
+                        // 当声望等级变化时，重新计算异方晶
+                        this.calculateDispatchCrystal();
+                        this.saveToLocalStorage();
+                    },
+                    deep: true
+                },
                 // 角色养成模块的watch
                 characterDevelopment: {
                     handler(newValue) {
@@ -5051,6 +6505,20 @@
                     },
                     deep: true
                 },
+
+                // 新增：梦境&人格色谱监听
+                dreamInsightCount() {
+                    this.saveToLocalStorage();
+                },
+                
+                dreamRetrospectCount() {
+                    this.saveToLocalStorage();
+                },
+                
+                personalitySpectrumCount() {
+                    this.saveToLocalStorage();
+                },
+
                 monthlyCardCount() {
                     this.saveToLocalStorage();
                 },
@@ -5074,6 +6542,19 @@
                     this.saveToLocalStorage();
                 },
 
+                // 新增：零镜系统监听
+                zeroMirror: {
+                    handler(newValue) {
+                        this.saveToLocalStorage();
+                    },
+                    deep: true
+                },
+
+                // 新增：记忆复习阈值监听
+                memoryReviewThreshold() {
+                    this.saveToLocalStorage();
+                },
+    
                 disiLevel() {
                     this.saveToLocalStorage();
                 },
@@ -5091,6 +6572,15 @@
                 },
 
                 treasurePrePurchased() {
+                    this.saveToLocalStorage();
+                },
+
+                // 监听多项合金相关数据
+                alloyCount() {
+                    this.saveToLocalStorage();
+                },
+
+                useAlloyExchange() {
                     this.saveToLocalStorage();
                 },
 
@@ -5134,10 +6624,19 @@
                     deep: true
                 },
 
+                // 灰烬之潮监听
+                ashTide: {
+                    handler(newValue) {
+                        this.saveToLocalStorage();
+                    },
+                    deep: true
+                },
+
             },
             methods: {
                 saveToLocalStorage() {
                     const dataToSave = {
+                        isDarkMode: this.isDarkMode, // 新增：保存主题状态
                         ections: this.sections, // 新增：保存折叠状态
                         resources: this.resources,
                         selectedTime: this.selectedTime,
@@ -5160,20 +6659,24 @@
                         nightmareScore: this.nightmareScore,
                         nightmareSeaCompleted: this.nightmareSeaCompleted,
                         dataGap: this.dataGap,
-                        // 新增模块数据保存
                         mainStory: this.mainStory,
                         darkShadowEx: this.darkShadowEx,
                         memoryStorm: this.memoryStorm,
                         pollutionNest: this.pollutionNest,
                         cleanupOperation: this.cleanupOperation,
-                        palmaRuins: this.palmaRuins,
-                        // 角色养成模块数据保存
+                        palmaRuins: this.palmaRuins,                        
+                        selectedDispatchArea: this.selectedDispatchArea,
+                        dispatchReputation: this.dispatchReputation,// 新增：派遣声望数据保存
                         characterDevelopment: this.characterDevelopment,
+                        dreamInsightCount: this.dreamInsightCount,
+                        dreamRetrospectCount: this.dreamRetrospectCount,
+                        personalitySpectrumCount: this.personalitySpectrumCount,
                         monthlyCardCount: this.monthlyCardCount,
                         monthlyCardActive: this.monthlyCardActive,
                         inspectionOrderActive: this.inspectionOrderActive,
                         inspectionOrderLevel: this.inspectionOrderLevel,
                         actionSummaryLevel: this.actionSummaryLevel,
+                        zeroMirror: this.zeroMirror,
                         inspectionOrderCount: this.inspectionOrderCount,
                         dailyInspectionOrderLevel: this.dailyInspectionOrderLevel,
                         rechargeInspectionOrderLevel: this.rechargeInspectionOrderLevel,
@@ -5186,6 +6689,10 @@
                         activityReviewCompleted: this.activityReviewCompleted, // 保存活动审查奖励状态
                         activityTrialCompleted: this.activityTrialCompleted, // 保存活动角色试用奖励状态
                         activityRerunMode: this.activityRerunMode, // 保存活动复刻模式状态
+                        memoryReviewThreshold: this.memoryReviewThreshold,//保持记忆复现状态
+                        alloyCount: this.alloyCount,
+                        useAlloyExchange: this.useAlloyExchange,//保存监管状态
+                        ashTide: this.ashTide, // 新增：灰烬之潮数据保存
                     };
                     
                     try {
@@ -5193,6 +6700,70 @@
                     } catch (e) {
                         console.error('保存数据失败:', e);
                     }
+                },
+
+                // 切换主题模式
+                toggleTheme() {
+                    this.isDarkMode = !this.isDarkMode;
+                    this.applyTheme();
+                    this.saveToLocalStorage();
+                },
+
+                // 应用主题样式
+                applyTheme() {
+                    if (this.isDarkMode) {
+                        document.body.classList.remove('light-mode');
+                        document.body.classList.add('dark-mode');
+                    } else {
+                        document.body.classList.remove('dark-mode');
+                        document.body.classList.add('light-mode');
+                    }
+                },
+
+                // 灰烬之潮-重塑切换方法
+                toggleAshTide(type) {
+                    this.ashTide[type] = !this.ashTide[type];
+                },
+
+                // 多项合金输入验证
+                validateAlloyInput() {
+                    if (this.alloyCount < 0) {
+                        this.alloyCount = 0;
+                    }
+                    if (this.alloyCount !== null && this.alloyCount !== undefined) {
+                        this.alloyCount = Math.floor(this.alloyCount);
+                    }
+                },
+
+                // 多项合金输入框清空
+                clearAlloyIfZero() {
+                    if (this.alloyCount === 0) {
+                        this.alloyCount = null;
+                    }
+                },
+
+                // 多项合金输入框默认值
+                setAlloyDefaultIfEmpty() {
+                    if (this.alloyCount === null || this.alloyCount === '') {
+                        this.alloyCount = 0;
+                    }
+                },
+
+                // 顶部菜单栏方法
+                showWebpageInfo() {
+                    this.showWebpageInfoModal = true;
+                },
+
+                showFeedback() {
+                    this.showFeedbackModal = true;
+                },
+
+                closeWebpageInfo() {
+                    this.showWebpageInfoModal = false;
+                },
+
+                closeFeedback() {
+                    this.showFeedbackModal = false;
                 },
 
                 // 新增：验证角色养成输入
@@ -5216,6 +6787,28 @@
                 setCharacterDevDefaultIfEmpty(type) {
                     if (this.characterDevelopment[type] === null || this.characterDevelopment[type] === '') {
                         this.characterDevelopment[type] = 0;
+                    }
+                },
+
+                // 新增：梦境&人格色谱输入验证
+                validateDreamInput(type) {
+                    if (this[type] < 0) {
+                        this[type] = 0;
+                    }
+                    if (this[type] !== null && this[type] !== undefined) {
+                        this[type] = Math.floor(this[type]);
+                    }
+                },
+                
+                clearDreamIfZero(type) {
+                    if (this[type] === 0) {
+                        this[type] = null;
+                    }
+                },
+                
+                setDreamDefaultIfEmpty(type) {
+                    if (this[type] === null || this[type] === '') {
+                        this[type] = 0;
                     }
                 },
 
@@ -5855,6 +7448,11 @@
                     this.mainStory[type] = !this.mainStory[type];
                 },
 
+                // 新增：零镜系统切换方法
+                toggleZeroMirror(type) {
+                    this.zeroMirror[type] = !this.zeroMirror[type];
+                },
+
                 // 狄斯暗影（EX）方法
                 toggleDarkShadowEx(type) {
                     this.darkShadowEx[type] = !this.darkShadowEx[type];
@@ -5876,6 +7474,68 @@
                     this.palmaRuins[type] = !this.palmaRuins[type];
                 },
                 
+                // 新增：派遣声望相关方法
+                selectDispatchArea(area) {
+                    this.selectedDispatchArea = area;
+                },
+                
+                // 滑块吸附到指定挡位
+                snapDispatchLevel() {
+                    const levels = [0, 1000, 3000, 6000, 10000];
+                    let closestLevel = levels[0];
+                    let minDiff = Math.abs(this.dispatchReputation[this.selectedDispatchArea].level - levels[0]);
+                    
+                    for (let i = 1; i < levels.length; i++) {
+                        const diff = Math.abs(this.dispatchReputation[this.selectedDispatchArea].level - levels[i]);
+                        if (diff < minDiff) {
+                            minDiff = diff;
+                            closestLevel = levels[i];
+                        }
+                    }
+                    
+                    // 只有当当前值不等于最接近的挡位时才更新
+                    if (this.dispatchReputation[this.selectedDispatchArea].level !== closestLevel) {
+                        this.dispatchReputation[this.selectedDispatchArea].level = closestLevel;
+                    }
+                },
+                
+                // 计算派遣声望异方晶
+                calculateDispatchCrystal() {
+                    // 定义每个声望等级的奖励
+                    const reputationRewards = [
+                        { level: 1000, crystal: 100 },
+                        { level: 3000, crystal: 100 },
+                        { level: 6000, crystal: 100 },
+                        { level: 10000, crystal: 100 }
+                    ];
+                    
+                    // 为每个区域计算异方晶
+                    for (const areaKey in this.dispatchReputation) {
+                        const currentLevel = this.dispatchReputation[areaKey].level;
+                        let totalCrystal = 0;
+                        
+                        // 计算大于当前等级的所有奖励总和
+                        for (const reward of reputationRewards) {
+                            if (currentLevel < reward.level) {
+                                totalCrystal += reward.crystal;
+                            }
+                        }
+                        
+                        this.dispatchReputation[areaKey].crystal = totalCrystal;
+                    }
+                },
+                
+                // 获取区域名称
+                getDispatchAreaName(areaKey) {
+                    const names = {
+                        syndicate: '辛迪加',
+                        newCity: '新城',
+                        innerBay: '里湾',
+                        sandSea: '砂海'
+                    };
+                    return names[areaKey] || areaKey;
+                },
+
                 // 角色养成模块方法
                 toggleHaylaReview() {
                     this.characterDevelopment.haylaReviewed = !this.characterDevelopment.haylaReviewed;
@@ -6049,6 +7709,12 @@
                 // 初始化饼状图
                 this.updatePieChart();
                 
+                // 新增：初始化派遣声望异方晶计算
+                this.calculateDispatchCrystal();
+
+                // 初始化主题
+                this.applyTheme();
+
                 // 监听数据变化，更新饼状图
                 this.$watch(() => [
                     this.currentPulls,
