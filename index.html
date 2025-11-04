@@ -55,39 +55,121 @@
         }
 
         .modal-content {
-            background: #2a2a2a; /* 深灰色背景 */
-            border: 2px solid #333333; /* 厚重边框 */
+            background: #2a2a2a;
+            border: 2px solid #333333;
             border-radius: 8px;
             padding: 0;
             max-width: 500px;
             width: 90%;
-            max-height: 70vh; /* 稍微降低最大高度，确保滚动条可见 */
-            overflow: hidden; /* 改为hidden，让内部元素处理滚动 */
+            max-height: 70vh;
+            overflow: hidden;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3), 
-                        inset 0 0 0 1px rgba(255, 107, 107, 0.2); /* 厚重阴影和红色内边框 */
+                        inset 0 0 0 1px rgba(255, 107, 107, 0.2);
             position: relative;
             display: flex;
             flex-direction: column;
-            
-            /* 自定义滚动条 */
-            scrollbar-width: thin; /* Firefox */
-            scrollbar-color: #8B0000 #333333; /* Firefox */
+        }
+
+        .modal-header {
+            background: #333333;
+            padding: 20px;
+            border-bottom: 1px solid #444444;
+            border-radius: 8px 8px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .modal-body {
+            padding: 25px;
+            color: #CCCCCC;
+            line-height: 1.6;
+            overflow-y: auto;
+            flex: 1;
+            scrollbar-width: thin;
+            scrollbar-color: #8B0000 #333333;
+        }
+
+        .modal-footer {
+            padding: 15px 25px;
+            background: #333333;
+            border-top: 1px solid #444444;
+            border-radius: 0 0 8px 8px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        /* 白天模式下的弹窗样式 */
+        .light-mode .modal-overlay {
+            background: rgba(0, 0, 0, 0.5) !important;
+        }
+
+        .light-mode .modal-content {
+            background: #ffffff !important;
+            border: 2px solid #d5dbdb !important;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15) !important;
+        }
+
+        /* 新增：修复白天模式下弹窗列表文字颜色 */
+        .light-mode .modal-list li {
+            color: #2c3e50 !important;
+        }
+
+        .light-mode .modal-section-title {
+            color: #2c3e50 !important;
+        }
+
+        .light-mode .modal-highlight {
+            color: #2980b9 !important;
+        }
+
+        .light-mode .modal-body p {
+            color: #566573 !important;
+        }
+
+        .light-mode .modal-header {
+            background: #2c3e50 !important;
+            border-bottom: 1px solid #bdc3c7 !important;
+        }
+
+        .light-mode .modal-body {
+            background: #ffffff !important;
+            color: #566573 !important;
+            scrollbar-color: #2980b9 #ecf0f1 !important;
+        }
+
+        .light-mode .modal-footer {
+            background: #2c3e50 !important;
+            border-top: 1px solid #bdc3c7 !important;
+        }
+
+        .light-mode .modal-title {
+            color: #ecf0f1 !important;
+        }
+
+        .light-mode .modal-contact {
+            color: #ecf0f1 !important;
         }
 
         /* Webkit浏览器自定义滚动条 (Chrome, Safari, Edge) - 应用到内容区域 */
         .modal-body::-webkit-scrollbar {
-            width: 12px; /* 滚动条宽度 */
+            width: 12px;
         }
 
         .modal-body::-webkit-scrollbar-track {
-            background: #2a2a2a; /* 滚动条轨道背景 */
+            background: #2a2a2a;
             border-radius: 6px;
             margin: 5px 0;
             box-shadow: inset 0 0 3px rgba(0,0,0,0.5);
         }
 
         .modal-body::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #8B0000, #FF4500); /* 深红到橙红渐变 */
+            background: linear-gradient(135deg, #8B0000, #FF4500);
             border-radius: 6px;
             border: 2px solid #2a2a2a;
             box-shadow: 0 2px 4px rgba(0,0,0,0.3);
@@ -95,16 +177,41 @@
         }
 
         .modal-body::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #FF4500, #FF6B6B); /* 悬停时更亮 */
+            background: linear-gradient(135deg, #FF4500, #FF6B6B);
             box-shadow: 0 0 8px rgba(255, 69, 0, 0.5);
         }
 
         .modal-body::-webkit-scrollbar-thumb:active {
-            background: linear-gradient(135deg, #FF6B6B, #FF8C00); /* 点击时最亮 */
+            background: linear-gradient(135deg, #FF6B6B, #FF8C00);
         }
 
         .modal-body::-webkit-scrollbar-corner {
-            background: #2a2a2a; /* 滚动条角落背景 */
+            background: #2a2a2a;
+        }
+
+        /* 白天模式下的滚动条样式 */
+        .light-mode .modal-body::-webkit-scrollbar-track {
+            background: #ecf0f1 !important;
+            box-shadow: inset 0 0 3px rgba(0,0,0,0.1) !important;
+        }
+
+        .light-mode .modal-body::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #2980b9, #3498db) !important;
+            border: 2px solid #ecf0f1 !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
+        }
+
+        .light-mode .modal-body::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(135deg, #3498db, #5dade2) !important;
+            box-shadow: 0 0 8px rgba(41, 128, 185, 0.5) !important;
+        }
+
+        .light-mode .modal-body::-webkit-scrollbar-thumb:active {
+            background: linear-gradient(135deg, #5dade2, #85c1e9) !important;
+        }
+
+        .light-mode .modal-body::-webkit-scrollbar-corner {
+            background: #ecf0f1 !important;
         }
 
         /* 移除modal-content的滚动条样式，因为现在内容区域单独滚动 */
@@ -370,7 +477,7 @@
         .left-panel, .right-panel {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 0px; /* 所有模块的上下间距 */
         }
 
         .card {
@@ -463,8 +570,6 @@
             border-radius: 8px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.4);
             margin-bottom: 20px;
-            max-height: calc(100vh - 110px); /* 调整最大高度 */
-            overflow-y: auto;
         }
 
         /* 防止父元素overflow隐藏 */
@@ -1862,7 +1967,6 @@
                 border-radius: 8px;
                 box-shadow: 0 5px 15px rgba(0,0,0,0.3);
                 margin-bottom: 15px;
-                max-height: calc(100vh - 80px); /* 调整移动端最大高度 */
             }
 
             /* 其他移动端样式保持不变，只调整颜色 */
@@ -2495,165 +2599,104 @@
             transform: scale(1.02);
         }
 
-        /* 白天模式样式 */
-        body.light-mode {
-            background: #f5f7fa;
+        /* 监狱风格白天模式 - 精简版 */
+        .light-mode {
+            background: #f5f7fa !important;
         }
 
         .light-mode .gacha-calculator {
-            background: transparent;
+            background: transparent !important;
         }
 
+        /* 顶部菜单 - 监狱铁门风格 */
         .light-mode .top-menu-bar {
-            background: #ffffff;
-            border-bottom: 2px solid #1890ff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: #2c3e50 !important;
+            border-bottom: 3px solid #34495e !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
         }
 
         .light-mode .menu-title {
-            color: #1890ff;
+            color: #ecf0f1 !important;
+            font-weight: bold;
         }
 
         .light-mode .menu-btn {
-            background: #f0f8ff;
-            color: #1890ff;
-            border: 1px solid #d9e7ff;
+            background: #34495e !important;
+            color: #bdc3c7 !important;
+            border: 1px solid #4a6572 !important;
+            border-radius: 3px !important;
         }
 
         .light-mode .menu-btn:hover {
-            background: #e6f7ff;
-            border-color: #1890ff;
-            color: #096dd9;
+            background: #3d566e !important;
+            border-color: #5d6d7e !important;
+            color: #ecf0f1 !important;
         }
 
+        /* 卡片 - 牢房风格 */
         .light-mode .card {
-            background: #ffffff;
-            border: 2px solid #e8f4ff;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08), 
-                        inset 0 0 0 1px rgba(24, 144, 255, 0.1);
+            background: #ffffff !important;
+            border: 2px solid #d5dbdb !important;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08) !important;
+            border-radius: 8px !important;
         }
 
         .light-mode .card::after {
-            color: #1890ff;
+            color: #2c3e50 !important;
         }
 
+        /* 区域标题 - 监狱标识风格 */
         .light-mode .section-header {
-            color: #1890ff;
+            color: #2c3e50 !important;
+            font-weight: 600;
         }
 
         .light-mode .section-header:hover {
-            color: #096dd9;
+            color: #34495e !important;
         }
 
         .light-mode .collapse-icon {
-            color: #1890ff;
+            color: #2c3e50 !important;
         }
 
+        /* 子区域 - 监狱分区风格 */
         .light-mode .sub-section {
-            background: #f8fbff;
-            border-left: 4px solid #1890ff;
+            background: #f8f9f9 !important;
+            border-left: 4px solid #95a5a6 !important;
         }
 
         .light-mode .sub-title {
-            color: #1890ff;
+            color: #2c3e50 !important;
+            font-weight: 600;
         }
 
-        .light-mode .resource-input-vertical {
-            background: #f8fbff;
-            border: 1px solid #e6f7ff;
+        /* 内容区域 */
+        .light-mode .section-content,
+        .light-mode .modal-body,
+        .light-mode .result-item,
+        .light-mode .item-subtitle,
+        .light-mode .custom-tip,
+        .light-mode .slider-labels,
+        .light-mode .reward-label {
+            color: #566573 !important;
         }
 
-        .light-mode .resource-input-vertical label {
-            color: #1890ff;
+        /* 输入框 - 监狱表格风格 */
+        .light-mode input,
+        .light-mode .resource-input-vertical input,
+        .light-mode .character-development-controls input {
+            color: #2c3e50 !important;
+            background: #fdfefe !important;
+            border: 1px solid #d5dbdb !important;
+            border-radius: 2px !important;
         }
 
-        .light-mode .resource-input-vertical input {
-            background: #ffffff;
-            border: 1px solid #d9e7ff;
-            color: #333333;
+        .light-mode .slider-value {
+            color: #2980b9 !important;
+            font-weight: 600;
         }
 
-        .light-mode .skin-item.compact {
-            background: #f8fbff;
-            border: 1px solid #e6f7ff;
-        }
-
-        .light-mode .skin-price {
-            color: #1890ff;
-        }
-
-        .light-mode .skin-btn {
-            background: #ffffff;
-            border: 1px solid #d9e7ff;
-            color: #1890ff;
-        }
-
-        .light-mode .skin-btn:hover {
-            background: #e6f7ff;
-            border-color: #1890ff;
-        }
-
-        .light-mode .switch-group .switch-label {
-            color: #666666;
-        }
-
-        .light-mode .switch-group .switch-label.active {
-            color: #1890ff;
-        }
-
-        .light-mode .time-option {
-            background: #f8fbff;
-            border: 2px solid #e6f7ff;
-            color: #666666;
-        }
-
-        .light-mode .time-option.active {
-            border-color: #1890ff;
-            background: #e6f7ff;
-        }
-
-        .light-mode .time-title {
-            color: #1890ff;
-        }
-
-        .light-mode .time-days {
-            color: #096dd9;
-        }
-
-        .light-mode .summary-section {
-            background: #f8fbff;
-            border-left: 4px solid #1890ff;
-        }
-
-        .light-mode .summary-label {
-            color: #1890ff;
-        }
-
-        .light-mode .summary-value {
-            color: #096dd9;
-        }
-
-        .light-mode .shop-section {
-            background: #ffffff;
-            border: 1px solid #e6f7ff;
-        }
-
-        .light-mode .shop-title {
-            color: #1890ff;
-        }
-
-        .light-mode .accumulation-item {
-            background: #f8fbff;
-        }
-
-        .light-mode .item-title {
-            color: #1890ff;
-        }
-
-        .light-mode .item-value {
-            color: #096dd9;
-        }
-
+        /* 按钮组 - 监狱控制面板风格 */
         .light-mode .training-btn, 
         .light-mode .dispatch-btn,
         .light-mode .main-story-btn,
@@ -2664,10 +2707,14 @@
         .light-mode .palma-ruins-btn,
         .light-mode .target-btn,
         .light-mode .rating-btn,
-        .light-mode .zero-mirror-btn {
-            background: #ffffff;
-            border: 2px solid #e6f7ff;
-            color: #666666;
+        .light-mode .zero-mirror-btn,
+        .light-mode .skin-btn,
+        .light-mode .character-dev-btn,
+        .light-mode .character-development-btn {
+            background: #ecf0f1 !important;
+            border: 2px solid #bdc3c7 !important;
+            color: #2c3e50 !important;
+            border-radius: 3px !important;
         }
 
         .light-mode .training-btn:hover, 
@@ -2680,10 +2727,13 @@
         .light-mode .palma-ruins-btn:hover,
         .light-mode .target-btn:hover,
         .light-mode .rating-btn:hover,
-        .light-mode .zero-mirror-btn:hover {
-            border-color: #1890ff;
-            background: #e6f7ff;
-            color: #333333;
+        .light-mode .zero-mirror-btn:hover,
+        .light-mode .skin-btn:hover,
+        .light-mode .character-dev-btn:hover,
+        .light-mode .character-development-btn:hover {
+            border-color: #95a5a6 !important;
+            background: #d5dbdb !important;
+            color: #2c3e50 !important;
         }
 
         .light-mode .training-btn.active, 
@@ -2696,99 +2746,675 @@
         .light-mode .palma-ruins-btn.active,
         .light-mode .target-btn.active,
         .light-mode .rating-btn.active,
-        .light-mode .zero-mirror-btn.active {
-            border-color: #1890ff;
-            background: #1890ff;
-            color: white;
+        .light-mode .zero-mirror-btn.active,
+        .light-mode .character-dev-btn.active,
+        .light-mode .character-development-btn.active {
+            border-color: #2980b9 !important;
+            background: #2980b9 !important;
+            color: white !important;
         }
 
-        /* 模态框白天模式 */
+        /* 开关和滑块 */
+        .light-mode .switch-group .switch-label {
+            color: #566573 !important;
+        }
+
+        .light-mode .switch-group .switch-label.active {
+            color: #2980b9 !important;
+        }
+
+        .light-mode .slider {
+            background-color: #bdc3c7 !important;
+        }
+
+        .light-mode input:checked + .slider {
+            background-color: #2980b9 !important;
+        }
+
+        /* 模态框 */
         .light-mode .modal-content {
-            background: #ffffff;
-            border: 2px solid #e8f4ff;
+            background: #ffffff !important;
+            border: 2px solid #d5dbdb !important;
         }
 
         .light-mode .modal-header {
-            background: #f8fbff;
+            background: #2c3e50 !important;
         }
 
         .light-mode .modal-title {
-            color: #1890ff;
+            color: #ecf0f1 !important;
         }
 
         .light-mode .modal-section {
-            background: #f8fbff;
-            border-left: 4px solid #1890ff;
+            background: #f8f9f9 !important;
+            border-left: 4px solid #95a5a6 !important;
         }
 
-        .light-mode .modal-section-title {
-            color: #1890ff;
-        }
-
-        .light-mode .modal-highlight {
-            color: #096dd9;
-        }
-
-        .light-mode .modal-footer {
-            background: #f8fbff;
-        }
-
-        .light-mode .modal-contact {
-            color: #1890ff;
-        }
-
-        /* 饼状图白天模式 */
-        .light-mode .pie-chart-section {
-            background: #ffffff;
-            border: 2px solid #e8f4ff;
-        }
-
-        .light-mode .pie-legend {
-            background: #f8fbff;
-            border: 1px solid #e6f7ff;
-        }
-
-        .light-mode .legend-text {
-            color: #666666;
-        }
-
-        .light-mode .legend-total {
-            color: #1890ff;
-        }
-
-        /* 滑块白天模式 */
-        .light-mode .score-slider::-webkit-slider-track,
-        .light-mode .inspection-slider::-webkit-slider-track {
-            background: #e6f7ff;
-        }
-
-        .light-mode .score-slider::-moz-range-track,
-        .light-mode .inspection-slider::-moz-range-track {
-            background: #e6f7ff;
-        }
-
-        .light-mode .slider-value {
-            color: #096dd9;
-        }
-
-        /* 滚动条白天模式 */
+        /* 滚动条 */
         .light-mode .modal-body::-webkit-scrollbar-track {
-            background: #f8fbff;
+            background: #ecf0f1 !important;
         }
 
         .light-mode .modal-body::-webkit-scrollbar-thumb {
-            background: linear-gradient(135deg, #1890ff, #69c0ff);
+            background: #95a5a6 !important;
         }
 
-        .light-mode .modal-body::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(135deg, #096dd9, #1890ff);
+        /* 特殊模块 */
+        .light-mode .summary-section {
+            background: #f8f9f9 !important;
+            border-left: 4px solid #2980b9 !important;
         }
 
-        /* 白天模式背景网格 */
-        .light-mode::before {
-            background-image: 
-                linear-gradient(90deg, rgba(24, 144, 255, 0.1) 1px, transparent 1px),
-                linear-gradient(0deg, rgba(24, 144, 255, 0.1) 1px, transparent 1px);
+        .light-mode .summary-label {
+            color: #2c3e50 !important;
+        }
+
+        .light-mode .summary-value {
+            color: #2980b9 !important;
+        }
+
+        .light-mode .shop-section {
+            background: #ffffff !important;
+            border: 1px solid #d5dbdb !important;
+        }
+
+        /* 确保所有文本颜色一致 */
+        .light-mode .section-content { color: #566573 !important; }
+        .light-mode .modal-body { color: #566573 !important; }
+        .light-mode .result-item { color: #566573 !important; }
+        .light-mode input { color: #2c3e50 !important; }
+
+        /* 修复所有背景色 */
+        .light-mode .nightmare-score {
+            background: #f8f9f9 !important;
+            border: 1px solid #d5dbdb !important;
+        }
+
+        .light-mode .action-summary .summary-header,
+        .light-mode .permanent-activity .summary-header {
+            background: #ffffff !important;
+            border: 1px solid #d5dbdb !important;
+        }
+
+        .light-mode .data-gap-subsection {
+            background: #ffffff !important;
+            border: 1px solid #d5dbdb !important;
+        }
+
+        /* 修复内联样式 - 行动纪要头部 */
+        .action-summary-header {
+            background: #2a2a2a !important;
+            padding: 12px 15px !important;
+            border-radius: 8px !important;
+            border: 1px solid #444444 !important;
+            margin-bottom: 15px !important;
+        }
+
+        .summary-header-inner {
+            display: flex !important;
+            align-items: center !important;
+            gap: 15px !important;
+        }
+
+        .action-summary-text {
+            font-size: 16px !important;
+            font-weight: bold !important;
+            color: #FF4500 !important;
+            flex: 1 !important;
+        }
+
+        .action-summary-crystal {
+            font-size: 14px !important;
+            font-weight: bold !important;
+            color: #1890ff !important;
+            white-space: nowrap !important;
+        }
+
+        /* 白天模式下的行动纪要样式 */
+        .light-mode .action-summary-header {
+            background: #ffffff !important;
+            border: 1px solid #d5dbdb !important;
+        }
+
+        .light-mode .action-summary-text {
+            color: #2c3e50 !important;
+        }
+
+        .light-mode .action-summary-crystal {
+            color: #2980b9 !important;
+        }
+
+        /* 修复记忆复现模块的文字颜色 - 白天模式 */
+        .light-mode .permanent-activity .summary-header {
+            background: #ffffff !important;
+            border: 1px solid #d5dbdb !important;
+        }
+
+        .light-mode .permanent-activity .summary-text {
+            color: #2c3e50 !important;
+            font-weight: 600 !important;
+        }
+
+        .light-mode .permanent-activity .summary-crystal {
+            color: #2980b9 !important;
+            font-weight: 600 !important;
+        }
+
+        /* 修复记忆复现滑块相关文字 */
+        .light-mode .permanent-activity .slider-labels {
+            color: #566573 !important;
+        }
+
+        .light-mode .permanent-activity .slider-value {
+            color: #2980b9 !important;
+            font-weight: 600 !important;
+        }
+
+        /* 修复记忆复现标题 */
+        .light-mode .permanent-activity .sub-title {
+            color: #2c3e50 !important;
+            font-weight: 600 !important;
+        }
+
+        /* 统一修复所有滑块按钮的白天模式 */
+        .light-mode .score-slider {
+            background: #f8f9f9 !important;
+        }
+
+        .light-mode .score-slider::-webkit-slider-track {
+            background: #bdc3c7 !important;
+        }
+
+        .light-mode .score-slider::-moz-range-track {
+            background: #bdc3c7 !important;
+        }
+
+        .light-mode .score-slider::-webkit-slider-thumb {
+            background: #2980b9 !important;
+            border: 2px solid #3498db !important;
+        }
+
+        .light-mode .score-slider::-moz-range-thumb {
+            background: #2980b9 !important;
+            border: 2px solid #3498db !important;
+        }
+
+        .light-mode .inspection-slider {
+            background: #f8f9f9 !important;
+        }
+
+        .light-mode .inspection-slider::-webkit-slider-track {
+            background: #bdc3c7 !important;
+        }
+
+        .light-mode .inspection-slider::-moz-range-track {
+            background: #bdc3c7 !important;
+        }
+
+        .light-mode .inspection-slider::-webkit-slider-thumb {
+            background: #2980b9 !important;
+            border: 2px solid #3498db !important;
+        }
+
+        .light-mode .inspection-slider::-moz-range-thumb {
+            background: #2980b9 !important;
+            border: 2px solid #3498db !important;
+        }
+
+        /* 统一修复所有资源显示项的白天模式 */
+        .light-mode .resource-input-vertical {
+            background: #f8f9f9 !important;
+            border: 1px solid #d5dbdb !important;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1) !important;
+        }
+
+        .light-mode .skin-item.compact {
+            background: #f8f9f9 !important;
+            border: 1px solid #d5dbdb !important;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1) !important;
+        }
+
+        .light-mode .character-development-input {
+            background: #f8f9f9 !important;
+            border: 1px solid #d5dbdb !important;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1) !important;
+        }
+
+        .light-mode .data-gap-subsection {
+            background: #ffffff !important;
+            border: 1px solid #d5dbdb !important;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1) !important;
+        }
+
+        .light-mode .accumulation-item {
+            background: #f8f9f9 !important;
+            border-radius: 5px !important;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1) !important;
+        }
+
+        .light-mode .nightmare-score {
+            background: #f8f9f9 !important;
+            border: 1px solid #d5dbdb !important;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1) !important;
+        }
+
+        .light-mode .shop-section {
+            background: #ffffff !important;
+            border: 1px solid #d5dbdb !important;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1) !important;
+        }
+
+        /* 修复输入框在白天模式下的样式 */
+        .light-mode .resource-input-vertical input,
+        .light-mode .character-development-controls input,
+        .light-mode input[type="number"] {
+            background: #ffffff !important;
+            border: 1px solid #d5dbdb !important;
+            color: #2c3e50 !important;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1) !important;
+        }
+
+        /* 修复按钮在白天模式下的背景 */
+        .light-mode .skin-btn,
+        .light-mode .character-dev-btn,
+        .light-mode .certification-btn {
+            background: #ecf0f1 !important;
+            border: 1px solid #bdc3c7 !important;
+            color: #2c3e50 !important;
+        }
+
+        .light-mode .skin-btn:hover,
+        .light-mode .character-dev-btn:hover,
+        .light-mode .certification-btn:hover {
+            background: #d5dbdb !important;
+            border-color: #95a5a6 !important;
+        }
+
+        /* 统一修复所有资源显示项的字体颜色 - 白天模式 */
+        .light-mode .resource-input-vertical label,
+        .light-mode .skin-item.compact .skin-price,
+        .light-mode .character-development-label,
+        .light-mode .character-development-value,
+        .light-mode .data-gap-title,
+        .light-mode .accumulation-item .item-title,
+        .light-mode .accumulation-item .item-value,
+        .light-mode .accumulation-item .item-subtitle,
+        .light-mode .nightmare-score .score-title,
+        .light-mode .shop-section .shop-title,
+        .light-mode .sub-title,
+        .light-mode .data-gap-title,
+        .light-mode .slider-value,
+        .light-mode .reward-label,
+        .light-mode .reward-value {
+            color: #2c3e50 !important;
+        }
+
+        /* 修复特定高亮颜色的文字 */
+        .light-mode .summary-value,
+        .light-mode .item-value,
+        .light-mode .character-development-value,
+        .light-mode .skin-count,
+        .light-mode .slider-value {
+            color: #2980b9 !important;
+        }
+
+        .light-mode .sub-title,
+        .light-mode .data-gap-title,
+        .light-mode .shop-title,
+        .light-mode .score-title {
+            color: #2c3e50 !important;
+            font-weight: 600 !important;
+        }
+
+        /* 修复描述性文字的浅色 */
+        .light-mode .item-subtitle,
+        .light-mode .custom-tip,
+        .light-mode .slider-labels,
+        .light-mode .reward-label {
+            color: #566573 !important;
+        }
+
+        /* 修复资源转换文字的颜色 */
+        .light-mode .resource-conversion {
+            color: #95a5a6 !important;
+        }
+
+        /* 修复开关标签的颜色 */
+        .light-mode .switch-label {
+            color: #566573 !important;
+        }
+
+        .light-mode .switch-label.active {
+            color: #2980b9 !important;
+            font-weight: bold !important;
+        }
+
+        .light-mode .switch-label.inactive {
+            color: #95a5a6 !important;
+        }
+
+        /* 修复饼状图模块的白天模式 */
+        .light-mode .pie-chart-section {
+            background: #ffffff !important;
+            border: 2px solid #d5dbdb !important;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08) !important;
+        }
+
+        .light-mode .pie-chart-section h3 {
+            color: #2c3e50 !important;
+        }
+
+        .light-mode .pie-legend {
+            background: #f8f9f9 !important;
+            border: 1px solid #d5dbdb !important;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1) !important;
+        }
+
+        .light-mode .legend-text {
+            color: #2c3e50 !important;
+        }
+
+        .light-mode .legend-total {
+            color: #2c3e50 !important;
+            border-top-color: #d5dbdb !important;
+        }
+
+        /* 修复饼状图提示框的白天模式 */
+        .light-mode .pie-tooltip {
+            background: rgba(255, 255, 255, 0.95) !important;
+            color: #2c3e50 !important;
+            border: 1px solid #2980b9 !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+        }
+
+        .light-mode .tooltip-details {
+            color: #2980b9 !important;
+        }
+
+        /* 修复饼状图引导线和标签 */
+        .light-mode .pie-chart-section canvas {
+            filter: none !important;
+        }
+
+        /* 修复饼状图所在卡片的白天模式 */
+        .light-mode .time-section.card {
+            background: #ffffff !important;
+            border: 2px solid #d5dbdb !important;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08) !important;
+        }
+
+        .light-mode .time-section.card::after {
+            color: #2c3e50 !important;
+        }
+
+        /* 修复时间选项的白天模式 */
+        .light-mode .time-option {
+            background: #f8f9f9 !important;
+            border: 2px solid #d5dbdb !important;
+            color: #566573 !important;
+        }
+
+        .light-mode .time-option.active {
+            border-color: #2980b9 !important;
+            background: #e8f4fd !important;
+            box-shadow: 0 0 10px rgba(41, 128, 185, 0.2) !important;
+        }
+
+        .light-mode .time-title {
+            color: #2c3e50 !important;
+        }
+
+        .light-mode .time-days {
+            color: #2980b9 !important;
+        }
+
+        .light-mode .time-date {
+            color: #566573 !important;
+        }
+
+        /* 修复开关组的白天模式 */
+        .light-mode .switch-group .switch-label {
+            color: #566573 !important;
+        }
+
+        .light-mode .switch-group .switch-label.active {
+            color: #2980b9 !important;
+            font-weight: bold !important;
+        }
+
+        /* 修复饼状图区域的文字颜色 */
+        .light-mode .section-header {
+            color: #2c3e50 !important;
+        }
+
+        .light-mode .collapse-icon {
+            color: #2c3e50 !important;
+        }
+
+        /* 修复异方晶修正白天模式字体颜色 */
+        .light-mode .custom-adjust .resource-input label {
+            color: #2c3e50 !important;
+        }
+        
+        /* 菜单按钮激活状态 */
+        .menu-btn.active {
+            background: #8B0000 !important;
+            border-color: #FF4500 !important;
+            color: white !important;
+            box-shadow: 0 0 10px rgba(255, 69, 0, 0.5) !important;
+        }
+
+        /* 白天模式下的按钮激活状态 */
+        .light-mode .menu-btn.active {
+            background: #2980b9 !important;
+            border-color: #2980b9 !important;
+            color: white !important;
+            box-shadow: 0 0 10px rgba(41, 128, 185, 0.5) !important;
+        }
+
+        /* 监察密令按钮样式 */
+        .inspection-order-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .inspection-period-btn-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .inspection-period-btn {
+            padding: 10px 8px;
+            border: 2px solid #555555;
+            background: #2a2a2a;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+            text-align: center;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #CCCCCC;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .inspection-period-btn:hover {
+            border-color: #FF4500;
+            background: #3a3a3a;
+            color: #FFFFFF;
+        }
+
+        .inspection-period-btn.active {
+            border-color: #FF4500;
+            background: #8B0000;
+            color: white;
+            box-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+        }
+
+        .inspection-slider-container {
+            padding: 10px;
+            background: #333333;
+            border-radius: 6px;
+            border: 1px solid #444444;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .inspection-period-btn {
+                font-size: 12px;
+                padding: 8px 6px;
+            }
+        }
+
+        /* 监察密令奖励信息样式 */
+        .reward-info {
+            margin-top: 10px;
+            padding: 10px;
+            background: #2a2a2a;
+            border-radius: 5px;
+            border: 1px solid #444444;
+        }
+
+        .reward-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 5px 0;
+            font-size: 12px;
+        }
+
+        .reward-label {
+            color: #CCCCCC;
+        }
+
+        .reward-value {
+            color: #FF4500;
+            font-weight: bold;
+        }
+
+        .reward-value.claimed {
+            color: #666666;
+            text-decoration: line-through;
+        }
+
+        /* 监察密令滑块容器样式 */
+        .inspection-slider-container {
+            padding: 15px;
+            background: #333333;
+            border-radius: 6px;
+            border: 1px solid #444444;
+            margin-top: 8px;
+        }
+
+        .inspection-slider-container .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 12px;
+            color: #CCCCCC;
+        }
+
+        .inspection-slider-container .slider-value {
+            text-align: center;
+            font-size: 13px;
+            color: #FF4500;
+            margin-top: 8px;
+            font-weight: bold;
+        }
+
+        /* 监察密令白天模式样式 */
+        .light-mode .inspection-period-btn {
+            background: #ecf0f1 !important;
+            border: 2px solid #bdc3c7 !important;
+            color: #2c3e50 !important;
+            border-radius: 3px !important;
+        }
+
+        .light-mode .inspection-period-btn:hover {
+            border-color: #95a5a6 !important;
+            background: #d5dbdb !important;
+            color: #2c3e50 !important;
+        }
+
+        .light-mode .inspection-period-btn.active {
+            border-color: #2980b9 !important;
+            background: #2980b9 !important;
+            color: white !important;
+            box-shadow: 0 0 10px rgba(41, 128, 185, 0.5) !important;
+        }
+
+        .light-mode .inspection-slider-container {
+            background: #f8f9f9 !important;
+            border: 1px solid #d5dbdb !important;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1) !important;
+        }
+
+        .light-mode .inspection-slider-container .slider-labels {
+            color: #566573 !important;
+        }
+
+        .light-mode .inspection-slider-container .slider-value {
+            color: #2980b9 !important;
+        }
+
+        .light-mode .reward-info {
+            background: #ffffff !important;
+            border: 1px solid #d5dbdb !important;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1) !important;
+        }
+
+        .light-mode .reward-label {
+            color: #2c3e50 !important;
+        }
+
+        .light-mode .reward-value {
+            color: #2980b9 !important;
+        }
+
+        .light-mode .reward-value.claimed {
+            color: #95a5a6 !important;
+        }
+
+        /* 监察密令滑块白天模式 */
+        .light-mode .inspection-slider {
+            background: #f8f9f9 !important;
+        }
+
+        .light-mode .inspection-slider::-webkit-slider-track {
+            background: #bdc3c7 !important;
+        }
+
+        .light-mode .inspection-slider::-moz-range-track {
+            background: #bdc3c7 !important;
+        }
+
+        .light-mode .inspection-slider::-webkit-slider-thumb {
+            background: #2980b9 !important;
+            border: 2px solid #3498db !important;
+        }
+
+        .light-mode .inspection-slider::-moz-range-thumb {
+            background: #2980b9 !important;
+            border: 2px solid #3498db !important;
+        }
+
+        /* 监察密令滑块禁用状态白天模式 */
+        .light-mode .inspection-slider:disabled {
+            opacity: 0.5 !important;
+        }
+
+        .light-mode .inspection-slider:disabled::-webkit-slider-thumb {
+            background: #95a5a6 !important;
+            border: 2px solid #bdc3c7 !important;
+        }
+
+        .light-mode .inspection-slider:disabled::-moz-range-thumb {
+            background: #95a5a6 !important;
+            border: 2px solid #bdc3c7 !important;
         }
 
     </style>
@@ -2797,70 +3423,121 @@
     <div id="app">
         <!-- 顶部菜单栏 -->
         <div class="top-menu-bar">
-            <div class="menu-title">海拉的钱包</div>
+            <div class="menu-title"><img :src="hlIcon" class="resource-icon" alt="海拉">海拉的钱包</div>
             <div class="menu-right">
-                <button class="menu-btn" @click="showWebpageInfo">说明</button>
-                <button class="menu-btn" @click="showFeedback">反馈</button>
+                <button class="menu-btn" 
+                        :class="{ active: showModal && currentModal === 'info' }" 
+                        @click="showWebpageInfo">说明</button>
+                <button class="menu-btn" 
+                        :class="{ active: showModal && currentModal === 'feedback' }" 
+                        @click="showFeedback">反馈</button>
                 <button class="menu-btn theme-toggle" @click="toggleTheme" :title="isDarkMode ? '切换到白天模式' : '切换到夜晚模式'">
                     {{ isDarkMode ? '🌙' : '☀️' }}
                 </button>
             </div>
         </div>
         
-        <!-- 网页说明弹窗 -->
-        <div v-if="showWebpageInfoModal" class="modal-overlay" @click.self="closeWebpageInfo">
+        <!-- 统一弹窗 -->
+        <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title">📖 网页说明</h3>
-                    <button class="modal-close" @click="closeWebpageInfo">×</button>
+                    <h3 class="modal-title">{{ currentModal === 'info' ? '📖 网页说明' : '💬 反馈与建议' }}</h3>
+                    <button class="modal-close" @click="closeModal">×</button>
                 </div>
+                
                 <div class="modal-body">
-                    <div class="modal-section">
-                        <div class="modal-section-title">📱 工具简介</div>
-                        <p>这是一个<strong class="modal-highlight">无期迷途抽卡资源计算器</strong>，可以帮助你科学规划抽卡资源，避免资源浪费。</p>
-                    </div>
-                    
-                    <div class="modal-section">
-                        <div class="modal-section-title">🚀 使用指南</div>
-                        <ol class="modal-list">
-                            <li>在<strong class="modal-highlight">右侧「当前资源」</strong>模块输入你现有的抽卡资源</li>
-                            <li>根据实际情况在<strong class="modal-highlight">各个模块</strong>中设置相关参数</li>
-                            <li>查看<strong class="modal-highlight">顶部总计</strong>了解可获得的总抽数</li>
-                            <li>通过<strong class="modal-highlight">饼状图分析</strong>了解各模块资源占比</li>
-                            <li>合理规划你的抽卡策略！</li>
-                        </ol>
+                    <!-- 说明弹窗内容 -->
+                    <div v-if="currentModal === 'info'">
+                        <div class="modal-section">
+                            <div class="modal-section-title">📱 工具简介</div>
+                            <p>这是一个<strong class="modal-highlight">无期迷途抽卡资源计算器</strong>，可以帮助你科学规划抽卡资源，避免资源浪费</p>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <div class="modal-section-title">🚀 使用指南</div>
+                            <ol class="modal-list">
+                                <li>在<strong class="modal-highlight">「当前资源」</strong>模块输入你现有的抽卡资源</li>
+                                <li>根据实际情况在<strong class="modal-highlight">各个模块</strong>中设置相关参数</li>
+                                <li>查看<strong class="modal-highlight">顶部总计</strong>了解可获得的总抽数</li>
+                                <li>通过<strong class="modal-highlight">饼状图分析</strong>了解各模块资源占比</li>
+                                <li>合理规划你的抽卡策略！</li>
+                            </ol>
+                        </div>
+
+                        <div class="modal-section">
+                            <div class="modal-section-title">⚡ 主要功能</div>
+                            <ul class="modal-list">
+                                <li>💎 <strong>当前资源管理</strong> - 记录异方晶、璀璨晶源、搜索令等</li>
+                                <li>📈 <strong>日常积累计算</strong> - 自动计算日常、周常、月常奖励</li>
+                                <li>🎯 <strong>活动资源估算</strong> - 估算活动可获得抽卡资源</li>
+                                <li>🔮 <strong>潜在资源统计</strong> - 统计主线关卡等潜在资源</li>
+                                <li>💰 <strong>氪金资源规划</strong> - 规划月卡、礼包等付费内容</li>
+                            </ul>
+                        </div>
+
+                        <div class="modal-section">
+                            <div class="modal-section-title">⚠️ 注意事项</div>
+                            <ul class="modal-list">
+                                <li>部分活动资源为<strong class="modal-highlight">估算值</strong>，实际以游戏内为准</li>
+                                <li>数据会<strong class="modal-highlight">自动保存</strong>在本地浏览器中</li>
+                            </ul>
+                        </div>                        
+                        
                     </div>
 
-                    <div class="modal-section">
-                        <div class="modal-section-title">⚡ 主要功能</div>
-                        <ul class="modal-list">
-                            <li>💎 <strong>当前资源管理</strong> - 记录异方晶、璀璨晶源、搜索令等</li>
-                            <li>📈 <strong>日常积累计算</strong> - 自动计算日常、周常、月常奖励</li>
-                            <li>🎯 <strong>活动资源估算</strong> - 估算活动可获得抽卡资源</li>
-                            <li>🔮 <strong>潜在资源统计</strong> - 统计主线关卡等潜在资源</li>
-                            <li>💰 <strong>氪金资源规划</strong> - 规划月卡、礼包等付费内容</li>
-                        </ul>
-                    </div>
+                    <!-- 反馈弹窗内容 -->
+                    <div v-else-if="currentModal === 'feedback'">
+                        <div class="modal-section">
+                            <div class="modal-section-title">🐛 问题反馈</div>
+                            <p>如果局长在使用过程中遇到<strong class="modal-highlight">任何问题或发现BUG</strong>非常欢迎局长通过以下渠道反馈：</p>
+                            <ul class="modal-list">
+                                <li>🖥️ 通过B站后台私信@是醉染哦</li>
+                                <li>👥 加入Q群联系：1049297956</li>
+                                <li>📧 邮件反馈2309141313@qq.com</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="modal-section">
+                            <div class="modal-section-title">⚡ 25.11.02更新日志</div>
+                            <ul class="modal-list">
+                                <li>攒抽模拟器<strong class="modal-highlight">正式上线</strong></li>                                                   
+                            </ul>
+                        </div>
 
-                    <div class="modal-section">
-                        <div class="modal-section-title">⚡ 25.11.03更新日志</div>
-                        <ul class="modal-list">
-                            <li>新增<strong>监管收菜</strong></li>
-                            <li>新增<strong>多项合金兑换</strong></li>
-                            <li>新增<strong>记忆复现</strong></li>
-                            <li>新增<strong>梦境&人格色谱</strong></li>
-                            <li>新增<strong>零境系统</strong></li>
-                            <li>新增<strong>灰烬之潮-重塑</strong></li>
-                            <li>新增<strong>派遣区域声望</strong></li>
-                            <li>新增<strong>说明&反馈</strong></li>
-                            <li>新增<strong>日夜模式切换</strong></li> 
-                            <li>修复<strong>少量BUG</strong></li>                                                        
-                        </ul>
-                    </div>
+                        <div class="modal-section">
+                            <div class="modal-section-title">⚡ 25.11.03更新日志</div>
+                            <ul class="modal-list">
+                                <li>新增<strong class="modal-highlight">功能</strong><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;监管收菜、多项合金兑换、记忆复现、梦境&人格色谱、零境系统、灰烬之潮-重塑、派遣区域声望、说明&反馈
+                                </li>
+                                <li>新增<strong class="modal-highlight">日夜模式切换</strong><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在可以通过右上角的月日符号来切换白天与夜晚模式
+                                </li> 
+                                <li>修复<strong class="modal-highlight">计算BUG修复</strong><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在追踪认证·机密和友情兑换模块可以被正确计算
+                                </li>                                                       
+                            </ul>
+                        </div>
 
+                        <div class="modal-section">
+                            <div class="modal-section-title">⚡ 25.11.04更新日志</div>
+                            <ul class="modal-list">
+                                <li>新增<strong class="modal-highlight">监察密令每期等级选择功能</strong><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在可以自由选择指定日期内所有监察密令等级
+                                </li>
+                                <li>修复<strong class="modal-highlight">白天模式的样式</strong><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在白天模式的样式已经统一，变得更加柔和美观
+                                </li>                                                   
+                            </ul>
+                        </div>
+
+                    </div>
                 </div>
+                
                 <div class="modal-footer">
-                    <div class="modal-contact">祝局长十连三金！ 🎉</div>
+                    <div class="modal-contact">
+                        {{ currentModal === 'info' ? '祝局长十连三金！ 🎉' : '感谢局长的使用与支持！ ❤️' }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -2917,12 +3594,12 @@
                     <!-- 合并的卡池时间和攒抽预测模块 -->
                     <div class="time-section card">
                         <h2 @click="toggleSection('pullSummary')" class="section-header">
-                            📊 共计 {{ totalModulePulls }} 抽 💰氪金{{ totalRechargeCost }}￥
+                            📊 共计 {{ totalModulePulls }} 抽 💰 氪金 {{ totalRechargeCost }} ￥
                             <span class="collapse-icon">{{ sections.pullSummary ? '−' : '+' }}</span>
                         </h2>
                         
                     <!-- 资源信息 - 始终显示 -->
-                    <div class="summary-section" style="display: flex; justify-content: space-around; align-items: center; gap: 15px;">
+                    <div class="sub-section" style="display: flex; justify-content: space-around; align-items: center; gap: 15px;">
                         <div class="summary-item" style="display: flex; align-items: center; gap: 8px; margin: 0;">
                             <img :src="crystalIcon" class="resource-icon" alt="异方晶">
                             <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 2px;">
@@ -3251,53 +3928,52 @@
                                         <span class="switch-label">使用合金兑换</span>
                                     </div>
                                 </div>
+                            </div>
 
-                                <!-- 监察密令模块 - 整合到背景框中 -->
-                                <div class="nightmare-score" style="margin-top: 20px;">
-                                    
-                                <button 
-                                    class="training-btn" 
-                                    style="width: 100%; margin-bottom: 15px; background: #3c3a3a; cursor: default;"
-                                    disabled>
-                                    经历{{ calculateInspectionPeriods }}期监察密令
-                                    <img :src="ticketIcon" class="resource-icon" alt="搜索令"> {{ dailyInspectionOrderTickets }}
-                                </button>
-                                    
-                                    <div class="slider-container">
-                                        <div class="slider-labels">
-                                            <span>0级</span>
-                                            <span>55级</span>
-                                        </div>
-                                        <input 
-                                            type="range" 
-                                            v-model.number="dailyInspectionOrderLevel" 
-                                            min="0" 
-                                            max="55"
-                                            step="5"
-                                            class="inspection-slider"
-                                        >
-                                        <datalist id="inspection-levels">
-                                            <option value="0">0</option>
-                                            <option value="5">5</option>
-                                            <option value="15">15</option>
-                                            <option value="25">25</option>
-                                            <option value="30">30</option>
-                                            <option value="35">35</option>
-                                            <option value="45">45</option>
-                                            <option value="50">50</option>
-                                            <option value="55">55</option>
-                                        </datalist>
-                                        <div class="slider-value">
-                                            本期监察密令等级: {{ dailyInspectionOrderLevel }}
+                            <!-- 监察密令 -->
+                            <div class="sub-section">
+                                <h3 class="sub-title">监察密令</h3>
+                                <div class="inspection-order-buttons">
+                                    <div v-for="period in inspectionPeriods" :key="period.id" class="inspection-period-btn-wrapper">
+                                        <button 
+                                            class="inspection-period-btn" 
+                                            :class="{ active: selectedInspectionPeriod === period.id }"
+                                            @click="selectInspectionPeriod(period.id)">
+                                            {{ period.startDate }}到{{ period.endDate }} <img :src="ticketIcon" class="resource-icon" alt="搜索令">{{ calculateCurrentPeriodTickets(inspectionLevels[period.id]) }}
+                                        </button>
+                                        <div class="inspection-slider-container" v-if="selectedInspectionPeriod === period.id">
+                                            <div class="slider-labels">
+                                                <span>0级</span>
+                                                <span>55级</span>
+                                            </div>
+                                            <input 
+                                                type="range" 
+                                                v-model.number="inspectionLevels[period.id]" 
+                                                min="0" 
+                                                max="55"
+                                                step="1"
+                                                class="inspection-slider"
+                                                @input="snapInspectionLevel(period.id)"
+                                            >
+                                            <div class="slider-value">
+                                                当前等级: {{ inspectionLevels[period.id] }}
+                                            </div>
+                                            <!--div class="reward-info">
+                                                <div class="reward-item" v-for="rewardLevel in [5, 15, 25, 35, 45, 55]" :key="rewardLevel">
+                                                    <span class="reward-label">{{ rewardLevel }}级奖励:</span>
+                                                    <span class="reward-value" :class="{ claimed: inspectionLevels[period.id] >= rewardLevel }">
+                                                        {{ inspectionLevels[period.id] >= rewardLevel ? '已领取' : '未领取' }} 1搜索令
+                                                    </span>
+                                                </div>
+                                            </div -->
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-
+                            
                             <!-- 商店兑换 -->
-                            <div class="shop-section">
-                                <div class="shop-title">商店兑换</div>
+                            <div class="sub-section">
+                                <h3 class="sub-title">商店兑换</h3>
                                 
                                 <div class="accumulation-item">
                                     <div class="item-info">
@@ -3656,12 +4332,12 @@
                             <div class="sub-section">
                                 <h3 class="sub-title">行动纪要</h3>
                                 <div class="action-summary">
-                                    <div class="summary-header" style="background: #2a2a2a; padding: 12px 15px; border-radius: 8px; border: 1px solid #e1e5e9; margin-bottom: 15px;">
-                                        <div style="display: flex; align-items: center; gap: 15px;">
-                                            <span class="summary-text" style="font-size: 16px; font-weight: bold; color: #FF4500; flex: 1;">
+                                    <div class="summary-header action-summary-header">
+                                        <div class="summary-header-inner">
+                                            <span class="summary-text action-summary-text">
                                                 {{ actionSummaryText }}
                                             </span>
-                                            <span class="summary-crystal" style="font-size: 14px; font-weight: bold; color: #1890ff; white-space: nowrap;">
+                                            <span class="summary-crystal action-summary-crystal">
                                                 <img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ actionSummaryCrystal }}
                                             </span>
                                         </div>
@@ -4358,32 +5034,57 @@
 
                             <!-- 高级监察密令模块 -->
                             <div class="sub-section">
-                                <h3 class="sub-title">高级监察密令（大月卡）</h3>
-                                
-                                <div class="resource-input-vertical" style="margin-bottom: 15px;">
-                                    <label style="min-width: 200px; display: flex; align-items: center; gap: 5px;">
-                                        额外购买
-                                        <button class="skin-btn" @click="adjustInspectionOrder(-1)">−</button>
-                                        <span class="skin-count" style="min-width: 40px; text-align: center;">{{ inspectionOrderCount }}</span>
-                                        <button class="skin-btn" @click="adjustInspectionOrder(1)">+</button>
-                                        期高级监察密令(负数代表已提前购买)：
-                                    </label>
+                                <h3 class="sub-title">高级监察密令</h3>
+                                <div class="inspection-order-buttons">
+                                    <div v-for="period in inspectionPeriods" :key="period.id" class="inspection-period-btn-wrapper">
+                                        <button 
+                                            class="inspection-period-btn" 
+                                            :class="{ active: selectedRechargeInspectionPeriod === period.id }"
+                                            @click="selectRechargeInspectionPeriod(period.id)">
+                                            {{ period.startDate }}到{{ period.endDate }} 
+                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶">{{ calculateRechargePeriodCrystal(rechargeInspectionLevels[period.id] || 0) }}
+                                            <img :src="ticketIcon" class="resource-icon" alt="搜索令">{{ calculateRechargePeriodTickets(rechargeInspectionLevels[period.id] || 0) }}
+                                        </button>
+                                        <div class="inspection-slider-container" v-if="selectedRechargeInspectionPeriod === period.id">
+                                            <div class="slider-labels">
+                                                <span>0级</span>
+                                                <span>55级</span>
+                                            </div>
+                                            <input 
+                                                type="range" 
+                                                v-model.number="rechargeInspectionLevels[period.id]" 
+                                                min="0" 
+                                                max="55"
+                                                step="1"
+                                                class="inspection-slider"
+                                                @input="snapRechargeInspectionLevel(period.id)"
+                                            >
+                                            <div class="slider-value">
+                                                当前等级: {{ rechargeInspectionLevels[period.id] || 0 }}
+                                            </div>
+                                            <!--div class="reward-info">
+                                                <div class="reward-item" v-for="rewardLevel in [5, 15, 25, 35, 45, 55]" :key="rewardLevel">
+                                                    <span class="reward-label">{{ rewardLevel }}级搜索令奖励:</span>
+                                                    <span class="reward-value" :class="{ claimed: (rechargeInspectionLevels[period.id] || 0) >= rewardLevel }">
+                                                        {{ (rechargeInspectionLevels[period.id] || 0) >= rewardLevel ? '已领取' : '未领取' }} 1搜索令
+                                                    </span>
+                                                </div>
+                                                <div class="reward-item">
+                                                    <span class="reward-label">30级异方晶奖励:</span>
+                                                    <span class="reward-value" :class="{ claimed: (rechargeInspectionLevels[period.id] || 0) >= 30 }">
+                                                        {{ (rechargeInspectionLevels[period.id] || 0) >= 30 ? '已领取' : '未领取' }} 200异方晶
+                                                    </span>
+                                                </div>
+                                                <div class="reward-item">
+                                                    <span class="reward-label">50级异方晶奖励:</span>
+                                                    <span class="reward-value" :class="{ claimed: (rechargeInspectionLevels[period.id] || 0) >= 50 }">
+                                                        {{ (rechargeInspectionLevels[period.id] || 0) >= 50 ? '已领取' : '未领取' }} 680异方晶
+                                                    </span>
+                                                </div>
+                                            </div -->
+                                        </div>
+                                    </div>
                                 </div>
-                                
-                                <div style="font-size: 12px; color: #666; margin-bottom: 15px;">
-                                    额外购买的高级监察密令默认可拿到当期奖励，已提前购买则不计算68RMB
-                                </div>
-                                
-                                <!-- 高级监察密令奖励按钮 -->
-                                <button 
-                                    class="training-btn" 
-                                    :class="{ active: inspectionOrderActive }"
-                                    @click="toggleInspectionOrder"
-                                    style="width: calc(100% - 30px); margin: 0 auto 15px; display: block;">
-                                    高级监察密令 
-                                    <img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ inspectionOrderCrystalAmount }} 
-                                    <img :src="ticketIcon" class="resource-icon" alt="搜索令"> {{ inspectionOrderTicketAmount }}
-                                </button>
                             </div>
 
                             <!-- 狄斯盈满钵模块 -->
@@ -4565,16 +5266,21 @@
                 }
                 
                 return {
+
+                    // 监察密令数据
+                    selectedInspectionPeriod: savedData?.selectedInspectionPeriod || 1,
+                    inspectionLevels: savedData?.inspectionLevels || {},
+
                     // 主题模式
-                    isDarkMode: savedData.isDarkMode !== undefined ? savedData.isDarkMode : true,
+                    isDarkMode: savedData.isDarkMode !== undefined ? savedData.isDarkMode : false,
                     
                     // 监管模块 - 确保有默认值
                     alloyCount: savedData.alloyCount || 0,
                     useAlloyExchange: savedData.useAlloyExchange || false,
 
                     // 顶部菜单栏功能
-                    showWebpageInfoModal: false,
-                    showFeedbackModal: false,
+                    showModal: false, // 统一弹窗显示状态
+                    currentModal: null,
 
                     // 饼状图悬停状态
                     hoveredPieModule: null,
@@ -4691,8 +5397,6 @@
                     versionWeeks: 4,
                     monthlyCardCount: savedData?.monthlyCardCount || 0,
                     monthlyCardActive: savedData?.monthlyCardActive || false,
-                    inspectionOrderActive: savedData?.inspectionOrderActive || false,
-                    inspectionOrderCount: savedData?.inspectionOrderCount || 0,
                     dailyInspectionOrderLevel: savedData?.dailyInspectionOrderLevel || 0,
                     
                     emotionDetectionCompleted: savedData?.emotionDetectionCompleted || false,
@@ -4854,6 +5558,11 @@
                         { score: 58000, crystal: 100, tickets: 0 },
                         { score: 60000, crystal: 0, tickets: 1 }
                     ],
+                   
+                    // 高级监察密令数据
+                    selectedRechargeInspectionPeriod: savedData?.selectedRechargeInspectionPeriod || 1,
+                    rechargeInspectionLevels: savedData?.rechargeInspectionLevels || {},     
+                    
                     // 狄斯盈满钵数据
                     disiLevel: savedData?.disiLevel || 0,
                     disiActive: savedData?.disiActive || false,
@@ -4880,6 +5589,64 @@
                 }
             },
             computed: {
+
+            // 监察密令期数计算
+            inspectionPeriods() {
+                const periods = [];
+                const firstPeriodStart = new Date(2025, 9, 6, 10); // 2025年10月6日10:00
+                const periodDuration = 6 * 7 * 24 * 60 * 60 * 1000; // 6周的毫秒数
+                
+                // 根据选定的时间计算需要显示的期数
+                let targetDate;
+                if (this.selectedTime === 'nextVersion') {
+                    targetDate = this.calculateToPoolEnd ? 
+                        new Date(this.poolDates.nextVersion.getTime() + (this.versionWeeks * 7 * 24 * 60 * 60 * 1000)) :
+                        this.poolDates.nextVersion;
+                } else {
+                    targetDate = this.calculateToPoolEnd ? 
+                        new Date(this.poolDates.newYear.getTime() + (this.versionWeeks * 7 * 24 * 60 * 60 * 1000)) :
+                        this.poolDates.newYear;
+                }
+                
+                let currentPeriodStart = new Date(firstPeriodStart);
+                let periodId = 1;
+                
+                // 生成所有在当前日期和目标日期之间的密令期数
+                while (currentPeriodStart <= targetDate) {
+                    const periodEnd = new Date(currentPeriodStart.getTime() + periodDuration);
+                    
+                    // 只显示结束时间在当前日期之后的期数
+                    if (periodEnd > new Date()) {
+                        const startStr = this.formatDateToMMDD(currentPeriodStart);
+                        const endStr = this.formatDateToMMDD(periodEnd);
+                        
+                        periods.push({
+                            id: periodId,
+                            startDate: startStr,
+                            endDate: endStr,
+                            startTime: new Date(currentPeriodStart),
+                            endTime: new Date(periodEnd)
+                        });
+                    }
+                    
+                    currentPeriodStart = new Date(currentPeriodStart.getTime() + periodDuration);
+                    periodId++;
+                }
+                
+                return periods;
+            },
+
+            // 监察密令总搜索令计算
+            inspectionOrderTotalTickets() {
+                let totalTickets = 0;
+                
+                for (const period of this.inspectionPeriods) {
+                    const level = this.inspectionLevels[period.id] || 0;
+                    totalTickets += this.calculateCurrentPeriodTickets(level);
+                }
+                
+                return totalTickets;
+            },
 
             // 灰烬之潮-重塑奖励计算
             ashTideRewards() {
@@ -5017,13 +5784,6 @@
                     const headerLimitedCouponPulls = totalLimitedCoupons;
                     const headerTotal = headerCrystalPulls + headerPremiumCrystalPulls + headerTicketPulls + headerLimitedCouponPulls;
                     
-                    console.log('=== 顶部总计分解 ===');
-                    console.log('- 异方晶抽数:', headerCrystalPulls, '(异方晶:', totalCrystal, ')');
-                    console.log('- 璀璨晶源抽数:', headerPremiumCrystalPulls, '(璀璨晶源:', totalPremiumCrystal, ')');
-                    console.log('- 搜索令抽数:', headerTicketPulls);
-                    console.log('- 限定券抽数:', headerLimitedCouponPulls);
-                    console.log('- 顶部总计:', headerTotal);
-                    
                     // 现在精确分解到各模块
                     // 1. 当前资源模块
                     const baseCrystal = this.resources.crystal || 0;
@@ -5035,61 +5795,28 @@
                     const currentTicketPulls = baseTickets;
                     const currentPulls = currentCrystalPulls + currentPremiumCrystalPulls + currentTicketPulls;
                     
-                    console.log('=== 当前资源模块 ===');
-                    console.log('- 基础异方晶:', baseCrystal);
-                    console.log('- 皮肤预留:', this.totalSkinReserve);
-                    console.log('- 自定义修正:', this.customAdjustment);
-                    console.log('- 可用异方晶:', Math.max(0, baseCrystal - this.totalSkinReserve + this.customAdjustment));
-                    console.log('- 异方晶抽数:', currentCrystalPulls);
-                    console.log('- 璀璨晶源抽数:', currentPremiumCrystalPulls);
-                    console.log('- 搜索令抽数:', currentTicketPulls);
-                    console.log('- 当前模块总计:', currentPulls);
-                    
                     // 2. 日常积累模块
                     const dailyCrystal = this.dailyAccumulationCrystal;
                     const dailyTickets = this.dailyAccumulationTickets;
                     const dailyPulls = Math.floor(dailyCrystal / 180) + dailyTickets;
-                    
-                    console.log('=== 日常积累模块 ===');
-                    console.log('- 日常异方晶:', dailyCrystal);
-                    console.log('- 日常搜索令:', dailyTickets);
-                    console.log('- 日常模块总计:', dailyPulls);
                     
                     // 3. 活动奖励模块
                     const activityCrystal = this.activityRewardsCrystal;
                     const activityTickets = this.activityRewardsTickets;
                     const activityPulls = Math.floor(activityCrystal / 180) + activityTickets;
                     
-                    console.log('=== 活动奖励模块 ===');
-                    console.log('- 活动异方晶:', activityCrystal);
-                    console.log('- 活动搜索令:', activityTickets);
-                    console.log('- 活动模块总计:', activityPulls);
-                    
                     // 4. 潜在资源模块
                     const potentialCrystal = this.otherSystemsCrystal;
                     const potentialTickets = this.otherSystemsTickets;
                     const potentialPulls = Math.floor(potentialCrystal / 180) + potentialTickets;
                     
-                    console.log('=== 潜在资源模块 ===');
-                    console.log('- 潜在异方晶:', potentialCrystal);
-                    console.log('- 潜在搜索令:', potentialTickets);
-                    console.log('- 潜在模块总计:', potentialPulls);
-                    
                     // 5. 氪金资源模块
                     const rechargePremiumCrystal = this.monthlyCardPremiumCrystal + this.disiPremiumCrystal;
                     const rechargePremiumCrystalPulls = Math.floor(rechargePremiumCrystal / 180);
-                    const rechargeCrystal = this.monthlyCardCrystal + this.rechargeInspectionOrderCrystal + (this.disiActive ? this.disiRewardTotal : 0);
+                    const rechargeCrystal = this.monthlyCardCrystal + this.advancedInspectionOrderCrystal + (this.disiActive ? this.disiRewardTotal : 0); // 修改：使用新的计算方法
                     const rechargeCrystalPulls = Math.floor(rechargeCrystal / 180);
-                    const rechargeTicketPulls = this.rechargeInspectionOrderTickets + this.treasureTickets;
+                    const rechargeTicketPulls = this.advancedInspectionOrderTickets + this.treasureTickets; // 修改：使用新的计算方法
                     const rechargePulls = rechargeCrystalPulls + rechargePremiumCrystalPulls + rechargeTicketPulls;
-                    
-                    console.log('=== 氪金资源模块 ===');
-                    console.log('- 氪金璀璨晶源:', rechargePremiumCrystal);
-                    console.log('- 氪金璀璨晶源抽数:', rechargePremiumCrystalPulls);
-                    console.log('- 氪金异方晶:', rechargeCrystal);
-                    console.log('- 氪金异方晶抽数:', rechargeCrystalPulls);
-                    console.log('- 氪金搜索令:', rechargeTicketPulls);
-                    console.log('- 氪金模块总计:', rechargePulls);
                     
                     // 6. 其他估算模块
                     const otherCrystal = this.previewCodeCrystal + this.maintenanceCrystal + this.maintenanceRepairCrystal;
@@ -5097,25 +5824,8 @@
                     const otherLimitedCoupons = this.signInRewardLimitedCoupons;
                     const otherPulls = Math.floor(otherCrystal / 180) + otherTickets + otherLimitedCoupons;
                     
-                    console.log('=== 其他估算模块 ===');
-                    console.log('- 其他异方晶:', otherCrystal);
-                    console.log('- 其他搜索令:', otherTickets);
-                    console.log('- 其他限定券:', otherLimitedCoupons);
-                    console.log('- 其他模块总计:', otherPulls);
-                    
                     // 计算饼状图总计
                     const pieTotal = currentPulls + dailyPulls + activityPulls + potentialPulls + rechargePulls + otherPulls;
-                    
-                    console.log('=== 最终对比 ===');
-                    console.log('- 饼状图总计:', pieTotal);
-                    console.log('- 顶部总计:', headerTotal);
-                    console.log('- 差异:', headerTotal - pieTotal);
-                    
-                    // 如果存在差异，找出问题所在
-                    if (pieTotal !== headerTotal) {
-                        console.error('❌ 数据不一致！需要检查计算逻辑');
-                        // 这里不强制对齐，而是让问题暴露出来便于调试
-                    }
                     
                     return [
                         { name: '现有', pulls: currentPulls, color: this.pieChartColors[0] },
@@ -5269,21 +5979,16 @@
                     return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
                 },
 
-                // 日常积累模块的搜索令计算
                 dailyInspectionOrderTickets() {
-                    let tickets = 0;
-                    const levels = [5, 15, 25, 35, 45, 55];
+                    let totalTickets = 0;
                     
-                    for (const level of levels) {
-                        if (this.dailyInspectionOrderLevel < level) {
-                            tickets += 1;
-                        }
+                    // 计算所有期数的搜索令总和，使用各自的等级数据
+                    for (let period = 1; period <= this.calculateInspectionPeriods; period++) {
+                        const level = this.inspectionLevels[period] || 0;
+                        totalTickets += this.calculateCurrentPeriodTickets(level);
                     }
                     
-                    const periods = this.calculateInspectionPeriods;
-                    const totalPerPeriod = 6;
-                    
-                    return tickets + (periods - 1) * totalPerPeriod;
+                    return totalTickets;
                 },
 
                 // 新增行动纪要异方晶计算
@@ -5960,7 +6665,32 @@
                 rechargeCrystal() {
                     return this.monthlyCardCrystal +
                         this.rechargeInspectionOrderCrystal +
-                        (this.disiActive ? this.disiRewardTotal : 0);
+                        (this.disiActive ? this.disiRewardTotal : 0) +
+                        this.advancedInspectionOrderCrystal; // 新增：高级监察密令异方晶
+                },
+
+                // 新增：高级监察密令异方晶计算
+                advancedInspectionOrderCrystal() {
+                    let totalCrystal = 0;
+                    
+                    for (const period of this.inspectionPeriods) {
+                        const level = this.rechargeInspectionLevels[period.id] || 0;
+                        totalCrystal += this.calculateRechargePeriodCrystal(level);
+                    }
+                    
+                    return totalCrystal;
+                },
+
+                // 新增：高级监察密令搜索令计算（替换原有的方法）
+                advancedInspectionOrderTickets() {
+                    let totalTickets = 0;
+                    
+                    for (const period of this.inspectionPeriods) {
+                        const level = this.rechargeInspectionLevels[period.id] || 0;
+                        totalTickets += this.calculateRechargePeriodTickets(level);
+                    }
+                    
+                    return totalTickets;
                 },
 
                 // 总计
@@ -6039,14 +6769,14 @@
                     return this.resources.tickets || 0;
                 },
 
-                // 分模块计算 - 日常积累搜索令
+                // 分模块计算 - 日常积累搜索令（修改这个计算属性）
                 dailyAccumulationTickets() {
                     return this.totalTrackingExchange + 
                         this.totalFriendshipExchange + 
                         this.totalEmotionDetectionTicketsForSummary +
                         this.totalSignInRewardTicketsForSummary +
                         this.totalTrackingCertificationTickets +
-                        this.dailyInspectionOrderTickets;
+                        this.inspectionOrderTotalTickets; // 添加监察密令搜索令
                 },
 
                 // 分模块计算 - 其他系统搜索令
@@ -6058,7 +6788,7 @@
 
                 // 分模块计算 - 氪金搜索令
                 rechargeTickets() {
-                    return this.rechargeInspectionOrderTickets +
+                    return this.advancedInspectionOrderTickets + // 修改：使用新的计算方法
                         this.treasureTickets;
                 },
 
@@ -6119,15 +6849,20 @@
                     return totalCards * 30; // 每张月卡30RMB
                 },
 
-                inspectionOrderCost() {
-                    if (!this.inspectionOrderActive) return 0;
+                // 新增：高级监察密令费用计算
+                advancedInspectionOrderCost() {
+                    let totalCost = 0;
                     
-                    // -1表示提前购买，不算入氪金金额
-                    if (this.inspectionOrderCount === -1) return 0;
+                    // 遍历所有监察密令期数，统计等级>0的期数
+                    for (const period of this.inspectionPeriods) {
+                        const level = this.rechargeInspectionLevels[period.id] || 0;
+                        // 只有当滑块等级>0时才计入68RMB
+                        if (level > 0) {
+                            totalCost += 68;
+                        }
+                    }
                     
-                    // 0表示购买1期，1表示购买2期，以此类推
-                    const totalPeriods = this.inspectionOrderCount + 1;
-                    return totalPeriods * 68; // 每期68RMB
+                    return totalCost;
                 },
 
                 disiCost() {
@@ -6146,8 +6881,12 @@
                     return 0;
                 },            
 
+                // 总计模块氪金数值计算
                 totalRechargeCost() {
-                    return this.monthlyCardCost + this.inspectionOrderCost + this.disiCost + this.treasureCost;
+                    return this.monthlyCardCost + 
+                        this.disiCost + 
+                        this.treasureCost + 
+                        this.advancedInspectionOrderCost; // 新增：高级监察密令费用
                 },
 
                 inspectionOrderCrystal() {
@@ -6232,32 +6971,6 @@
                     return totalPeriods * 6;
                 },
 
-                // 高级监察密令异方晶数量计算
-                inspectionOrderCrystalAmount() {
-                    if (!this.inspectionOrderActive) return 0;
-                    
-                    // 计算总期数
-                    const basePeriods = 1; // 基础1期
-                    const additionalPeriods = Math.max(0, this.inspectionOrderCount); // 额外购买期数
-                    const totalPeriods = basePeriods + additionalPeriods;
-                    
-                    // 每期880异方晶
-                    return totalPeriods * 880;
-                },
-
-                // 高级监察密令搜索令数量计算
-                inspectionOrderTicketAmount() {
-                    if (!this.inspectionOrderActive) return 0;
-                    
-                    // 计算总期数
-                    const basePeriods = 1; // 基础1期
-                    const additionalPeriods = Math.max(0, this.inspectionOrderCount); // 额外购买期数
-                    const totalPeriods = basePeriods + additionalPeriods;
-                    
-                    // 每期6搜索令
-                    return totalPeriods * 6;
-                },
-
                 calculateInspectionPeriods() {
                     // 监察密令固定周期计算：每6周1期
                     
@@ -6298,42 +7011,6 @@
                     const totalPerPeriod = 200 + 680; // 每期总共880异方晶
                     
                     return crystal + (periods - 1) * totalPerPeriod;
-                },
-
-                // 氪金模块的异方晶计算
-                rechargeInspectionOrderCrystal() {
-                    if (!this.inspectionOrderActive) return 0;
-                    
-                    // 直接计算总期数，避免方法调用
-                    const basePeriods = 1;
-                    const additionalPeriods = Math.max(0, this.inspectionOrderCount);
-                    const totalPeriods = basePeriods + additionalPeriods;
-                    
-                    // 每期880异方晶
-                    return totalPeriods * 880;
-                },
-
-                rechargeInspectionOrderTickets() {
-                    if (!this.inspectionOrderActive) return 0;
-                    
-                    // 直接计算总期数，避免方法调用
-                    const basePeriods = 1;
-                    const additionalPeriods = Math.max(0, this.inspectionOrderCount);
-                    const totalPeriods = basePeriods + additionalPeriods;
-                    
-                    // 每期6搜索令
-                    return totalPeriods * 6;
-                },
-
-                rechargeInspectionOrderCost() {  // 改名避免冲突
-                    if (!this.inspectionOrderActive) return 0;
-                    
-                    // 负数代表已提前购买，不算入氪金金额
-                    if (this.inspectionOrderCount < 0) return 0;
-                    
-                    // 基础1期 + 额外购买期数
-                    const totalPeriods = 1 + Math.max(0, this.inspectionOrderCount);
-                    return totalPeriods * 68;
                 },
 
                 // 狄斯盈满钵奖励计算
@@ -6527,13 +7204,6 @@
                     this.saveToLocalStorage();
                 },
 
-                inspectionOrderActive() {
-                    this.saveToLocalStorage();
-                },
-                inspectionOrderCount() {
-                    this.saveToLocalStorage();
-                },
-
                 rechargeInspectionOrderLevel() {
                     this.saveToLocalStorage();
                 },
@@ -6555,6 +7225,21 @@
                     this.saveToLocalStorage();
                 },
     
+                // 高级监察密令监听
+                selectedRechargeInspectionPeriod(newValue) {
+                    this.saveToLocalStorage();
+                },
+
+                rechargeInspectionLevels: {
+                    handler(newValue) {
+                        // 当等级变化时，强制更新总计计算
+                        this.$forceUpdate();
+                        this.saveToLocalStorage();
+                    },
+                    deep: true
+                },
+
+                // 狄斯盈满钵监听
                 disiLevel() {
                     this.saveToLocalStorage();
                 },
@@ -6632,6 +7317,19 @@
                     deep: true
                 },
 
+                // 监听监察密令等级变化
+                inspectionLevels: {
+                    handler(newValue) {
+                        this.saveToLocalStorage();
+                    },
+                    deep: true
+                },
+                
+                // 监听选择的密令期数变化
+                selectedInspectionPeriod(newValue) {
+                    this.saveToLocalStorage();
+                },
+
             },
             methods: {
                 saveToLocalStorage() {
@@ -6673,13 +7371,13 @@
                         personalitySpectrumCount: this.personalitySpectrumCount,
                         monthlyCardCount: this.monthlyCardCount,
                         monthlyCardActive: this.monthlyCardActive,
-                        inspectionOrderActive: this.inspectionOrderActive,
                         inspectionOrderLevel: this.inspectionOrderLevel,
                         actionSummaryLevel: this.actionSummaryLevel,
                         zeroMirror: this.zeroMirror,
-                        inspectionOrderCount: this.inspectionOrderCount,
                         dailyInspectionOrderLevel: this.dailyInspectionOrderLevel,
                         rechargeInspectionOrderLevel: this.rechargeInspectionOrderLevel,
+                        rechargeInspectionLevels: this.rechargeInspectionLevels, // 新增：保存高级监察密令等级
+                        selectedRechargeInspectionPeriod: this.selectedRechargeInspectionPeriod,// 高级监察密令数据保存
                         disiLevel: this.disiLevel,  // 添加狄斯盈满钵等级
                         disiActive: this.disiActive, // 添加狄斯盈满钵激活状态
                         disiPrePurchased: this.disiPrePurchased, // 添加狄斯盈满钵预购买
@@ -6693,6 +7391,8 @@
                         alloyCount: this.alloyCount,
                         useAlloyExchange: this.useAlloyExchange,//保存监管状态
                         ashTide: this.ashTide, // 新增：灰烬之潮数据保存
+                        selectedInspectionPeriod: this.selectedInspectionPeriod,
+                        inspectionLevels: this.inspectionLevels,
                     };
                     
                     try {
@@ -6700,6 +7400,118 @@
                     } catch (e) {
                         console.error('保存数据失败:', e);
                     }
+                },
+
+                // 高级监察密令滑块吸附到指定挡位
+                snapRechargeInspectionLevel(periodId) {
+                    const levels = [0, 5, 15, 25, 30, 35, 45, 50, 55];
+                    let closestLevel = levels[0];
+                    let minDiff = Math.abs((this.rechargeInspectionLevels[periodId] || 0) - levels[0]);
+                    
+                    for (let i = 1; i < levels.length; i++) {
+                        const diff = Math.abs((this.rechargeInspectionLevels[periodId] || 0) - levels[i]);
+                        if (diff < minDiff) {
+                            minDiff = diff;
+                            closestLevel = levels[i];
+                        }
+                    }
+                    
+                    if ((this.rechargeInspectionLevels[periodId] || 0) !== closestLevel) {
+                        this.$set(this.rechargeInspectionLevels, periodId, closestLevel);
+                        // 新增：强制更新费用计算
+                        this.$forceUpdate();
+                    }
+                },
+
+                // 计算高级监察密令当前期数的异方晶数量
+                calculateRechargePeriodCrystal(level) {
+                    if (!level || level === 0) return 880; // 0级时显示880，表示还未领取
+                    
+                    let crystal = 0;
+                    
+                    // 计算大于当前等级的所有异方晶奖励
+                    if (level < 30) crystal += 200;
+                    if (level < 50) crystal += 680;
+                    
+                    return crystal;
+                },
+
+                // 计算高级监察密令当前期数的搜索令数量
+                calculateRechargePeriodTickets(level) {
+                    if (!level || level === 0) return 6; // 0级时显示6张，表示还未领取
+                    
+                    let tickets = 0;
+                    const ticketLevels = [5, 15, 25, 35, 45, 55];
+                    
+                    // 计算大于当前等级的所有搜索令奖励
+                    for (const ticketLevel of ticketLevels) {
+                        if (level < ticketLevel) {
+                            tickets += 1;
+                        }
+                    }
+                    
+                    return tickets;
+                },
+
+                // 格式化日期为MM-DD
+                formatDateToMMDD(date) {
+                    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+                    const day = date.getDate().toString().padStart(2, '0');
+                    return `${month}-${day}`;
+                },
+
+                // 切换密令期数激活状态
+                toggleInspectionPeriod(periodId) {
+                    if (this.inspectionLevels[periodId] === undefined || this.inspectionLevels[periodId] === 0) {
+                        this.$set(this.inspectionLevels, periodId, 1);
+                    } else {
+                        this.$set(this.inspectionLevels, periodId, 0);
+                    }
+                },
+
+                // 滑块吸附到指定挡位
+                snapInspectionLevel(periodId) {
+                    const levels = [0, 5, 15, 25, 35, 45, 55];
+                    let closestLevel = levels[0];
+                    let minDiff = Math.abs(this.inspectionLevels[periodId] - levels[0]);
+                    
+                    for (let i = 1; i < levels.length; i++) {
+                        const diff = Math.abs(this.inspectionLevels[periodId] - levels[i]);
+                        if (diff < minDiff) {
+                            minDiff = diff;
+                            closestLevel = levels[i];
+                        }
+                    }
+                    
+                    if (this.inspectionLevels[periodId] !== closestLevel) {
+                        this.$set(this.inspectionLevels, periodId, closestLevel);
+                    }
+                },
+
+                // 选择密令期数
+                selectInspectionPeriod(periodId) {
+                    this.selectedInspectionPeriod = periodId;
+                    // 如果该期数还没有设置等级，初始化为0
+                    if (this.inspectionLevels[periodId] === undefined) {
+                        this.$set(this.inspectionLevels, periodId, 0);
+                    }
+                },
+
+                // 计算当前期数的搜索令数量
+                calculateCurrentPeriodTickets(level) {
+                    if (!level || level === 0) return 6; // 0级时显示6张，表示还未领取
+                    
+                    let tickets = 0;
+                    const ticketLevels = [5, 15, 25, 35, 45, 55];
+                    
+                    // 计算大于当前等级的所有奖励
+                    for (const ticketLevel of ticketLevels) {
+                        if (level < ticketLevel) {
+                            tickets += 1;
+                        }
+                    }
+                    
+                    return tickets;
                 },
 
                 // 切换主题模式
@@ -6751,19 +7563,18 @@
 
                 // 顶部菜单栏方法
                 showWebpageInfo() {
-                    this.showWebpageInfoModal = true;
+                    this.currentModal = 'info';
+                    this.showModal = true;
                 },
 
                 showFeedback() {
-                    this.showFeedbackModal = true;
+                    this.currentModal = 'feedback';
+                    this.showModal = true;
                 },
 
-                closeWebpageInfo() {
-                    this.showWebpageInfoModal = false;
-                },
-
-                closeFeedback() {
-                    this.showFeedbackModal = false;
+                closeModal() {
+                    this.showModal = false;
+                    this.currentModal = null;
                 },
 
                 // 新增：验证角色养成输入
@@ -6910,25 +7721,6 @@
                     
                     // 重绘饼状图以显示悬停效果
                     this.drawPieChart();
-                },
-
-                // 验证饼状图总计与顶部总计是否一致
-                validatePieChartTotal() {
-                    const pieTotal = this.totalModulePulls;
-                    const headerTotal = this.totalPulls;
-                    
-                    if (pieTotal !== headerTotal) {
-                        console.warn(`数据不一致: 饼状图总计=${pieTotal}, 顶部总计=${headerTotal}`);
-                        console.log('饼状图模块详情:', this.modulePullsData);
-                        console.log('顶部总计详情:', {
-                            crystalPulls: Math.floor(this.totalCrystalSummary / 180),
-                            premiumCrystalPulls: Math.floor(this.totalPremiumCrystalSummary / 180),
-                            ticketPulls: this.totalTicketsSummary,
-                            limitedCouponPulls: this.totalLimitedCouponsSummary
-                        });
-                    }
-                    
-                    return pieTotal === headerTotal;
                 },
 
                 // 绘制饼状图 - 悬停时只放大当前区块
@@ -7180,9 +7972,6 @@
                             percentage: percentage
                         };
                     });
-                    
-                    // 验证数据一致性
-                    this.validatePieChartTotal();
                     
                     this.$nextTick(() => {
                         this.drawPieChart();
@@ -7556,20 +8345,13 @@
                     let totalCrystal = 0;
                     let totalTickets = 0;
                     
-                    console.log('当前积分:', this.nightmareScore);
-                    console.log('开始计算积分奖励...');
-                    
                     for (const reward of this.nightmareRewards) {
                         // 只计算大于当前积分的奖励
                         if (this.nightmareScore < reward.score) {
-                            console.log(`积分 ${reward.score}: +${reward.crystal}异方晶`);
                             totalCrystal += reward.crystal;
                             totalTickets += reward.tickets;
                         }
                     }
-                    
-                    console.log('总异方晶:', totalCrystal);
-                    console.log('总搜索令:', totalTickets);
                     
                     return {
                         crystal: totalCrystal,
@@ -7635,32 +8417,14 @@
                     this.monthlyCardActive = !this.monthlyCardActive;
                 },
 
-                // 高级监察密令额外购买按钮限制：
-                adjustInspectionOrder(change) {
-                    const newValue = this.inspectionOrderCount + change;
-                    
-                    // 上限为经历期数-1
-                    const maxLimit = this.calculateInspectionPeriods - 1;
-                    
-                    // 检查是否达到上限
-                    if (newValue > maxLimit) {
-                        this.showAutoCloseAlert(`指定时间内仅经历${maxLimit + 1}期监察密令`);
-                        return;
-                    }
-                    
-                    // 限制在-1到maxLimit之间
-                    if (newValue >= -1 && newValue <= maxLimit) {
-                        this.inspectionOrderCount = newValue;
-                    }
-                },
-
-                toggleInspectionOrder() {
-                    this.inspectionOrderActive = !this.inspectionOrderActive;
-                },
-
                 calculateDisplayDays(timeType) {
                     const baseDays = timeType === 'nextVersion' ? this.daysToNextVersion : this.daysToNewYear;
                     return this.calculateToPoolEnd ? baseDays + (this.versionWeeks * 7) : baseDays;
+                },
+
+                // 选择高级监察密令期数
+                selectRechargeInspectionPeriod(periodId) {
+                    this.selectedRechargeInspectionPeriod = periodId;
                 },
 
                 // 狄斯盈满钵滑块吸附到指定挡位
