@@ -1642,6 +1642,13 @@
             box-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
         }
 
+        /* 晶源特供（非首充）响应式布局 */
+        .crystal-supply-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
         /* 移动端适配 */
         @media (max-width: 768px) {
             .zero-mirror-columns {
@@ -1652,6 +1659,47 @@
                 font-size: 11px;
                 padding: 8px 6px;
             }
+
+            .crystal-supply-buttons {
+                grid-template-columns: 1fr !important;
+                gap: 8px !important;
+            }
+            
+            .crystal-supply-btn-wrapper {
+                max-width: 100% !important;
+            }
+            
+            /* 确保按钮和输入框在移动端正常显示 */
+            .crystal-supply-btn-wrapper > div {
+                flex-wrap: nowrap !important;
+                max-width: 100% !important;
+                align-items: center !important; /* 保持垂直居中 */
+            }
+            
+            .training-btn.crystal-supply-btn {
+                min-width: 0 !important;
+                flex: 1 !important;
+            }
+            
+            /* 晶源特供按钮移动端适配 */
+            .crystal-supply-left,
+            .crystal-supply-right {
+                min-width: 0 !important;
+            }
+            
+            .crystal-supply-left .price-tag,
+            .crystal-supply-right span {
+                font-size: 11px !important;
+                white-space: nowrap !important;
+            }
+            
+            /* 只调整价格字体大小，保持原有布局 */
+            .crystal-supply-btn-wrapper > div > div:last-child > div:last-child {
+                font-size: 11px !important; /* 稍微缩小价格字体 */
+                margin-top: 4px !important;
+                line-height: 1.2 !important;
+            }
+
         }
 
         @media (max-width: 480px) {
@@ -1659,6 +1707,40 @@
                 font-size: 10px;
                 padding: 6px 4px;
             }
+
+            .crystal-supply-buttons {
+                gap: 6px !important;
+            }
+            
+            .crystal-supply-btn-wrapper > div {
+                gap: 6px !important;
+            }
+            
+            .training-btn.crystal-supply-btn {
+                padding: 10px 6px !important;
+            }
+            
+            .crystal-supply-left .price-tag,
+            .crystal-supply-right span {
+                font-size: 10px !important;
+            }
+            
+            /* 输入框在小屏幕上稍微调小 */
+            .crystal-supply-btn-wrapper input[type="number"] {
+                width: 45px !important;
+                padding: 6px 4px !important; /* 保持原有padding */
+                font-size: 13px !important;
+            }
+            
+            .crystal-supply-btn-wrapper > div > div:last-child {
+                min-width: 55px !important;
+            }
+            
+            /* 小屏幕价格字体稍微缩小 */
+            .crystal-supply-btn-wrapper > div > div:last-child > div:last-child {
+                font-size: 10px !important;
+            }      
+
         }
 
         /* 新增角色养成模块样式 */
@@ -3417,6 +3499,37 @@
             border: 2px solid #bdc3c7 !important;
         }
 
+        /* === 新增：晶源特供按钮样式 === */
+        .crystal-supply-btn {
+        transition: all 0.3s ease;
+        }
+
+        .crystal-supply-btn:hover {
+        transform: translateY(-2px);
+        }
+
+        .crystal-supply-btn.active {
+        border-color: #FFD700 !important;
+        background: linear-gradient(135deg, #8B0000, #FF4500) !important;
+        color: white !important;
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.5) !important;
+        }
+
+        /* 白天模式下的晶源特供按钮 */
+        .light-mode .crystal-supply-btn.active {
+        border-color: #FFD700 !important;
+        background: linear-gradient(135deg, #2980b9, #3498db) !important;
+        color: white !important;
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.5) !important;
+        }
+
+        /* 白天模式下的晶源特供输入框样式 */
+        .light-mode .non-first-crystal-supply-input {
+            background: #ffffff !important;
+            border: 1px solid #d5dbdb !important;
+            color: #2c3e50 !important;
+        }
+
     </style>
 </head>
 <body>
@@ -3511,7 +3624,7 @@
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;监管收菜、多项合金兑换、记忆复现、梦境&人格色谱、零境系统、灰烬之潮-重塑、派遣区域声望、说明&反馈
                                 </li>
                                 <li>新增<strong class="modal-highlight">日夜模式切换</strong><br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在可以通过右上角的月日符号来切换白天与夜晚模式
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在可以通过右上角的日月符号来切换白天与夜晚模式
                                 </li> 
                                 <li>修复<strong class="modal-highlight">计算BUG修复</strong><br>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在追踪认证·机密和友情兑换模块可以被正确计算
@@ -3528,6 +3641,15 @@
                                 <li>修复<strong class="modal-highlight">白天模式的样式</strong><br>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在白天模式的样式已经统一，变得更加柔和美观
                                 </li>                                                   
+                            </ul>
+                        </div>
+
+                        <div class="modal-section">
+                            <div class="modal-section-title">⚡ 25.11.05更新日志</div>
+                            <ul class="modal-list">
+                                <li>新增<strong class="modal-highlight">晶源特供</strong><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在可以规划首充&非首充的璀璨晶源购买
+                                </li>                                            
                             </ul>
                         </div>
 
@@ -3594,8 +3716,8 @@
                     <!-- 合并的卡池时间和攒抽预测模块 -->
                     <div class="time-section card">
                         <h2 @click="toggleSection('pullSummary')" class="section-header">
-                            📊 共计 {{ totalModulePulls }} 抽 💰 氪金 {{ totalRechargeCost }} ￥
-                            <span class="collapse-icon">{{ sections.pullSummary ? '−' : '+' }}</span>
+                        📊 共计 {{ totalModulePulls }} 抽 💰 氪金 {{ totalRechargeCost }} ￥
+                        <span class="collapse-icon">{{ sections.pullSummary ? '−' : '+' }}</span>
                         </h2>
                         
                     <!-- 资源信息 - 始终显示 -->
@@ -5172,6 +5294,85 @@
                                     <img :src="ticketIcon" class="resource-icon" alt="搜索令"> {{ treasureTickets }}
                                 </button>
                             </div>
+
+                            <!-- === 新增：晶源特供（首充）模块 === -->
+                            <div class="sub-section">
+                                <h3 class="sub-title">晶源特供（首充）</h3>
+                                <div class="crystal-supply-buttons" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                    <div v-for="(button, index) in crystalSupplyButtons" :key="index" 
+                                        class="crystal-supply-btn-wrapper">
+                                        <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box;">
+                                            <button 
+                                                class="training-btn crystal-supply-btn" 
+                                                :class="{ active: button.purchased }"
+                                                @click="toggleCrystalSupplyButton(index)"
+                                                style="display: flex; justify-content: space-between; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
+                                                <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 0;">
+                                                    <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                                        {{ crystalSupplyUnitPrices[index] }}
+                                                    </span>
+                                                </div>
+                                                <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0;">
+                                                    <img :src="premiumCrystalIcon" class="resource-icon" alt="璀璨晶源">
+                                                    <span style="margin-right: 5px; font-weight: bold; white-space: nowrap;">{{ button.premiumCrystal }}</span>
+                                                </div>
+                                            </button>
+                                            <!-- 价格显示 -->
+                                            <div style="display: flex; flex-direction: column; align-items: center; min-width: 60px; flex-shrink: 0;">
+                                                <div style="height: 32px; display: flex; align-items: center; justify-content: center;">
+                                                    <!-- 占位，保持与非首充输入框同高 -->
+                                                </div>
+                                                <div style="text-align: center; font-size: 12px; color: #666; margin-top: 4px; white-space: nowrap;">
+                                                    ￥{{ button.price }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- === 新增：晶源特供（非首充）模块 === -->
+                            <div class="sub-section">
+                                <h3 class="sub-title">晶源特供（非首充）</h3>
+                                <div class="crystal-supply-buttons" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                    <div v-for="(button, index) in nonFirstCrystalSupplyButtons" :key="index" 
+                                        class="crystal-supply-btn-wrapper">
+                                        <div style="display: flex; align-items: center; gap: 8px;max-width: 100%;box-sizing: border-box;">
+                                            <button 
+                                                class="training-btn crystal-supply-btn" 
+                                                :class="{ active: (button.count !== null && button.count !== '' && button.count > 0) }"
+                                                style="display: flex; justify-content: space-between; align-items: center; padding: 12px 8px; flex: 1;">
+                                                <div class="crystal-supply-left" style="display: flex; align-items: center;">
+                                                    <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold;">
+                                                        {{ nonFirstCrystalSupplyUnitPrices[index] }}
+                                                    </span>
+                                                </div>
+                                                <div class="crystal-supply-right" style="display: flex; align-items: center;">
+                                                    <img :src="premiumCrystalIcon" class="resource-icon" alt="璀璨晶源">
+                                                    <span style="margin-right: 5px; font-weight: bold;">{{ button.premiumCrystal }}</span>
+                                                </div>
+                                            </button>
+                                            <!-- 输入框 -->
+                                            <div style="display: flex; flex-direction: column; align-items: center; min-width: 60px;">
+                                                <input 
+                                                    type="number" 
+                                                    v-model.number="button.count" 
+                                                    placeholder="0" 
+                                                    min="0" 
+                                                    step="1" 
+                                                    @input="validateNonFirstCrystalSupplyInput(index)"
+                                                    @focus="clearNonFirstCrystalSupplyIfZero(index)"
+                                                    @blur="setNonFirstCrystalSupplyDefaultIfEmpty(index)"
+                                                    style="width: 50px; padding: 6px 4px; border: 1px solid #555555; border-radius: 5px; text-align: center; background: #333333; color: #FFFFFF; box-shadow: inset 0 1px 3px rgba(0,0,0,0.3); font-size: 14px;">
+                                                <div style="text-align: center; font-size: 12px; color: #666; margin-top: 4px;">
+                                                    ￥{{ button.price }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                     <!-- 其他（⚠️估算）模块 -->
@@ -5570,6 +5771,27 @@
                     // 诡珑珍宝馆数据
                     treasureActive: savedData?.treasureActive || false,
                     treasurePrePurchased: savedData?.treasurePrePurchased || false,
+                    // === 新增：晶源特供（首充）数据 ===
+                    crystalSupplyButtons: [
+                    { price: 6, premiumCrystal: 120, purchased: savedData?.crystalSupplyPurchased?.[0] || false },
+                    { price: 30, premiumCrystal: 600, purchased: savedData?.crystalSupplyPurchased?.[1] || false },
+                    { price: 98, premiumCrystal: 1960, purchased: savedData?.crystalSupplyPurchased?.[2] || false },
+                    { price: 198, premiumCrystal: 3960, purchased: savedData?.crystalSupplyPurchased?.[3] || false },
+                    { price: 328, premiumCrystal: 6560, purchased: savedData?.crystalSupplyPurchased?.[4] || false },
+                    { price: 648, premiumCrystal: 12960, purchased: savedData?.crystalSupplyPurchased?.[5] || false }
+                    ],
+                    // === 新增：晶源特供（非首充）数据 ===
+                    nonFirstCrystalSupplyButtons: (() => {
+                        const counts = savedData?.nonFirstCrystalSupplyCounts || [0, 0, 0, 0, 0, 0];
+                        return [
+                            { price: 6, premiumCrystal: 60, count: counts[0] },
+                            { price: 30, premiumCrystal: 330, count: counts[1] },
+                            { price: 98, premiumCrystal: 1130, count: counts[2] },
+                            { price: 198, premiumCrystal: 2380, count: counts[3] },
+                            { price: 328, premiumCrystal: 3980, count: counts[4] },
+                            { price: 648, premiumCrystal: 8080, count: counts[5] }
+                        ];
+                    })(),
                     disiRewards: [
                         { level: 0, crystal: 0 },
                         { level: 5, crystal: 400 },
@@ -5717,8 +5939,10 @@
                     const basePremiumCrystal = this.resources.premiumCrystal || 0;
                     const monthlyCardPremium = this.monthlyCardPremiumCrystal;
                     const disiPremium = this.disiPremiumCrystal;
+                    const crystalSupplyPremium = this.crystalSupplyTotalPremiumCrystal; // 晶源特供（首充）
+                    const nonFirstCrystalSupplyPremium = this.nonFirstCrystalSupplyTotalPremiumCrystal; // 晶源特供（非首充）
                     
-                    return basePremiumCrystal + monthlyCardPremium + disiPremium - this.totalSkinReserve;
+                    return basePremiumCrystal + monthlyCardPremium + disiPremium + crystalSupplyPremium + nonFirstCrystalSupplyPremium - this.totalSkinReserve;
                 },
 
                 // 统计所有模块的搜索令
@@ -5764,9 +5988,19 @@
                     }
                 },
 
-                // 计算各模块抽数
                 totalModulePulls() {
-                    return this.pieChartData.reduce((total, module) => total + module.pulls, 0);
+                    // 标题总计使用与饼状图完全相同的计算逻辑
+                    const totalCrystal = this.totalAllCrystal;
+                    const totalPremiumCrystal = this.totalAllPremiumCrystal;
+                    const totalTickets = this.totalAllTickets;
+                    const totalLimitedCoupons = this.totalAllLimitedCoupons;
+                    
+                    const crystalPulls = Math.floor(totalCrystal / 180);
+                    const premiumCrystalPulls = Math.floor(totalPremiumCrystal / 180);
+                    const ticketPulls = totalTickets;
+                    const limitedCouponPulls = totalLimitedCoupons;
+                    
+                    return crystalPulls + premiumCrystalPulls + ticketPulls + limitedCouponPulls;
                 },
 
                 // 分模块抽数数据 - 精确计算，确保与顶部总计一致
@@ -5789,7 +6023,7 @@
                     const baseCrystal = this.resources.crystal || 0;
                     const basePremiumCrystal = this.usePremiumCrystal ? (this.resources.premiumCrystal || 0) : 0;
                     const baseTickets = this.resources.tickets || 0;
-                    
+
                     const currentCrystalPulls = Math.floor(Math.max(0, baseCrystal - this.totalSkinReserve + this.customAdjustment) / 180);
                     const currentPremiumCrystalPulls = Math.floor(basePremiumCrystal / 180);
                     const currentTicketPulls = baseTickets;
@@ -5811,11 +6045,11 @@
                     const potentialPulls = Math.floor(potentialCrystal / 180) + potentialTickets;
                     
                     // 5. 氪金资源模块
-                    const rechargePremiumCrystal = this.monthlyCardPremiumCrystal + this.disiPremiumCrystal;
+                    const rechargePremiumCrystal = this.monthlyCardPremiumCrystal + this.disiPremiumCrystal + this.crystalSupplyTotalPremiumCrystal + this.nonFirstCrystalSupplyTotalPremiumCrystal; // 晶源特供（首充+非首充）
                     const rechargePremiumCrystalPulls = Math.floor(rechargePremiumCrystal / 180);
-                    const rechargeCrystal = this.monthlyCardCrystal + this.advancedInspectionOrderCrystal + (this.disiActive ? this.disiRewardTotal : 0); // 修改：使用新的计算方法
+                    const rechargeCrystal = this.monthlyCardCrystal + this.advancedInspectionOrderCrystal + (this.disiActive ? this.disiRewardTotal : 0);
                     const rechargeCrystalPulls = Math.floor(rechargeCrystal / 180);
-                    const rechargeTicketPulls = this.advancedInspectionOrderTickets + this.treasureTickets; // 修改：使用新的计算方法
+                    const rechargeTicketPulls = this.advancedInspectionOrderTickets + this.treasureTickets;
                     const rechargePulls = rechargeCrystalPulls + rechargePremiumCrystalPulls + rechargeTicketPulls;
                     
                     // 6. 其他估算模块
@@ -6755,13 +6989,15 @@
                     return baseCrystal + totalIncome + this.customAdjustment;
                 },
 
-                // 璀璨晶源总计（包含狄斯盈满钵的璀璨晶源）
+                // 璀璨晶源总计
                 totalPremiumCrystalSummary() {
-                    const basePremiumCrystal = this.resources.premiumCrystal || 0;
-                    const monthlyCardPremium = this.monthlyCardPremiumCrystal;
-                    const disiPremium = this.disiPremiumCrystal;
+                const basePremiumCrystal = this.resources.premiumCrystal || 0;
+                const monthlyCardPremium = this.monthlyCardPremiumCrystal;
+                const disiPremium = this.disiPremiumCrystal;
+                const crystalSupplyPremium = this.crystalSupplyTotalPremiumCrystal; // 晶源特供（首充）
+                const nonFirstCrystalSupplyPremium = this.nonFirstCrystalSupplyTotalPremiumCrystal; // 晶源特供（非首充）
                     
-                    return basePremiumCrystal + monthlyCardPremium + disiPremium - this.totalSkinReserve;
+                return basePremiumCrystal + monthlyCardPremium + disiPremium + crystalSupplyPremium + nonFirstCrystalSupplyPremium - this.totalSkinReserve;
                 },
                 
                 // 分模块计算 - 基础搜索令
@@ -6886,7 +7122,9 @@
                     return this.monthlyCardCost + 
                         this.disiCost + 
                         this.treasureCost + 
-                        this.advancedInspectionOrderCost; // 新增：高级监察密令费用
+                        this.advancedInspectionOrderCost + // 新增：高级监察密令费用
+                        this.crystalSupplyTotalCost + // 晶源特供（首充）
+                        this.nonFirstCrystalSupplyTotalCost; // 晶源特供（非首充）
                 },
 
                 inspectionOrderCrystal() {
@@ -7041,6 +7279,54 @@
                         return 10;
                     }
                     return 0;
+                },
+
+                // === 新增：晶源特供（首充）计算属性 ===
+                // 计算每个按钮的单价（x = 价格 / (璀璨晶源数量 / 180)）
+                crystalSupplyUnitPrices() {
+                return this.crystalSupplyButtons.map(button => {
+                    const unitPrice = button.price / (button.premiumCrystal / 180);
+                    return unitPrice.toFixed(2); // 保留2位小数
+                });
+                },
+
+                // 晶源特供总璀璨晶源
+                crystalSupplyTotalPremiumCrystal() {
+                return this.crystalSupplyButtons.reduce((total, button, index) => {
+                    return total + (button.purchased ? button.premiumCrystal : 0);
+                }, 0);
+                },
+
+                // 晶源特供总费用
+                crystalSupplyTotalCost() {
+                return this.crystalSupplyButtons.reduce((total, button, index) => {
+                    return total + (button.purchased ? button.price : 0);
+                }, 0);
+                },
+
+                // === 新增：晶源特供（非首充）计算属性 ===
+                // 计算每个按钮的单价（x = 价格 / (璀璨晶源数量 / 180)）
+                nonFirstCrystalSupplyUnitPrices() {
+                return this.nonFirstCrystalSupplyButtons.map(button => {
+                    const unitPrice = button.price / (button.premiumCrystal / 180);
+                    return unitPrice.toFixed(2); // 保留2位小数
+                });
+                },
+
+                // 晶源特供（非首充）总璀璨晶源
+                nonFirstCrystalSupplyTotalPremiumCrystal() {
+                    return this.nonFirstCrystalSupplyButtons.reduce((total, button) => {
+                        const count = button.count === null || button.count === '' ? 0 : button.count;
+                        return total + (button.premiumCrystal * count);
+                    }, 0);
+                },
+
+                // 晶源特供（非首充）总费用
+                nonFirstCrystalSupplyTotalCost() {
+                    return this.nonFirstCrystalSupplyButtons.reduce((total, button) => {
+                        const count = button.count === null || button.count === '' ? 0 : button.count;
+                        return total + (button.price * count);
+                    }, 0);
                 },
 
             },
@@ -7260,6 +7546,14 @@
                     this.saveToLocalStorage();
                 },
 
+                // === 新增：晶源特供监听 ===
+                crystalSupplyButtons: {
+                handler(newValue) {
+                    this.saveToLocalStorage();
+                },
+                deep: true
+                },
+
                 // 监听多项合金相关数据
                 alloyCount() {
                     this.saveToLocalStorage();
@@ -7330,6 +7624,16 @@
                     this.saveToLocalStorage();
                 },
 
+                // 新增：非首充晶源特供监听
+                nonFirstCrystalSupplyButtons: {
+                    handler(newValue) {
+                        this.saveToLocalStorage();
+                        // 强制触发总计更新
+                        this.$forceUpdate();
+                    },
+                    deep: true
+                },
+
             },
             methods: {
                 saveToLocalStorage() {
@@ -7383,6 +7687,8 @@
                         disiPrePurchased: this.disiPrePurchased, // 添加狄斯盈满钵预购买
                         treasureActive: this.treasureActive, // 添加诡珑珍宝馆激活状态
                         treasurePrePurchased: this.treasurePrePurchased, // 添加诡珑珍宝馆预购买状态
+                        crystalSupplyPurchased: this.crystalSupplyButtons.map(button => button.purchased),// 添加晶源特供（首充）购买状态
+                        nonFirstCrystalSupplyCounts: this.nonFirstCrystalSupplyButtons.map(button => button.count),// 添加晶源特供（非首充）购买状态
                         activityCompleted: this.activityCompleted,//活动数据
                         activityReviewCompleted: this.activityReviewCompleted, // 保存活动审查奖励状态
                         activityTrialCompleted: this.activityTrialCompleted, // 保存活动角色试用奖励状态
@@ -8466,6 +8772,53 @@
                     }
                 },                
 
+                // === 新增：晶源特供（首充）方法 ===
+                // 切换晶源特供按钮购买状态
+                toggleCrystalSupplyButton(index) {
+                this.crystalSupplyButtons[index].purchased = !this.crystalSupplyButtons[index].purchased;
+                },
+
+                // === 新增：晶源特供（非首充）输入框方法 ===
+                // 验证输入
+                validateNonFirstCrystalSupplyInput(index) {
+                    // 如果输入为空，保持为空，不进行验证
+                    if (this.nonFirstCrystalSupplyButtons[index].count === '' || this.nonFirstCrystalSupplyButtons[index].count === null) {
+                        return;
+                    }
+                    
+                    // 确保值为整数且非负数
+                    if (this.nonFirstCrystalSupplyButtons[index].count < 0) {
+                        this.nonFirstCrystalSupplyButtons[index].count = 0;
+                    }
+                    if (this.nonFirstCrystalSupplyButtons[index].count !== null && this.nonFirstCrystalSupplyButtons[index].count !== undefined) {
+                        this.nonFirstCrystalSupplyButtons[index].count = Math.floor(this.nonFirstCrystalSupplyButtons[index].count);
+                    }
+                    
+                    // 确保饼状图更新
+                    this.$nextTick(() => {
+                        if (this.sections.pullSummary) {
+                            this.updatePieChart();
+                        }
+                    });
+                },
+
+                // 当输入框获得焦点时，如果值为0则清空
+                clearNonFirstCrystalSupplyIfZero(index) {
+                    if (this.nonFirstCrystalSupplyButtons[index].count === 0) {
+                        this.nonFirstCrystalSupplyButtons[index].count = null;
+                    }
+                },
+
+                // 当输入框失去焦点时，如果为空则保持为空（不自动设置为0）
+                setNonFirstCrystalSupplyDefaultIfEmpty(index) {
+                    // 保持为空，不自动设置为0，方便用户直接输入
+                    // 只有当用户明确输入0时才设置为0
+                    if (this.nonFirstCrystalSupplyButtons[index].count === '') {
+                        // 保持为空状态
+                        this.nonFirstCrystalSupplyButtons[index].count = null;
+                    }
+                },
+
             },
 
             // mounted生命周期应该在这里
@@ -8493,15 +8846,18 @@
                     this.previewCodeCrystal,
                     this.maintenanceCrystal,
                     this.maintenanceRepairCrystal,
-                    // 添加对狄斯盈满钵的监听
                     this.disiActive,
                     this.disiPremiumCrystal,
                     this.disiLevel,
                     this.disiPrePurchased,
-                    // 添加对限定券的监听
                     this.totalLimitedCouponsSummary,
                     this.selectedTime,
-                    this.calculateToPoolEnd
+                    this.calculateToPoolEnd,
+                    this.crystalSupplyTotalPremiumCrystal,
+                    this.nonFirstCrystalSupplyTotalPremiumCrystal, // 非首充璀璨晶源
+                    this.nonFirstCrystalSupplyTotalCost, // 非首充费用
+                    this.totalPremiumCrystalSummary, // 总璀璨晶源
+                    this.totalRechargeCost // 总氪金金额
                 ], () => {
                     // 只有在饼状图模块展开时才更新图表
                     if (this.sections.pullSummary) {
