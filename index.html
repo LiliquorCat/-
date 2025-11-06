@@ -3644,15 +3644,6 @@
                             </ul>
                         </div>
 
-                        <div class="modal-section">
-                            <div class="modal-section-title">⚡ 25.11.05更新日志</div>
-                            <ul class="modal-list">
-                                <li>新增<strong class="modal-highlight">晶源特供</strong><br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在可以规划首充&非首充的璀璨晶源购买
-                                </li>                                            
-                            </ul>
-                        </div>
-
                     </div>
                 </div>
                 
@@ -4444,6 +4435,12 @@
                                                 :class="{ active: mainStory.goldFeastB }"
                                                 @click="toggleMainStory('goldFeastB')">
                                                 N4碎金盛宴B<img :src="crystalIcon" class="resource-icon" alt="异方晶">1180<img :src="ticketIcon" class="resource-icon" alt="搜索令">1
+                                            </button>
+                                            <button 
+                                                class="main-story-btn" 
+                                                :class="{ active: mainStory.canFeng }"
+                                                @click="toggleMainStory('canFeng')">
+                                                残锋<img :src="crystalIcon" class="resource-icon" alt="异方晶">960
                                             </button>
                                         </div>
                                     </div>
@@ -5318,11 +5315,8 @@
                                                 </div>
                                             </button>
                                             <!-- 价格显示 -->
-                                            <div style="display: flex; flex-direction: column; align-items: center; min-width: 60px; flex-shrink: 0;">
-                                                <div style="height: 32px; display: flex; align-items: center; justify-content: center;">
-                                                    <!-- 占位，保持与非首充输入框同高 -->
-                                                </div>
-                                                <div style="text-align: center; font-size: 12px; color: #666; margin-top: 4px; white-space: nowrap;">
+                                            <div style="display: flex; align-items: center; min-width: 60px; flex-shrink: 0; height: 100%;">
+                                                <div style="text-align: center; font-size: 12px; color: #666; white-space: nowrap;">
                                                     ￥{{ button.price }}
                                                 </div>
                                             </div>
@@ -5372,6 +5366,436 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <!-- === 新增：常驻礼包模块 === -->
+                            <div class="sub-section">
+                                <h3 class="sub-title">常驻礼包</h3>
+                                <!-- === 新增：新人追踪礼包按钮 === -->                                
+                                <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box;margin-bottom: 10px;">
+                                    <button 
+                                        class="training-btn crystal-supply-btn" 
+                                        :class="{ active: permanentPackage.active && permanentPackage.price > 0 }"
+                                        @click="togglePermanentPackage"
+                                        style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
+                                        <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
+                                            <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                                {{ (permanentPackage.price / ((permanentPackage.premiumCrystal + permanentPackage.tickets * 180) / 180)).toFixed(2) }}
+                                            </span>
+                                        </div>
+                                        <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
+                                            <span style="font-weight: bold; white-space: nowrap;">新人追踪礼包</span>
+                                            <img :src="premiumCrystalIcon" class="resource-icon" alt="璀璨晶源">
+                                            <span style="font-weight: bold; white-space: nowrap;">{{ permanentPackage.premiumCrystal }}</span>
+                                            <img :src="ticketIcon" class="resource-icon" alt="搜索令">
+                                            <span style="font-weight: bold; white-space: nowrap;">{{ permanentPackage.tickets }}</span>
+                                        </div>
+                                    </button>
+                                    <!-- 价格显示 -->
+                                    <div style="display: flex; align-items: center; min-width: 60px; flex-shrink: 0; height: 100%;">
+                                        <div style="text-align: center; font-size: 12px; color: #666; white-space: nowrap;">
+                                            ￥{{ permanentPackage.price }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- === 新增：每周追踪礼包按钮 === -->  
+                                <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box;margin-bottom: 10px;">
+                                    <button 
+                                        class="training-btn crystal-supply-btn" 
+                                        :class="{ active: weeklyTrackingPackage.count > 0 && weeklyTrackingPackage.count <= weeklyTrackingPackageMaxCount }"
+                                        style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
+                                        <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
+                                            <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                                {{ (weeklyTrackingPackage.price / ((weeklyTrackingPackage.crystal + weeklyTrackingPackage.tickets * 180) / 180)).toFixed(2) }}
+                                            </span>
+                                        </div>
+                                        <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
+                                            <span style="font-weight: bold; white-space: nowrap;">每周追踪礼包</span>
+                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶">
+                                            <span style="font-weight: bold; white-space: nowrap;">{{ weeklyTrackingPackage.crystal }}</span>
+                                            <img :src="ticketIcon" class="resource-icon" alt="搜索令">
+                                            <span style="font-weight: bold; white-space: nowrap;">{{ weeklyTrackingPackage.tickets }}</span>
+                                        </div>
+                                    </button>
+                                    <!-- 输入框 -->
+                                    <div style="display: flex; flex-direction: column; align-items: center; min-width: 60px; flex-shrink: 0;">
+                                        <input 
+                                            type="number" 
+                                            v-model.number="weeklyTrackingPackage.count" 
+                                            placeholder="0" 
+                                            min="0" 
+                                            :max="weeklyTrackingPackageMaxCount"
+                                            step="1" 
+                                            @input="validateWeeklyTrackingPackageInput"
+                                            @focus="clearWeeklyTrackingPackageIfZero"
+                                            @blur="setWeeklyTrackingPackageDefaultIfEmpty"
+                                            style="width: 50px; padding: 6px 4px; border: 1px solid #555555; border-radius: 5px; text-align: center; background: #333333; color: #FFFFFF; box-shadow: inset 0 1px 3px rgba(0,0,0,0.3); font-size: 14px;">
+                                        <div style="text-align: center; font-size: 12px; color: #666; margin-top: 4px; white-space: nowrap;">
+                                            ￥{{ weeklyTrackingPackage.price }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- === 新增：月度追踪礼包Ⅰ模块 === -->
+                                <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box;margin-bottom: 10px;">
+                                    <button 
+                                        class="training-btn crystal-supply-btn" 
+                                        :class="{ active: monthlyTrackingPackage1.count > 0 && monthlyTrackingPackage1.count <= monthlyTrackingPackageMaxCount }"
+                                        style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
+                                        <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
+                                            <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                                {{ (monthlyTrackingPackage1.price / (monthlyTrackingPackage1.tickets)).toFixed(2) }}
+                                            </span>
+                                        </div>
+                                        <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
+                                            <span style="font-weight: bold; white-space: nowrap;">月度追踪礼包Ⅰ</span>
+                                            <img :src="ticketIcon" class="resource-icon" alt="搜索令">
+                                            <span style="font-weight: bold; white-space: nowrap;">{{ monthlyTrackingPackage1.tickets }}</span>
+                                        </div>
+                                    </button>
+                                    <!-- 输入框 -->
+                                    <div style="display: flex; flex-direction: column; align-items: center; min-width: 60px; flex-shrink: 0;">
+                                        <input 
+                                            type="number" 
+                                            v-model.number="monthlyTrackingPackage1.count" 
+                                            placeholder="0" 
+                                            min="0" 
+                                            :max="monthlyTrackingPackageMaxCount"
+                                            step="1" 
+                                            @input="validateMonthlyTrackingPackage1Input"
+                                            @focus="clearMonthlyTrackingPackage1IfZero"
+                                            @blur="setMonthlyTrackingPackage1DefaultIfEmpty"
+                                            style="width: 50px; padding: 6px 4px; border: 1px solid #555555; border-radius: 5px; text-align: center; background: #333333; color: #FFFFFF; box-shadow: inset 0 1px 3px rgba(0,0,0,0.3); font-size: 14px;">
+                                        <div style="text-align: center; font-size: 12px; color: #666; margin-top: 4px; white-space: nowrap;">
+                                            ￥{{ monthlyTrackingPackage1.price }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- === 新增：月度追踪礼包Ⅱ模块 === -->
+                                <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box;margin-bottom: 10px;">
+                                    <button 
+                                        class="training-btn crystal-supply-btn" 
+                                        :class="{ active: monthlyTrackingPackage2.count > 0 && monthlyTrackingPackage2.count <= monthlyTrackingPackageMaxCount }"
+                                        style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
+                                        <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
+                                            <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                                {{ (monthlyTrackingPackage2.price / (monthlyTrackingPackage2.tickets)).toFixed(2) }}
+                                            </span>
+                                        </div>
+                                        <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
+                                            <span style="font-weight: bold; white-space: nowrap;">月度追踪礼包Ⅱ</span>
+                                            <img :src="ticketIcon" class="resource-icon" alt="搜索令">
+                                            <span style="font-weight: bold; white-space: nowrap;">{{ monthlyTrackingPackage2.tickets }}</span>
+                                        </div>
+                                    </button>
+                                    <!-- 输入框 -->
+                                    <div style="display: flex; flex-direction: column; align-items: center; min-width: 60px; flex-shrink: 0;">
+                                        <input 
+                                            type="number" 
+                                            v-model.number="monthlyTrackingPackage2.count" 
+                                            placeholder="0" 
+                                            min="0" 
+                                            :max="monthlyTrackingPackageMaxCount"
+                                            step="1" 
+                                            @input="validateMonthlyTrackingPackage2Input"
+                                            @focus="clearMonthlyTrackingPackage2IfZero"
+                                            @blur="setMonthlyTrackingPackage2DefaultIfEmpty"
+                                            style="width: 50px; padding: 6px 4px; border: 1px solid #555555; border-radius: 5px; text-align: center; background: #333333; color: #FFFFFF; box-shadow: inset 0 1px 3px rgba(0,0,0,0.3); font-size: 14px;">
+                                        <div style="text-align: center; font-size: 12px; color: #666; margin-top: 4px; white-space: nowrap;">
+                                            ￥{{ monthlyTrackingPackage2.price }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- === 新增：局长就任特供模块 === -->
+                                <div style="display: flex; flex-direction: column; gap: 0px;">
+                                    <div v-for="(pkg, index) in directorSupplyPackages" :key="pkg.id" 
+                                        class="crystal-supply-btn-wrapper">
+                                        <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box;margin-bottom: 10px;">
+                                            <button 
+                                                class="training-btn crystal-supply-btn" 
+                                                :class="{ active: pkg.active && pkg.price > 0 }"
+                                                @click="toggleDirectorSupplyPackage(index)"
+                                                :disabled="!directorSupplyPackageEnabled[index]"
+                                                style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0; opacity: directorSupplyPackageEnabled[index] ? 1 : 0.5;">
+                                                <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
+                                                    <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                                        {{ (pkg.price / ((pkg.crystal + pkg.tickets * 180) / 180)).toFixed(2) }}
+                                                    </span>
+                                                </div>
+                                                <div class="crystal-supply-right" style="display: flex; align-items: center; flex: 1; justify-content: flex-start;">
+                                                    <span style="font-weight: bold; white-space: nowrap;">局长就任特供{{ getRomanNumeral(pkg.id) }}</span>
+                                                    <img :src="crystalIcon" class="resource-icon" alt="异方晶">
+                                                    <span style="font-weight: bold; white-space: nowrap;">{{ pkg.crystal }}</span>
+                                                    <img :src="ticketIcon" class="resource-icon" alt="搜索令">
+                                                    <span style="font-weight: bold; white-space: nowrap;">{{ pkg.tickets }}</span>
+                                                </div>
+                                            </button>
+                                            <!-- 价格显示 -->
+                                            <div style="display: flex; align-items: center; min-width: 60px; flex-shrink: 0; height: 100%;">
+                                                <div style="text-align: center; font-size: 12px; color: #666; white-space: nowrap;">
+                                                    ￥{{ pkg.price }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                                <!-- === 新增：限时礼包模块 === -->
+                                <div class="sub-section">
+                                    <h3 class="sub-title">限时礼包</h3>
+                                    
+                                    <!-- 轮回致意Ⅰ -->
+                                    <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box; margin-bottom: 10px;">
+                                        <button 
+                                            class="training-btn crystal-supply-btn" 
+                                            :class="{ active: limitedPackageCycle1.count > 0 && limitedPackageCycle1.count <= 2 }"
+                                            style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
+                                            <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
+                                                <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                                    {{ (limitedPackageCycle1.price / ((limitedPackageCycle1.crystal + limitedPackageCycle1.tickets * 180) / 180)).toFixed(2) }}
+                                                </span>
+                                            </div>
+                                            <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
+                                                <span style="font-weight: bold; white-space: nowrap;">轮回致意Ⅰ</span>
+                                                <img :src="crystalIcon" class="resource-icon" alt="异方晶">
+                                                <span style="font-weight: bold; white-space: nowrap;">{{ limitedPackageCycle1.crystal }}</span>
+                                                <img :src="ticketIcon" class="resource-icon" alt="搜索令">
+                                                <span style="font-weight: bold; white-space: nowrap;">{{ limitedPackageCycle1.tickets }}</span>
+                                            </div>
+                                        </button>
+                                        <!-- 输入框 -->
+                                        <div style="display: flex; flex-direction: column; align-items: center; min-width: 60px; flex-shrink: 0;">
+                                            <input 
+                                                type="number" 
+                                                v-model.number="limitedPackageCycle1.count" 
+                                                placeholder="0" 
+                                                min="0" 
+                                                max="2"
+                                                step="1" 
+                                                @input="validateLimitedPackageInput('limitedPackageCycle1')"
+                                                @focus="clearLimitedPackageIfZero('limitedPackageCycle1')"
+                                                @blur="setLimitedPackageDefaultIfEmpty('limitedPackageCycle1')"
+                                                style="width: 50px; padding: 6px 4px; border: 1px solid #555555; border-radius: 5px; text-align: center; background: #333333; color: #FFFFFF; box-shadow: inset 0 1px 3px rgba(0,0,0,0.3); font-size: 14px;">
+                                            <div style="text-align: center; font-size: 12px; color: #666; margin-top: 4px; white-space: nowrap;">
+                                                ￥{{ limitedPackageCycle1.price }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 轮回致意Ⅱ -->
+                                    <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box; margin-bottom: 10px;">
+                                        <button 
+                                            class="training-btn crystal-supply-btn" 
+                                            :class="{ active: limitedPackageCycle2.count > 0 && limitedPackageCycle2.count <= 2 }"
+                                            style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
+                                            <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
+                                                <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                                    {{ (limitedPackageCycle2.price / limitedPackageCycle2.tickets).toFixed(2) }}
+                                                </span>
+                                            </div>
+                                            <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
+                                                <span style="font-weight: bold; white-space: nowrap;">轮回致意Ⅱ</span>
+                                                <img :src="ticketIcon" class="resource-icon" alt="搜索令">
+                                                <span style="font-weight: bold; white-space: nowrap;">{{ limitedPackageCycle2.tickets }}</span>
+                                            </div>
+                                        </button>
+                                        <!-- 输入框 -->
+                                        <div style="display: flex; flex-direction: column; align-items: center; min-width: 60px; flex-shrink: 0;">
+                                            <input 
+                                                type="number" 
+                                                v-model.number="limitedPackageCycle2.count" 
+                                                placeholder="0" 
+                                                min="0" 
+                                                max="2"
+                                                step="1" 
+                                                @input="validateLimitedPackageInput('limitedPackageCycle2')"
+                                                @focus="clearLimitedPackageIfZero('limitedPackageCycle2')"
+                                                @blur="setLimitedPackageDefaultIfEmpty('limitedPackageCycle2')"
+                                                style="width: 50px; padding: 6px 4px; border: 1px solid #555555; border-radius: 5px; text-align: center; background: #333333; color: #FFFFFF; box-shadow: inset 0 1px 3px rgba(0,0,0,0.3); font-size: 14px;">
+                                            <div style="text-align: center; font-size: 12px; color: #666; margin-top: 4px; white-space: nowrap;">
+                                                ￥{{ limitedPackageCycle2.price }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 轮回致意Ⅲ -->
+                                    <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box; margin-bottom: 10px;">
+                                        <button 
+                                            class="training-btn crystal-supply-btn" 
+                                            :class="{ active: limitedPackageCycle3.count > 0 && limitedPackageCycle3.count <= 2 }"
+                                            style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
+                                            <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
+                                                <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                                    {{ (limitedPackageCycle3.price / limitedPackageCycle3.tickets).toFixed(2) }}
+                                                </span>
+                                            </div>
+                                            <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
+                                                <span style="font-weight: bold; white-space: nowrap;">轮回致意Ⅲ</span>
+                                                <img :src="ticketIcon" class="resource-icon" alt="搜索令">
+                                                <span style="font-weight: bold; white-space: nowrap;">{{ limitedPackageCycle3.tickets }}</span>
+                                            </div>
+                                        </button>
+                                        <!-- 输入框 -->
+                                        <div style="display: flex; flex-direction: column; align-items: center; min-width: 60px; flex-shrink: 0;">
+                                            <input 
+                                                type="number" 
+                                                v-model.number="limitedPackageCycle3.count" 
+                                                placeholder="0" 
+                                                min="0" 
+                                                max="2"
+                                                step="1" 
+                                                @input="validateLimitedPackageInput('limitedPackageCycle3')"
+                                                @focus="clearLimitedPackageIfZero('limitedPackageCycle3')"
+                                                @blur="setLimitedPackageDefaultIfEmpty('limitedPackageCycle3')"
+                                                style="width: 50px; padding: 6px 4px; border: 1px solid #555555; border-radius: 5px; text-align: center; background: #333333; color: #FFFFFF; box-shadow: inset 0 1px 3px rgba(0,0,0,0.3); font-size: 14px;">
+                                            <div style="text-align: center; font-size: 12px; color: #666; margin-top: 4px; white-space: nowrap;">
+                                                ￥{{ limitedPackageCycle3.price }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 轮回致意Ⅳ -->
+                                    <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box; margin-bottom: 10px;">
+                                        <button 
+                                            class="training-btn crystal-supply-btn" 
+                                            :class="{ active: limitedPackageCycle4.count > 0 && limitedPackageCycle4.count <= 2 }"
+                                            style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
+                                            <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
+                                                <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                                    {{ (limitedPackageCycle4.price / limitedPackageCycle4.tickets).toFixed(2) }}
+                                                </span>
+                                            </div>
+                                            <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
+                                                <span style="font-weight: bold; white-space: nowrap;">轮回致意Ⅳ</span>
+                                                <img :src="ticketIcon" class="resource-icon" alt="搜索令">
+                                                <span style="font-weight: bold; white-space: nowrap;">{{ limitedPackageCycle4.tickets }}</span>
+                                            </div>
+                                        </button>
+                                        <!-- 输入框 -->
+                                        <div style="display: flex; flex-direction: column; align-items: center; min-width: 60px; flex-shrink: 0;">
+                                            <input 
+                                                type="number" 
+                                                v-model.number="limitedPackageCycle4.count" 
+                                                placeholder="0" 
+                                                min="0" 
+                                                max="2"
+                                                step="1" 
+                                                @input="validateLimitedPackageInput('limitedPackageCycle4')"
+                                                @focus="clearLimitedPackageIfZero('limitedPackageCycle4')"
+                                                @blur="setLimitedPackageDefaultIfEmpty('limitedPackageCycle4')"
+                                                style="width: 50px; padding: 6px 4px; border: 1px solid #555555; border-radius: 5px; text-align: center; background: #333333; color: #FFFFFF; box-shadow: inset 0 1px 3px rgba(0,0,0,0.3); font-size: 14px;">
+                                            <div style="text-align: center; font-size: 12px; color: #666; margin-top: 4px; white-space: nowrap;">
+                                                ￥{{ limitedPackageCycle4.price }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 绰影夜话Ⅰ -->
+                                    <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box; margin-bottom: 10px;">
+                                        <button 
+                                            class="training-btn crystal-supply-btn" 
+                                            :class="{ active: limitedPackageShadow1.active }"
+                                            @click="toggleLimitedPackage('limitedPackageShadow1')"
+                                            style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
+                                            <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
+                                                <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                                    {{ (limitedPackageShadow1.price / limitedPackageShadow1.tickets).toFixed(2) }}
+                                                </span>
+                                            </div>
+                                            <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
+                                                <span style="font-weight: bold; white-space: nowrap;">绰影夜话Ⅰ</span>
+                                                <img :src="ticketIcon" class="resource-icon" alt="搜索令">
+                                                <span style="font-weight: bold; white-space: nowrap;">{{ limitedPackageShadow1.tickets }}</span>
+                                            </div>
+                                        </button>
+                                        <!-- 价格显示 -->
+                                        <div style="display: flex; align-items: center; min-width: 60px; flex-shrink: 0; height: 100%;">
+                                            <div style="text-align: center; font-size: 12px; color: #666; white-space: nowrap;">
+                                                ￥{{ limitedPackageShadow1.price }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 绰影夜话Ⅱ -->
+                                    <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box; margin-bottom: 10px;">
+                                        <button 
+                                            class="training-btn crystal-supply-btn" 
+                                            :class="{ active: limitedPackageShadow2.active }"
+                                            @click="toggleLimitedPackage('limitedPackageShadow2')"
+                                            style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
+                                            <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
+                                                <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                                    {{ (limitedPackageShadow2.price / limitedPackageShadow2.tickets).toFixed(2) }}
+                                                </span>
+                                            </div>
+                                            <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
+                                                <span style="font-weight: bold; white-space: nowrap;">绰影夜话Ⅱ</span>
+                                                <img :src="ticketIcon" class="resource-icon" alt="搜索令">
+                                                <span style="font-weight: bold; white-space: nowrap;">{{ limitedPackageShadow2.tickets }}</span>
+                                            </div>
+                                        </button>
+                                        <!-- 价格显示 -->
+                                        <div style="display: flex; align-items: center; min-width: 60px; flex-shrink: 0; height: 100%;">
+                                            <div style="text-align: center; font-size: 12px; color: #666; white-space: nowrap;">
+                                                ￥{{ limitedPackageShadow2.price }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 绰影夜话Ⅲ -->
+                                    <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box; margin-bottom: 10px;">
+                                        <button 
+                                            class="training-btn crystal-supply-btn" 
+                                            :class="{ active: limitedPackageShadow3.active }"
+                                            @click="toggleLimitedPackage('limitedPackageShadow3')"
+                                            style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
+                                            <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
+                                                <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                                    {{ (limitedPackageShadow3.price / limitedPackageShadow3.tickets).toFixed(2) }}
+                                                </span>
+                                            </div>
+                                            <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
+                                                <span style="font-weight: bold; white-space: nowrap;">绰影夜话Ⅲ</span>
+                                                <img :src="ticketIcon" class="resource-icon" alt="搜索令">
+                                                <span style="font-weight: bold; white-space: nowrap;">{{ limitedPackageShadow3.tickets }}</span>
+                                            </div>
+                                        </button>
+                                        <!-- 价格显示 -->
+                                        <div style="display: flex; align-items: center; min-width: 60px; flex-shrink: 0; height: 100%;">
+                                            <div style="text-align: center; font-size: 12px; color: #666; white-space: nowrap;">
+                                                ￥{{ limitedPackageShadow3.price }}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- 诡事断章 -->
+                                    <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box; margin-bottom: 10px;">
+                                        <button 
+                                            class="training-btn crystal-supply-btn" 
+                                            :class="{ active: limitedPackageMystery.active }"
+                                            @click="toggleLimitedPackage('limitedPackageMystery')"
+                                            style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
+                                            <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
+                                                <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                                    {{ (limitedPackageMystery.price / limitedPackageMystery.tickets).toFixed(2) }}
+                                                </span>
+                                            </div>
+                                            <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
+                                                <span style="font-weight: bold; white-space: nowrap;">诡事断章</span>
+                                                <img :src="ticketIcon" class="resource-icon" alt="搜索令">
+                                                <span style="font-weight: bold; white-space: nowrap;">{{ limitedPackageMystery.tickets }}</span>
+                                            </div>
+                                        </button>
+                                        <!-- 价格显示 -->
+                                        <div style="display: flex; align-items: center; min-width: 60px; flex-shrink: 0; height: 100%;">
+                                            <div style="text-align: center; font-size: 12px; color: #666; white-space: nowrap;">
+                                                ￥{{ limitedPackageMystery.price }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
                         </div>
                     </div>
@@ -5467,6 +5891,96 @@
                 }
                 
                 return {
+
+                    // === 新增：常驻礼包数据 ===新人追踪礼包
+                    permanentPackage: {
+                        active: savedData?.permanentPackageActive || false,
+                        premiumCrystal: 1800,
+                        tickets: 10,
+                        price: 128
+                    },
+                    // === 新增：每周追踪礼包数据 ===
+                    weeklyTrackingPackage: {
+                        count: savedData?.weeklyTrackingPackageCount || 0,
+                        crystal: 60,
+                        tickets: 1,
+                        price: 6
+                    },
+
+                    // === 新增：月度追踪礼包数据 ===
+                    monthlyTrackingPackage1: {
+                        count: savedData?.monthlyTrackingPackage1Count || 0,
+                        tickets: 10,
+                        price: 98
+                    },
+                    monthlyTrackingPackage2: {
+                        count: savedData?.monthlyTrackingPackage2Count || 0,
+                        tickets: 20,
+                        price: 168
+                    },
+
+                    // === 新增：局长就任特供数据 ===
+                    directorSupplyPackages: [
+                        { id: 1, active: savedData?.directorSupplyActive?.[0] || false, crystal: 60, tickets: 1, price: 6 },
+                        { id: 2, active: savedData?.directorSupplyActive?.[1] || false, crystal: 300, tickets: 3, price: 30 },
+                        { id: 3, active: savedData?.directorSupplyActive?.[2] || false, crystal: 680, tickets: 5, price: 68 },
+                        { id: 4, active: savedData?.directorSupplyActive?.[3] || false, crystal: 1980, tickets: 10, price: 198 },
+                        { id: 5, active: savedData?.directorSupplyActive?.[4] || false, crystal: 3280, tickets: 15, price: 328 },
+                        { id: 6, active: savedData?.directorSupplyActive?.[5] || false, crystal: 6480, tickets: 20, price: 648 }
+                    ],
+
+                    // === 新增：限时礼包数据 ===
+                    // 轮回致意系列（限购2次）
+                    limitedPackageCycle1: {
+                        count: savedData?.limitedPackageCycle1Count || 0,
+                        crystal: 60,
+                        tickets: 1,
+                        price: 6
+                    },
+                    limitedPackageCycle2: {
+                        count: savedData?.limitedPackageCycle2Count || 0,
+                        crystal: 0,
+                        tickets: 4,
+                        price: 28
+                    },
+                    limitedPackageCycle3: {
+                        count: savedData?.limitedPackageCycle3Count || 0,
+                        crystal: 0,
+                        tickets: 10,
+                        price: 78
+                    },
+                    limitedPackageCycle4: {
+                        count: savedData?.limitedPackageCycle4Count || 0,
+                        crystal: 0,
+                        tickets: 20,
+                        price: 168
+                    },
+                    // 绰影夜话系列（单次购买）
+                    limitedPackageShadow1: {
+                        active: savedData?.limitedPackageShadow1Active || false,
+                        crystal: 0,
+                        tickets: 10,
+                        price: 68
+                    },
+                    limitedPackageShadow2: {
+                        active: savedData?.limitedPackageShadow2Active || false,
+                        crystal: 0,
+                        tickets: 15,
+                        price: 128
+                    },
+                    limitedPackageShadow3: {
+                        active: savedData?.limitedPackageShadow3Active || false,
+                        crystal: 0,
+                        tickets: 20,
+                        price: 198
+                    },
+                    // 诡事断章（单次购买）
+                    limitedPackageMystery: {
+                        active: savedData?.limitedPackageMysteryActive || false,
+                        crystal: 0,
+                        tickets: 40,
+                        price: 328
+                    },
 
                     // 监察密令数据
                     selectedInspectionPeriod: savedData?.selectedInspectionPeriod || 1,
@@ -5651,7 +6165,8 @@
                         darkSurgeA: false,
                         darkSurgeB: false,
                         goldFeastA: false,
-                        goldFeastB: false
+                        goldFeastB: false,
+                        canFeng: false
                     },
 
                     // 狄斯暗影（EX）数据
@@ -5809,87 +6324,16 @@
                         { level: 50, crystal: 1800 }
                     ]
                 }
+                
             },
             computed: {
-
-            // 监察密令期数计算
-            inspectionPeriods() {
-                const periods = [];
-                const firstPeriodStart = new Date(2025, 9, 6, 10); // 2025年10月6日10:00
-                const periodDuration = 6 * 7 * 24 * 60 * 60 * 1000; // 6周的毫秒数
-                
-                // 根据选定的时间计算需要显示的期数
-                let targetDate;
-                if (this.selectedTime === 'nextVersion') {
-                    targetDate = this.calculateToPoolEnd ? 
-                        new Date(this.poolDates.nextVersion.getTime() + (this.versionWeeks * 7 * 24 * 60 * 60 * 1000)) :
-                        this.poolDates.nextVersion;
-                } else {
-                    targetDate = this.calculateToPoolEnd ? 
-                        new Date(this.poolDates.newYear.getTime() + (this.versionWeeks * 7 * 24 * 60 * 60 * 1000)) :
-                        this.poolDates.newYear;
-                }
-                
-                let currentPeriodStart = new Date(firstPeriodStart);
-                let periodId = 1;
-                
-                // 生成所有在当前日期和目标日期之间的密令期数
-                while (currentPeriodStart <= targetDate) {
-                    const periodEnd = new Date(currentPeriodStart.getTime() + periodDuration);
+                // 监察密令期数计算
+                inspectionPeriods() {
+                    const periods = [];
+                    const firstPeriodStart = new Date(2025, 9, 6, 10); // 2025年10月6日10:00
+                    const periodDuration = 6 * 7 * 24 * 60 * 60 * 1000; // 6周的毫秒数
                     
-                    // 只显示结束时间在当前日期之后的期数
-                    if (periodEnd > new Date()) {
-                        const startStr = this.formatDateToMMDD(currentPeriodStart);
-                        const endStr = this.formatDateToMMDD(periodEnd);
-                        
-                        periods.push({
-                            id: periodId,
-                            startDate: startStr,
-                            endDate: endStr,
-                            startTime: new Date(currentPeriodStart),
-                            endTime: new Date(periodEnd)
-                        });
-                    }
-                    
-                    currentPeriodStart = new Date(currentPeriodStart.getTime() + periodDuration);
-                    periodId++;
-                }
-                
-                return periods;
-            },
-
-            // 监察密令总搜索令计算
-            inspectionOrderTotalTickets() {
-                let totalTickets = 0;
-                
-                for (const period of this.inspectionPeriods) {
-                    const level = this.inspectionLevels[period.id] || 0;
-                    totalTickets += this.calculateCurrentPeriodTickets(level);
-                }
-                
-                return totalTickets;
-            },
-
-            // 灰烬之潮-重塑奖励计算
-            ashTideRewards() {
-                let crystal = 0;
-                
-                if (this.ashTide.ashApostle) crystal += 180;
-                if (this.ashTide.disasterLocust) crystal += 180;
-                
-                return {
-                    crystal,
-                    total: crystal
-                };
-            },
-
-            // 监管收菜异方晶计算
-            supervisionHarvestCrystal() {
-                try {
-                    const secondsPerCrystal = 3456;
-                    const now = new Date();
-                    
-                    // 计算到目标日期（卡池结束或开放）
+                    // 根据选定的时间计算需要显示的期数
                     let targetDate;
                     if (this.selectedTime === 'nextVersion') {
                         targetDate = this.calculateToPoolEnd ? 
@@ -5901,37 +6345,110 @@
                             this.poolDates.newYear;
                     }
                     
-                    const timeDiff = Math.max(0, (targetDate - now) / 1000);
-                    const crystals = Math.floor(timeDiff / secondsPerCrystal);
+                    let currentPeriodStart = new Date(firstPeriodStart);
+                    let periodId = 1;
+                    
+                    // 生成所有在当前日期和目标日期之间的密令期数
+                    while (currentPeriodStart <= targetDate) {
+                        const periodEnd = new Date(currentPeriodStart.getTime() + periodDuration);
+                        
+                        // 只显示结束时间在当前日期之后的期数
+                        if (periodEnd > new Date()) {
+                            const startStr = this.formatDateToMMDD(currentPeriodStart);
+                            const endStr = this.formatDateToMMDD(periodEnd);
+                            
+                            periods.push({
+                                id: periodId,
+                                startDate: startStr,
+                                endDate: endStr,
+                                startTime: new Date(currentPeriodStart),
+                                endTime: new Date(periodEnd)
+                            });
+                        }
+                        
+                        currentPeriodStart = new Date(currentPeriodStart.getTime() + periodDuration);
+                        periodId++;
+                    }
+                    
+                    return periods;
+                },
+
+                // 监察密令总搜索令计算
+                inspectionOrderTotalTickets() {
+                    let totalTickets = 0;
+                    
+                    for (const period of this.inspectionPeriods) {
+                        const level = this.inspectionLevels[period.id] || 0;
+                        totalTickets += this.calculateCurrentPeriodTickets(level);
+                    }
+                    
+                    return totalTickets;
+                },
+
+                // 灰烬之潮-重塑奖励计算
+                ashTideRewards() {
+                    let crystal = 0;
+                    
+                    if (this.ashTide.ashApostle) crystal += 180;
+                    if (this.ashTide.disasterLocust) crystal += 180;
+                    
+                    return {
+                        crystal,
+                        total: crystal
+                    };
+                },
+
+                // 监管收菜异方晶计算
+                supervisionHarvestCrystal() {
+                    try {
+                        const secondsPerCrystal = 3456;
+                        const now = new Date();
+                        
+                        // 计算到目标日期（卡池结束或开放）
+                        let targetDate;
+                        if (this.selectedTime === 'nextVersion') {
+                            targetDate = this.calculateToPoolEnd ? 
+                                new Date(this.poolDates.nextVersion.getTime() + (this.versionWeeks * 7 * 24 * 60 * 60 * 1000)) :
+                                this.poolDates.nextVersion;
+                        } else {
+                            targetDate = this.calculateToPoolEnd ? 
+                                new Date(this.poolDates.newYear.getTime() + (this.versionWeeks * 7 * 24 * 60 * 60 * 1000)) :
+                                this.poolDates.newYear;
+                        }
+                        
+                        const timeDiff = Math.max(0, (targetDate - now) / 1000);
+                        const crystals = Math.floor(timeDiff / secondsPerCrystal);
+                        
+                        return crystals;
+                    } catch (error) {
+                        console.error('监管收菜计算错误:', error);
+                        return 0;
+                    }
+                },
+
+                // 多项合金兑换异方晶计算
+                alloyExchangeCrystal() {
+                    if (!this.useAlloyExchange) {
+                        return 0;
+                    }
+                    
+                    const alloyPerCrystal = 231;
+                    const crystalsPerExchange = 4;
+                    
+                    // 计算可兑换的异方晶数量（每231个合金兑换4个异方晶）
+                    const exchanges = Math.floor(this.alloyCount / alloyPerCrystal);
+                    const crystals = exchanges * crystalsPerExchange;
                     
                     return crystals;
-                } catch (error) {
-                    console.error('监管收菜计算错误:', error);
-                    return 0;
-                }
-            },
-
-            // 多项合金兑换异方晶计算
-            alloyExchangeCrystal() {
-                if (!this.useAlloyExchange) {
-                    return 0;
-                }
-                
-                const alloyPerCrystal = 231;
-                const crystalsPerExchange = 4;
-                
-                // 计算可兑换的异方晶数量（每231个合金兑换4个异方晶）
-                const exchanges = Math.floor(this.alloyCount / alloyPerCrystal);
-                const crystals = exchanges * crystalsPerExchange;
-                
-                return crystals;
-            },
+                },
 
                 // 统计所有模块的异方晶
                 totalAllCrystal() {
                     const baseCrystal = this.resources.crystal || 0;
                     const totalIncome = this.totalCrystalIncome;
-                    return baseCrystal + totalIncome + this.customAdjustment;
+                    const weeklyTrackingCrystal = this.weeklyTrackingPackageTotalCrystal; // 每周追踪礼包
+                    const directorSupplyCrystal = this.directorSupplyTotalCrystal; // 局长就任特供
+                    return baseCrystal + totalIncome + weeklyTrackingCrystal + directorSupplyCrystal + this.customAdjustment;
                 },
 
                 // 统计所有模块的璀璨晶源
@@ -5941,8 +6458,9 @@
                     const disiPremium = this.disiPremiumCrystal;
                     const crystalSupplyPremium = this.crystalSupplyTotalPremiumCrystal; // 晶源特供（首充）
                     const nonFirstCrystalSupplyPremium = this.nonFirstCrystalSupplyTotalPremiumCrystal; // 晶源特供（非首充）
+                    const permanentPackagePremium = this.permanentPackageTotalPremiumCrystal; // 常驻礼包
                     
-                    return basePremiumCrystal + monthlyCardPremium + disiPremium + crystalSupplyPremium + nonFirstCrystalSupplyPremium - this.totalSkinReserve;
+                    return basePremiumCrystal + monthlyCardPremium + disiPremium + crystalSupplyPremium + nonFirstCrystalSupplyPremium + permanentPackagePremium - this.totalSkinReserve;
                 },
 
                 // 统计所有模块的搜索令
@@ -5952,7 +6470,12 @@
                         this.activityRewardsTickets +
                         this.otherSystemsTickets +
                         this.rechargeTickets +
-                        this.signInRewardTickets;
+                        this.signInRewardTickets +
+                        this.permanentPackageTotalTickets + // 常驻礼包
+                        this.weeklyTrackingPackageTotalTickets + // 每周追踪礼包
+                        this.monthlyTrackingPackage1TotalTickets + // 月度追踪礼包Ⅰ
+                        this.monthlyTrackingPackage2TotalTickets + // 月度追踪礼包Ⅱ
+                        this.directorSupplyTotalTickets; // 局长就任特供
                 },
 
                 // 统计所有模块的限定券
@@ -6045,11 +6568,11 @@
                     const potentialPulls = Math.floor(potentialCrystal / 180) + potentialTickets;
                     
                     // 5. 氪金资源模块
-                    const rechargePremiumCrystal = this.monthlyCardPremiumCrystal + this.disiPremiumCrystal + this.crystalSupplyTotalPremiumCrystal + this.nonFirstCrystalSupplyTotalPremiumCrystal; // 晶源特供（首充+非首充）
+                    const rechargePremiumCrystal = this.monthlyCardPremiumCrystal + this.disiPremiumCrystal + this.crystalSupplyTotalPremiumCrystal + this.nonFirstCrystalSupplyTotalPremiumCrystal + this.permanentPackageTotalPremiumCrystal;
                     const rechargePremiumCrystalPulls = Math.floor(rechargePremiumCrystal / 180);
-                    const rechargeCrystal = this.monthlyCardCrystal + this.advancedInspectionOrderCrystal + (this.disiActive ? this.disiRewardTotal : 0);
+                    const rechargeCrystal = this.monthlyCardCrystal + this.advancedInspectionOrderCrystal + (this.disiActive ? this.disiRewardTotal : 0) + this.weeklyTrackingPackageTotalCrystal + this.directorSupplyTotalCrystal + this.limitedPackageTotalCrystal; // 新增：限时礼包异方晶
                     const rechargeCrystalPulls = Math.floor(rechargeCrystal / 180);
-                    const rechargeTicketPulls = this.advancedInspectionOrderTickets + this.treasureTickets;
+                    const rechargeTicketPulls = this.advancedInspectionOrderTickets + this.treasureTickets + this.permanentPackageTotalTickets + this.weeklyTrackingPackageTotalTickets + this.monthlyTrackingPackage1TotalTickets + this.monthlyTrackingPackage2TotalTickets + this.directorSupplyTotalTickets + this.limitedPackageTotalTickets; // 新增：限时礼包搜索令
                     const rechargePulls = rechargeCrystalPulls + rechargePremiumCrystalPulls + rechargeTicketPulls;
                     
                     // 6. 其他估算模块
@@ -6620,6 +7143,7 @@
                     if (this.mainStory.darkSurgeB) { crystal += 1005; tickets += 1; }
                     if (this.mainStory.goldFeastA) { crystal += 900; tickets += 1; }
                     if (this.mainStory.goldFeastB) { crystal += 1180; tickets += 1; }
+                    if (this.mainStory.canFeng) { crystal += 960; }
                     
                     return {
                         crystal,
@@ -7024,8 +7548,9 @@
 
                 // 分模块计算 - 氪金搜索令
                 rechargeTickets() {
-                    return this.advancedInspectionOrderTickets + // 修改：使用新的计算方法
-                        this.treasureTickets;
+                    return this.advancedInspectionOrderTickets +
+                        this.treasureTickets +
+                        this.limitedPackageTotalTickets; // 新增：限时礼包搜索令
                 },
 
                 // 总计 - 替换原来的 totalTicketsSummary
@@ -7117,14 +7642,20 @@
                     return 0;
                 },            
 
-                // 总计模块氪金数值计算
+                // 总计氪金数值计算
                 totalRechargeCost() {
                     return this.monthlyCardCost + 
                         this.disiCost + 
                         this.treasureCost + 
-                        this.advancedInspectionOrderCost + // 新增：高级监察密令费用
-                        this.crystalSupplyTotalCost + // 晶源特供（首充）
-                        this.nonFirstCrystalSupplyTotalCost; // 晶源特供（非首充）
+                        this.advancedInspectionOrderCost +
+                        this.crystalSupplyTotalCost +
+                        this.nonFirstCrystalSupplyTotalCost +
+                        this.permanentPackageTotalCost +
+                        this.weeklyTrackingPackageTotalCost +
+                        this.monthlyTrackingPackage1TotalCost +
+                        this.monthlyTrackingPackage2TotalCost +
+                        this.directorSupplyTotalCost +
+                        this.limitedPackageTotalCost; // 新增：限时礼包费用
                 },
 
                 inspectionOrderCrystal() {
@@ -7327,6 +7858,135 @@
                         const count = button.count === null || button.count === '' ? 0 : button.count;
                         return total + (button.price * count);
                     }, 0);
+                },
+
+                // === 新增：常驻礼包计算属性 ===
+                // 常驻礼包总璀璨晶源
+                permanentPackageTotalPremiumCrystal() {
+                    return this.permanentPackage.active ? this.permanentPackage.premiumCrystal : 0;
+                },
+
+                // 常驻礼包总搜索令
+                permanentPackageTotalTickets() {
+                    return this.permanentPackage.active ? this.permanentPackage.tickets : 0;
+                },
+
+                // 常驻礼包总费用
+                permanentPackageTotalCost() {
+                    return this.permanentPackage.active ? this.permanentPackage.price : 0;
+                },
+
+                // === 新增：每周追踪礼包计算属性 ===
+                // 每周追踪礼包最大购买数量（基于周数）
+                weeklyTrackingPackageMaxCount() {
+                    // 直接使用总周数，不受暗域完成状态影响
+                    return this.weeklyCount;
+                },
+
+                // 每周追踪礼包总异方晶
+                weeklyTrackingPackageTotalCrystal() {
+                    return this.weeklyTrackingPackage.crystal * this.weeklyTrackingPackage.count;
+                },
+
+                // 每周追踪礼包总搜索令
+                weeklyTrackingPackageTotalTickets() {
+                    return this.weeklyTrackingPackage.tickets * this.weeklyTrackingPackage.count;
+                },
+
+                // 每周追踪礼包总费用
+                weeklyTrackingPackageTotalCost() {
+                    return this.weeklyTrackingPackage.price * this.weeklyTrackingPackage.count;
+                },
+
+                // === 新增：月度追踪礼包计算属性 ===
+                // 月度追踪礼包最大购买数量（基于月数）
+                monthlyTrackingPackageMaxCount() {
+                    // 使用与情绪检测相同的月数计算逻辑
+                    return this.remainingMonths;
+                },
+
+                // 月度追踪礼包Ⅰ总搜索令
+                monthlyTrackingPackage1TotalTickets() {
+                    return this.monthlyTrackingPackage1.tickets * this.monthlyTrackingPackage1.count;
+                },
+
+                // 月度追踪礼包Ⅰ总费用
+                monthlyTrackingPackage1TotalCost() {
+                    return this.monthlyTrackingPackage1.price * this.monthlyTrackingPackage1.count;
+                },
+
+                // 月度追踪礼包Ⅱ总搜索令
+                monthlyTrackingPackage2TotalTickets() {
+                    return this.monthlyTrackingPackage2.tickets * this.monthlyTrackingPackage2.count;
+                },
+
+                // 月度追踪礼包Ⅱ总费用
+                monthlyTrackingPackage2TotalCost() {
+                    return this.monthlyTrackingPackage2.price * this.monthlyTrackingPackage2.count;
+                },
+
+                // === 新增：局长就任特供计算属性 ===
+                // 检查按钮是否可交互
+                directorSupplyPackageEnabled() {
+                    return this.directorSupplyPackages.map((pkg, index) => {
+                        // 第一个按钮总是可交互
+                        if (index === 0) return true;
+                        // 其他按钮只有在前一个按钮激活时才可交互
+                        return this.directorSupplyPackages[index - 1].active;
+                    });
+                },
+
+                // 局长就任特供总异方晶
+                directorSupplyTotalCrystal() {
+                    return this.directorSupplyPackages.reduce((total, pkg) => {
+                        return total + (pkg.active ? pkg.crystal : 0);
+                    }, 0);
+                },
+
+                // 局长就任特供总搜索令
+                directorSupplyTotalTickets() {
+                    return this.directorSupplyPackages.reduce((total, pkg) => {
+                        return total + (pkg.active ? pkg.tickets : 0);
+                    }, 0);
+                },
+
+                // 局长就任特供总费用
+                directorSupplyTotalCost() {
+                    return this.directorSupplyPackages.reduce((total, pkg) => {
+                        return total + (pkg.active ? pkg.price : 0);
+                    }, 0);
+                },
+
+                // === 新增：常驻礼包计算属性结束 ===
+
+                // === 新增：限时礼包计算属性 ===
+                // 限时礼包总异方晶
+                limitedPackageTotalCrystal() {
+                    return this.limitedPackageCycle1.crystal * this.limitedPackageCycle1.count;
+                },
+
+                // 限时礼包总搜索令
+                limitedPackageTotalTickets() {
+                    return (this.limitedPackageCycle1.tickets * this.limitedPackageCycle1.count) +
+                        (this.limitedPackageCycle2.tickets * this.limitedPackageCycle2.count) +
+                        (this.limitedPackageCycle3.tickets * this.limitedPackageCycle3.count) +
+                        (this.limitedPackageCycle4.tickets * this.limitedPackageCycle4.count) +
+                        (this.limitedPackageShadow1.active ? this.limitedPackageShadow1.tickets : 0) +
+                        (this.limitedPackageShadow2.active ? this.limitedPackageShadow2.tickets : 0) +
+                        (this.limitedPackageShadow3.active ? this.limitedPackageShadow3.tickets : 0) +
+                        (this.limitedPackageMystery.active ? this.limitedPackageMystery.tickets : 0);
+                },
+
+                // 限时礼包总费用
+                limitedPackageTotalCost() {
+                    return (this.limitedPackageCycle1.price * this.limitedPackageCycle1.count) +
+                        (this.limitedPackageCycle2.price * this.limitedPackageCycle2.count) +
+                        (this.limitedPackageCycle3.price * this.limitedPackageCycle3.count) +
+                        (this.limitedPackageCycle4.price * this.limitedPackageCycle4.count) +
+                        (this.limitedPackageShadow1.active ? this.limitedPackageShadow1.price : 0) +
+                        (this.limitedPackageShadow2.active ? this.limitedPackageShadow2.price : 0) +
+                        (this.limitedPackageShadow3.active ? this.limitedPackageShadow3.price : 0) +
+                        (this.limitedPackageMystery.active ? this.limitedPackageMystery.price : 0);
                 },
 
             },
@@ -7634,6 +8294,56 @@
                     deep: true
                 },
 
+                // 限时礼包监听
+                limitedPackageCycle1: {
+                    handler(newValue) {
+                        this.saveToLocalStorage();
+                    },
+                    deep: true
+                },
+                limitedPackageCycle2: {
+                    handler(newValue) {
+                        this.saveToLocalStorage();
+                    },
+                    deep: true
+                },
+                limitedPackageCycle3: {
+                    handler(newValue) {
+                        this.saveToLocalStorage();
+                    },
+                    deep: true
+                },
+                limitedPackageCycle4: {
+                    handler(newValue) {
+                        this.saveToLocalStorage();
+                    },
+                    deep: true
+                },
+                limitedPackageShadow1: {
+                    handler(newValue) {
+                        this.saveToLocalStorage();
+                    },
+                    deep: true
+                },
+                limitedPackageShadow2: {
+                    handler(newValue) {
+                        this.saveToLocalStorage();
+                    },
+                    deep: true
+                },
+                limitedPackageShadow3: {
+                    handler(newValue) {
+                        this.saveToLocalStorage();
+                    },
+                    deep: true
+                },
+                limitedPackageMystery: {
+                    handler(newValue) {
+                        this.saveToLocalStorage();
+                    },
+                    deep: true
+                },
+
             },
             methods: {
                 saveToLocalStorage() {
@@ -7687,8 +8397,21 @@
                         disiPrePurchased: this.disiPrePurchased, // 添加狄斯盈满钵预购买
                         treasureActive: this.treasureActive, // 添加诡珑珍宝馆激活状态
                         treasurePrePurchased: this.treasurePrePurchased, // 添加诡珑珍宝馆预购买状态
-                        crystalSupplyPurchased: this.crystalSupplyButtons.map(button => button.purchased),// 添加晶源特供（首充）购买状态
-                        nonFirstCrystalSupplyCounts: this.nonFirstCrystalSupplyButtons.map(button => button.count),// 添加晶源特供（非首充）购买状态
+                        crystalSupplyPurchased: this.crystalSupplyButtons.map(button => button.purchased), // 添加晶源特供（首充）购买状态
+                        nonFirstCrystalSupplyCounts: this.nonFirstCrystalSupplyButtons.map(button => button.count), // 添加晶源特供（非首充）购买状态
+                        permanentPackageActive: this.permanentPackage.active, // 添加新人追踪礼包购买状态
+                        weeklyTrackingPackageCount: this.weeklyTrackingPackage.count, // 添加每周追踪礼包购买状态
+                        monthlyTrackingPackage1Count: this.monthlyTrackingPackage1.count,
+                        monthlyTrackingPackage2Count: this.monthlyTrackingPackage2.count, // 添加月度追踪礼包购买状态
+                        directorSupplyActive: this.directorSupplyPackages.map(pkg => pkg.active),// 添加局长就任礼包购买状态
+                        limitedPackageCycle1Count: this.limitedPackageCycle1.count,
+                        limitedPackageCycle2Count: this.limitedPackageCycle2.count,
+                        limitedPackageCycle3Count: this.limitedPackageCycle3.count,
+                        limitedPackageCycle4Count: this.limitedPackageCycle4.count,
+                        limitedPackageShadow1Active: this.limitedPackageShadow1.active,
+                        limitedPackageShadow2Active: this.limitedPackageShadow2.active,
+                        limitedPackageShadow3Active: this.limitedPackageShadow3.active,
+                        limitedPackageMysteryActive: this.limitedPackageMystery.active, // 限时礼包数据保存
                         activityCompleted: this.activityCompleted,//活动数据
                         activityReviewCompleted: this.activityReviewCompleted, // 保存活动审查奖励状态
                         activityTrialCompleted: this.activityTrialCompleted, // 保存活动角色试用奖励状态
@@ -7731,27 +8454,27 @@
 
                 // 计算高级监察密令当前期数的异方晶数量
                 calculateRechargePeriodCrystal(level) {
-                    if (!level || level === 0) return 880; // 0级时显示880，表示还未领取
+                    if (!level || level === 0) return 0; // 0级时显示0，表示还未领取任何奖励
                     
                     let crystal = 0;
                     
-                    // 计算大于当前等级的所有异方晶奖励
-                    if (level < 30) crystal += 200;
-                    if (level < 50) crystal += 680;
+                    // 计算小于等于当前等级的所有异方晶奖励
+                    if (level >= 30) crystal += 200;
+                    if (level >= 50) crystal += 680;
                     
                     return crystal;
                 },
 
                 // 计算高级监察密令当前期数的搜索令数量
                 calculateRechargePeriodTickets(level) {
-                    if (!level || level === 0) return 6; // 0级时显示6张，表示还未领取
+                    if (!level || level === 0) return 0; // 0级时显示0张，表示还未领取任何奖励
                     
                     let tickets = 0;
                     const ticketLevels = [5, 15, 25, 35, 45, 55];
                     
-                    // 计算大于当前等级的所有搜索令奖励
+                    // 计算小于等于当前等级的所有搜索令奖励
                     for (const ticketLevel of ticketLevels) {
-                        if (level < ticketLevel) {
+                        if (level >= ticketLevel) {
                             tickets += 1;
                         }
                     }
@@ -7805,14 +8528,14 @@
 
                 // 计算当前期数的搜索令数量
                 calculateCurrentPeriodTickets(level) {
-                    if (!level || level === 0) return 6; // 0级时显示6张，表示还未领取
+                    if (!level || level === 0) return 0; // 0级时显示0张，表示还未领取任何奖励
                     
                     let tickets = 0;
                     const ticketLevels = [5, 15, 25, 35, 45, 55];
                     
-                    // 计算大于当前等级的所有奖励
+                    // 计算小于等于当前等级的所有奖励
                     for (const ticketLevel of ticketLevels) {
-                        if (level < ticketLevel) {
+                        if (level >= ticketLevel) {
                             tickets += 1;
                         }
                     }
@@ -8819,6 +9542,200 @@
                     }
                 },
 
+                // === 新增：常驻礼包方法 ===
+                // 切换常驻礼包激活状态
+                togglePermanentPackage() {
+                    this.permanentPackage.active = !this.permanentPackage.active;
+                },
+
+                // === 新增：每周追踪礼包方法 ===
+                // 验证输入
+                validateWeeklyTrackingPackageInput() {
+                    // 如果输入为空，保持为空，不进行验证
+                    if (this.weeklyTrackingPackage.count === '' || this.weeklyTrackingPackage.count === null) {
+                        return;
+                    }
+                    
+                    // 确保值为整数且非负数，且不超过最大周数
+                    if (this.weeklyTrackingPackage.count < 0) {
+                        this.weeklyTrackingPackage.count = 0;
+                    }
+                    if (this.weeklyTrackingPackage.count > this.weeklyTrackingPackageMaxCount) {
+                        this.weeklyTrackingPackage.count = this.weeklyTrackingPackageMaxCount;
+                    }
+                    if (this.weeklyTrackingPackage.count !== null && this.weeklyTrackingPackage.count !== undefined) {
+                        this.weeklyTrackingPackage.count = Math.floor(this.weeklyTrackingPackage.count);
+                    }
+                    
+                    // 确保饼状图更新
+                    this.$nextTick(() => {
+                        if (this.sections.pullSummary) {
+                            this.updatePieChart();
+                        }
+                    });
+                },
+
+                // 当输入框获得焦点时，如果值为0则清空
+                clearWeeklyTrackingPackageIfZero() {
+                    if (this.weeklyTrackingPackage.count === 0) {
+                        this.weeklyTrackingPackage.count = null;
+                    }
+                },
+
+                // 当输入框失去焦点时，如果为空则设置为0
+                setWeeklyTrackingPackageDefaultIfEmpty() {
+                    if (this.weeklyTrackingPackage.count === '' || this.weeklyTrackingPackage.count === null) {
+                        this.weeklyTrackingPackage.count = 0;
+                    }
+                },
+
+                // === 新增：月度追踪礼包方法 ===
+                // 验证月度追踪礼包Ⅰ输入
+                validateMonthlyTrackingPackage1Input() {
+                    this.validateMonthlyTrackingPackageInput('monthlyTrackingPackage1');
+                },
+
+                // 验证月度追踪礼包Ⅱ输入
+                validateMonthlyTrackingPackage2Input() {
+                    this.validateMonthlyTrackingPackageInput('monthlyTrackingPackage2');
+                },
+
+                // 通用的月度追踪礼包输入验证
+                validateMonthlyTrackingPackageInput(packageName) {
+                    // 如果输入为空，保持为空，不进行验证
+                    if (this[packageName].count === '' || this[packageName].count === null) {
+                        return;
+                    }
+                    
+                    // 确保值为整数且非负数，且不超过最大月数
+                    if (this[packageName].count < 0) {
+                        this[packageName].count = 0;
+                    }
+                    if (this[packageName].count > this.monthlyTrackingPackageMaxCount) {
+                        this[packageName].count = this.monthlyTrackingPackageMaxCount;
+                    }
+                    if (this[packageName].count !== null && this[packageName].count !== undefined) {
+                        this[packageName].count = Math.floor(this[packageName].count);
+                    }
+                    
+                    // 确保饼状图更新
+                    this.$nextTick(() => {
+                        if (this.sections.pullSummary) {
+                            this.updatePieChart();
+                        }
+                    });
+                },
+
+                // 当输入框获得焦点时，如果值为0则清空
+                clearMonthlyTrackingPackage1IfZero() {
+                    if (this.monthlyTrackingPackage1.count === 0) {
+                        this.monthlyTrackingPackage1.count = null;
+                    }
+                },
+
+                clearMonthlyTrackingPackage2IfZero() {
+                    if (this.monthlyTrackingPackage2.count === 0) {
+                        this.monthlyTrackingPackage2.count = null;
+                    }
+                },
+
+                // 当输入框失去焦点时，如果为空则设置为0
+                setMonthlyTrackingPackage1DefaultIfEmpty() {
+                    if (this.monthlyTrackingPackage1.count === '' || this.monthlyTrackingPackage1.count === null) {
+                        this.monthlyTrackingPackage1.count = 0;
+                    }
+                },
+
+                setMonthlyTrackingPackage2DefaultIfEmpty() {
+                    if (this.monthlyTrackingPackage2.count === '' || this.monthlyTrackingPackage2.count === null) {
+                        this.monthlyTrackingPackage2.count = 0;
+                    }
+                },
+
+                // === 新增：局长就任特供方法 ===
+                // 切换局长就任特供激活状态
+                toggleDirectorSupplyPackage(index) {
+                    if (this.directorSupplyPackageEnabled[index]) {
+                        const newState = !this.directorSupplyPackages[index].active;
+                        this.directorSupplyPackages[index].active = newState;
+                        
+                        // 如果取消购买某个礼包，自动关闭它后面的所有礼包
+                        if (!newState) {
+                            for (let i = index + 1; i < this.directorSupplyPackages.length; i++) {
+                                this.directorSupplyPackages[i].active = false;
+                            }
+                        }
+                    }
+                },
+
+                // 获取罗马数字
+                getRomanNumeral(num) {
+                    const romanNumerals = ['', 'Ⅰ', 'Ⅱ', 'Ⅲ', 'Ⅳ', 'Ⅴ', 'Ⅵ'];
+                    return romanNumerals[num] || num;
+                },
+
+                // === 新增：限时礼包方法 ===
+                // 验证限时礼包输入
+                validateLimitedPackageInput(packageName) {
+                    // 如果输入为空，保持为空，不进行验证
+                    if (this[packageName].count === '' || this[packageName].count === null) {
+                        return;
+                    }
+                    
+                    // 确保值为整数且在0-2之间
+                    if (this[packageName].count < 0) {
+                        this[packageName].count = 0;
+                    }
+                    if (this[packageName].count > 2) {
+                        this[packageName].count = 2;
+                    }
+                    if (this[packageName].count !== null && this[packageName].count !== undefined) {
+                        this[packageName].count = Math.floor(this[packageName].count);
+                    }
+                    
+                    // 确保饼状图更新
+                    this.$nextTick(() => {
+                        if (this.sections.pullSummary) {
+                            this.updatePieChart();
+                        }
+                    });
+                },
+
+                // 当输入框获得焦点时，如果值为0则清空
+                clearLimitedPackageIfZero(packageName) {
+                    if (this[packageName].count === 0) {
+                        this[packageName].count = null;
+                    }
+                },
+
+                // 当输入框失去焦点时，如果为空则设置为0
+                setLimitedPackageDefaultIfEmpty(packageName) {
+                    if (this[packageName].count === '' || this[packageName].count === null) {
+                        this[packageName].count = 0;
+                    }
+                },
+
+                // 切换单次购买礼包状态
+                toggleLimitedPackage(packageName) {
+                    if (packageName.startsWith('limitedPackageShadow')) {
+                        // 绰影夜话系列：互斥选择
+                        const isCurrentlyActive = this[packageName].active;
+                        
+                        // 先重置所有绰影夜话按钮
+                        this.limitedPackageShadow1.active = false;
+                        this.limitedPackageShadow2.active = false;
+                        this.limitedPackageShadow3.active = false;
+                        
+                        // 如果当前按钮原本不是激活状态，则激活它
+                        if (!isCurrentlyActive) {
+                            this[packageName].active = true;
+                        }
+                    } else {
+                        // 其他礼包正常切换
+                        this[packageName].active = !this[packageName].active;
+                    }
+                },
+
             },
 
             // mounted生命周期应该在这里
@@ -8857,7 +9774,35 @@
                     this.nonFirstCrystalSupplyTotalPremiumCrystal, // 非首充璀璨晶源
                     this.nonFirstCrystalSupplyTotalCost, // 非首充费用
                     this.totalPremiumCrystalSummary, // 总璀璨晶源
-                    this.totalRechargeCost // 总氪金金额
+                    this.totalRechargeCost, // 总氪金金额
+                    this.permanentPackageTotalPremiumCrystal,
+                    this.permanentPackageTotalTickets,
+                    this.permanentPackageTotalCost, // 常驻礼包
+                    this.weeklyTrackingPackageTotalCrystal,
+                    this.weeklyTrackingPackageTotalTickets,
+                    this.weeklyTrackingPackageTotalCost,
+                    this.weeklyTrackingPackageMaxCount, // 每周追踪礼包
+                    this.monthlyTrackingPackage1TotalTickets,
+                    this.monthlyTrackingPackage1TotalCost,
+                    this.monthlyTrackingPackage2TotalTickets,
+                    this.monthlyTrackingPackage2TotalCost,
+                    this.monthlyTrackingPackageMaxCount, // 月度追踪礼包
+                    this.directorSupplyTotalCrystal,
+                    this.directorSupplyTotalTickets,
+                    this.directorSupplyTotalCost,
+                    this.directorSupplyPackageEnabled, // 局长就任礼包
+                    // === 新增：限时礼包数据 ===
+                    this.limitedPackageCycle1.count,
+                    this.limitedPackageCycle2.count,
+                    this.limitedPackageCycle3.count,
+                    this.limitedPackageCycle4.count,
+                    this.limitedPackageShadow1.active,
+                    this.limitedPackageShadow2.active,
+                    this.limitedPackageShadow3.active,
+                    this.limitedPackageMystery.active,
+                    this.limitedPackageTotalCrystal,
+                    this.limitedPackageTotalTickets,
+                    this.limitedPackageTotalCost,
                 ], () => {
                     // 只有在饼状图模块展开时才更新图表
                     if (this.sections.pullSummary) {
