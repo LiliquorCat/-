@@ -12,7 +12,7 @@
 
     
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimum-scale=1.0">
     <title>海拉的钱包</title>
     <script src="https://unpkg.com/vue@3.4.21/dist/vue.global.js"></script>
         <style>
@@ -793,67 +793,6 @@
         .dark-zone-switches {
             display: flex;
             gap: 15px;
-        }
-
-        /* 数据间隙样式 */
-        .data-gap-subsection {
-            margin: 15px 0;
-            padding: 12px;
-            background: #333333; /* 深灰色背景 */
-            border-radius: 6px;
-            border: 1px solid #444444;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
-        }
-
-        .data-gap-title {
-            font-size: 14px;
-            font-weight: bold;
-            color: #FF6B6B; /* 亮红色 */
-            margin-bottom: 10px;
-            text-shadow: 0 1px 1px rgba(0,0,0,0.5);
-        }
-
-        .target-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 8px;
-            margin-bottom: 10px;
-        }
-
-        .rating-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-        }
-
-        .target-btn, .rating-btn {
-            padding: 10px 8px;
-            border: 2px solid #555555;
-            background: #2a2a2a;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: bold;
-            text-align: center;
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            color: #CCCCCC;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .target-btn:hover, .rating-btn:hover {
-            border-color: #FF4500;
-            background: #3a3a3a;
-            color: #FFFFFF;
-        }
-
-        .target-btn.active, .rating-btn.active {
-            border-color: #FF4500;
-            background: #8B0000; /* 深红色 */
-            color: white;
-            box-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
         }
 
         /* 新增模块按钮样式 */
@@ -3530,9 +3469,32 @@
             color: #2c3e50 !important;
         }
 
+
+
+        /* 说明行样式 */
+        .explanation-row {
+            background: #333333;
+            border: 1px solid #444444;
+        }
+
+        .explanation-text {
+            color: #CCCCCC;
+        }
+
+        /* 白天模式下的说明行样式 */
+        .light-mode .explanation-row {
+            background: #f8f9f9 !important;
+            border: 1px solid #d5dbdb !important;
+        }
+
+        .light-mode .explanation-text {
+            color: #2c3e50 !important;
+            font-weight: 500;
+        }
+
     </style>
 </head>
-<body>
+<body class="light-mode">
     <div id="app">
         <!-- 顶部菜单栏 -->
         <div class="top-menu-bar">
@@ -3601,7 +3563,7 @@
                     <!-- 反馈弹窗内容 -->
                     <div v-else-if="currentModal === 'feedback'">
                         <div class="modal-section">
-                            <div class="modal-section-title">🐛 问题反馈</div>
+                            <div class="modal-section-title">🐛 反馈与更新</div>
                             <p>如果局长在使用过程中遇到<strong class="modal-highlight">任何问题或发现BUG</strong>非常欢迎局长通过以下渠道反馈：</p>
                             <ul class="modal-list">
                                 <li>🖥️ 通过B站后台私信@是醉染哦</li>
@@ -3648,7 +3610,7 @@
                             <div class="modal-section-title">⚡ 25.11.05更新日志</div>
                             <ul class="modal-list">
                                 <li>新增<strong class="modal-highlight">晶源特供</strong><br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在可以规划购买璀璨晶源首次&非首充
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在可以规划购买晶源特供首次&非首充
                                 </li>                                            
                             </ul>
                         </div>
@@ -3656,12 +3618,46 @@
                         <div class="modal-section">
                             <div class="modal-section-title">⚡ 25.11.06更新日志</div>
                             <ul class="modal-list">
+                                <li>新增<strong class="modal-highlight">残锋资源</strong><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在可以在狄斯城（主线）自由选择残锋章节的资源
+                                </li>                                
                                 <li>新增<strong class="modal-highlight">常驻&限时礼包</strong><br>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在可以规划各种礼包
                                 </li>
                                 <li>修正<strong class="modal-highlight">监察密令计算方式</strong><br>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在不再默认直接获得，奖励由你的等级决定
                                 </li>                                                   
+                            </ul>
+                        </div>
+
+                        <div class="modal-section">
+                            <div class="modal-section-title">⚡ 25.11.07更新日志</div>
+                            <ul class="modal-list">
+                                <li>新增<strong class="modal-highlight">旧案归档处</strong><br>
+                                </li>
+                                <li>修正<strong class="modal-highlight">复刻活动奖励</strong><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在统一估算复刻活动奖励为600异方晶和1搜索令
+                                </li>    
+                                <li>修正<strong class="modal-highlight">破碎防线首通奖励</strong><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在可以正确计算到目标时间会经历的可首通暗域期数
+                                </li> 
+                                <li>修正<strong class="modal-highlight">数据间隙奖励</strong><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在可以正确计算到目标时间会经历的数据间隙期数
+                                </li> 
+                                <li>修正<strong class="modal-highlight">追踪认证-常规奖励</strong><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在可以正确计算到目标时间可兑换的追踪认证奖励
+                                </li> 
+                                <li>修正<strong class="modal-highlight">友情兑换奖励</strong><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在可以正确计算到目标时间可兑换的友情兑换奖励
+                                </li>                                
+                                <li>修正<strong class="modal-highlight">黑钥贵宾（小月卡）计算逻辑</strong><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在提前购买月卡将默认一直持有月卡
+                                </li>
+                                <li>修正<strong class="modal-highlight">狄斯盈满钵计算逻辑</strong><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在预先购买狄斯盈满钵将不再计算红晶
+                                </li> 
+                                <li>修复<strong class="modal-highlight">少量BUG</strong><br>
+                                </li>                                                                                                   
                             </ul>
                         </div>
 
@@ -4109,19 +4105,19 @@
                             <div class="sub-section">
                                 <h3 class="sub-title">商店兑换</h3>
                                 
-                                <div class="accumulation-item">
-                                    <div class="item-info">
-                                        <span class="item-title">追踪认证-常规：</span>
-                                        <span class="item-value"> <img :src="ticketIcon" class="resource-icon" alt="搜索令"> {{ remainingTrackingExchange }}</span>
-                                    </div>
-                                    <div class="switch-group small">
-                                        <label class="switch">
-                                            <input type="checkbox" v-model="trackingExchanged">
-                                            <span class="slider"></span>
-                                        </label>
-                                        <span class="switch-label">本月已兑换</span>
-                                    </div>
+                            <div class="accumulation-item">
+                                <div class="item-info">
+                                    <span class="item-title">追踪认证-常规{{ trackingExchanged ? (remainingMonths - 1) : remainingMonths }}月：</span>
+                                    <span class="item-value"> <img :src="ticketIcon" class="resource-icon" alt="搜索令"> {{ totalTrackingExchange }}</span>
                                 </div>
+                                <div class="switch-group small">
+                                    <label class="switch">
+                                        <input type="checkbox" v-model="trackingExchanged">
+                                        <span class="slider"></span>
+                                    </label>
+                                    <span class="switch-label">本月已兑换</span>
+                                </div>
+                            </div>
 
                                 <div class="accumulation-item">
                                     <div class="item-info">
@@ -4153,8 +4149,8 @@
 
                                 <div class="accumulation-item">
                                     <div class="item-info">
-                                        <span class="item-title">友情兑换：</span>
-                                        <span class="item-value"> <img :src="ticketIcon" class="resource-icon" alt="搜索令"> {{ remainingFriendshipExchange }}</span>
+                                        <span class="item-title">友情兑换{{ friendshipExchanged ? (remainingMonths - 1) : remainingMonths }}月：</span>
+                                        <span class="item-value"> <img :src="ticketIcon" class="resource-icon" alt="搜索令"> {{ totalFriendshipExchange }}</span>
                                     </div>
                                     <div class="switch-group small">
                                         <label class="switch">
@@ -4168,7 +4164,7 @@
 
                             <!-- 破碎防线模块 -->
                             <div class="sub-section">
-                                <h3 class="sub-title">破碎防线</h3>
+                                <h3 class="sub-title">破碎防线-暗域</h3>
                                 <!-- 暗域 -->
                                 <div class="dark-zone-section">
                                     <div class="accumulation-item">
@@ -4193,9 +4189,10 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="accumulation-item">
                                         <div class="item-info">
-                                            <span class="item-title">首通奖励：</span>
+                                            <span class="item-title">首通奖励{{ darkZoneFirstCompleted ? (darkZoneFirstPeriods - 1) : darkZoneFirstPeriods }}期：</span>
                                             <span class="item-value"> <img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ totalDarkZoneFirst }}</span>
                                         </div>
                                         <div class="switch-group small">
@@ -4206,84 +4203,27 @@
                                             <span class="switch-label">本期已完成</span>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
 
                             <!-- 数据间隙模块 -->
                             <div class="sub-section">
-                                <h3 class="sub-title">数据间隙-上半赛季</h3>
-                                
-                                <!-- 目标奖励子模块 -->
-                                <div class="data-gap-subsection">
-                                    <h4 class="data-gap-title">目标奖励-L1</h4>
-                                    <div class="target-buttons">
-                                        <button 
-                                            class="target-btn" 
-                                            :class="{ active: dataGap.targets.missionComplete }"
-                                            @click="toggleDataGap('targets', 'missionComplete')">
-                                            完成关卡<img :src="crystalIcon" class="resource-icon" alt="异方晶">300
-                                        </button>
-                                        <button 
-                                            class="target-btn" 
-                                            :class="{ active: dataGap.targets.missionCount }"
-                                            @click="toggleDataGap('targets', 'missionCount')">
-                                            完成关卡数量<img :src="crystalIcon" class="resource-icon" alt="异方晶">120
-                                        </button>
-                                        <button 
-                                            class="target-btn" 
-                                            :class="{ active: dataGap.targets.targetComplete }"
-                                            @click="toggleDataGap('targets', 'targetComplete')">
-                                            目标完成数量<img :src="crystalIcon" class="resource-icon" alt="异方晶">140
-                                        </button>
-                                    </div>
+                                <h3 class="sub-title">数据间隙</h3>
+                                <div style="font-size: 12px; color: #666; margin-top: 5px; font-style: italic;">
+                                    &nbsp;&nbsp;每赛季分上下半赛季，分别为1期<br>
                                 </div>
-
-                                <!-- 评分奖励子模块 -->
-                                <div class="data-gap-subsection">
-                                    <h4 class="data-gap-title">评分奖励-L2</h4>
-                                    <div class="rating-buttons">
-                                        <button 
-                                            class="rating-btn" 
-                                            :class="{ active: dataGap.ratings.healing }"
-                                            @click="toggleDataGap('ratings', 'healing')">
-                                            单位治疗量<img :src="crystalIcon" class="resource-icon" alt="异方晶">100
-                                        </button>
-                                        <button 
-                                            class="rating-btn" 
-                                            :class="{ active: dataGap.ratings.shield }"
-                                            @click="toggleDataGap('ratings', 'shield')">
-                                            单位护盾量<img :src="crystalIcon" class="resource-icon" alt="异方晶">100
-                                        </button>
-                                        <button 
-                                            class="rating-btn" 
-                                            :class="{ active: dataGap.ratings.controlTime }"
-                                            @click="toggleDataGap('ratings', 'controlTime')">
-                                            控制时长积分<img :src="crystalIcon" class="resource-icon" alt="异方晶">100
-                                        </button>
-                                        <button 
-                                            class="rating-btn" 
-                                            :class="{ active: dataGap.ratings.controlCount }"
-                                            @click="toggleDataGap('ratings', 'controlCount')">
-                                            控制次数<img :src="crystalIcon" class="resource-icon" alt="异方晶">100
-                                        </button>
-                                        <button 
-                                            class="rating-btn" 
-                                            :class="{ active: dataGap.ratings.totalDamage }"
-                                            @click="toggleDataGap('ratings', 'totalDamage')">
-                                            总伤害<img :src="crystalIcon" class="resource-icon" alt="异方晶">100
-                                        </button>
-                                        <button 
-                                            class="rating-btn" 
-                                            :class="{ active: dataGap.ratings.coreDamage }"
-                                            @click="toggleDataGap('ratings', 'coreDamage')">
-                                            破核期间伤害<img :src="crystalIcon" class="resource-icon" alt="异方晶">100
-                                        </button>
-                                        <button 
-                                            class="rating-btn" 
-                                            :class="{ active: dataGap.ratings.comprehensive }"
-                                            @click="toggleDataGap('ratings', 'comprehensive')">
-                                            综合评分<img :src="crystalIcon" class="resource-icon" alt="异方晶">100
-                                        </button>
+                                <div class="accumulation-item">
+                                    <div class="item-info">
+                                        <span class="item-title">数据间隙{{ dataGapCompleted ? (dataGapPeriods - 1) : dataGapPeriods }}期：</span>
+                                        <span class="item-value"> <img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ totalDataGapCrystal }}</span>
+                                    </div>
+                                    <div class="switch-group small">
+                                        <label class="switch">
+                                            <input type="checkbox" v-model="dataGapCompleted">
+                                            <span class="slider"></span>
+                                        </label>
+                                        <span class="switch-label">本期已完成</span>
                                     </div>
                                 </div>
                             </div>
@@ -4291,6 +4231,10 @@
                             <!-- 狂厄特训模块 -->
                             <div class="sub-section">
                                 <h3 class="sub-title">狂厄特训</h3>
+                                <div style="font-size: 12px; color: #666; margin-top: 5px; font-style: italic;">
+                                    &nbsp;&nbsp;无准确排期，仅显示本期<br>
+                                    &nbsp;
+                                </div>
                                 <div class="training-buttons">
                                     <button 
                                         class="training-btn" 
@@ -4322,6 +4266,9 @@
                             <!-- 祸海之厄模块 - 移入日常积累 -->
                             <div class="sub-section">
                                 <h3 class="sub-title">无尽梦魇-更替</h3>
+                                <div style="font-size: 12px; color: #666; margin-top: 5px; font-style: italic;">
+                                    &nbsp;&nbsp;无准确排期，仅显示本期<br>
+                                </div>
                                 <div class="accumulation-item">
                                     <div class="item-info">
                                         <span class="item-title">祸海之厄：</span>
@@ -4612,6 +4559,31 @@
                                         >
                                         <div class="slider-value">
                                             弥合阈值: {{ memoryReviewThreshold }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 旧案归档处模块 -->
+                            <div class="sub-section">
+                                <h3 class="sub-title">旧案归档处</h3>
+                                <div class="accumulation-item">
+                                    <div class="item-info">
+                                        <span class="item-title">未兑换搜索令：</span>
+                                        <span class="item-value"> <img :src="ticketIcon" class="resource-icon" alt="搜索令"> {{ oldCaseArchiveTickets }}</span>
+                                    </div>
+                                    <div class="certification-controls">
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <input 
+                                                type="number" 
+                                                v-model.number="oldCaseArchiveCount" 
+                                                placeholder="0" 
+                                                min="0" 
+                                                step="1" 
+                                                @input="validateOldCaseArchiveInput"
+                                                @focus="clearOldCaseArchiveIfZero"
+                                                @blur="setOldCaseArchiveDefaultIfEmpty"
+                                                style="width: 70px; padding: 8px; border: 1px solid #555555; border-radius: 5px; text-align: center; background: #333333; color: #FFFFFF; box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);">
                                         </div>
                                     </div>
                                 </div>
@@ -5051,6 +5023,7 @@
                                     &nbsp;&nbsp;无准确复刻信息，默认新老活动交替，可自行增减<br>
                                     &nbsp;&nbsp;新老玩家奖励不一致
                                 </div>
+
                             <!-- 动态活动模块 -->
                             <div v-for="activity in displayActivities" :key="activity.title" class="sub-section">
                                 <h3 class="sub-title">{{ activity.title }}</h3>
@@ -5074,23 +5047,15 @@
                                     </div>
                                 </div>
                                 
-                                <!-- 新增：复刻活动按钮 -->
+                                <!-- 复刻活动按钮 -->
                                 <div class="accumulation-item">
                                     <div class="item-info">
                                         <div class="training-buttons" style="margin-top: 10px;">
                                             <button 
                                                 class="training-btn" 
                                                 :class="{ active: activityRerunMode[activity.title] === 'crystal' }"
-                                                @click="setActivityRerunMode(activity.title, 'crystal')"
-                                                :disabled="activityRerunMode[activity.title] === 'ticket'">
-                                                复刻活动<img :src="crystalIcon" class="resource-icon" alt="异方晶">{{ activityRerunMode[activity.title] === 'crystal' ? 1000 : 0 }}<img :src="ticketIcon" class="resource-icon" alt="搜索令">{{ activityRerunMode[activity.title] === 'crystal' ? 3 : 0 }}
-                                            </button>
-                                            <button 
-                                                class="training-btn" 
-                                                :class="{ active: activityRerunMode[activity.title] === 'ticket' }"
-                                                @click="setActivityRerunMode(activity.title, 'ticket')"
-                                                :disabled="activityRerunMode[activity.title] === 'crystal'">
-                                                复刻活动<img :src="ticketIcon" class="resource-icon" alt="搜索令">{{ activityRerunMode[activity.title] === 'ticket' ? 1 : 0 }}
+                                                @click="setActivityRerunMode(activity.title, 'crystal')">
+                                                {{ activity.title === '妄夜迷章' ? '无匪之地' : '复刻活动' }}<img :src="crystalIcon" class="resource-icon" alt="异方晶">{{ activityRerunMode[activity.title] === 'crystal' ? 600 : 0 }}<img :src="ticketIcon" class="resource-icon" alt="搜索令">{{ activityRerunMode[activity.title] === 'crystal' ? 1 : 0 }}
                                             </button>
                                         </div>
                                     </div>
@@ -5142,9 +5107,22 @@
                             <span class="collapse-icon">{{ sections.recharge ? '−' : '+' }}</span>
                         </h2>
                         <div v-if="sections.recharge" class="section-content">
+                            <!-- 新增说明行 -->
+                            <div class="explanation-row" style="display: flex; align-items: center; gap: 8px; margin-bottom: 20px; padding: 10px; border-radius: 6px; border: 1px solid #444444;">
+                                <span class="explanation-text" style="font-size: 13px;">标签内数字为每抽价格，例：
+                                <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                    2.57
+                                </span>
+                                    &nbsp;&nbsp;表示为每抽2.57元</span>
+                            </div>
                             <!-- 月卡购买控制 -->
                             <div class="sub-section">
-                                <h3 class="sub-title">黑钥贵宾（小月卡）</h3>
+                                <h3 class="sub-title" style="display: flex; align-items: center; gap: 10px;">
+                                    黑钥贵宾（小月卡）
+                                    <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                        2.57
+                                    </span>
+                                </h3>
                                 
                                 <div class="resource-input-vertical" style="margin-bottom: 15px;">
                                     <label style="min-width: 200px; display: flex; align-items: center; gap: 5px;">
@@ -5174,12 +5152,17 @@
 
                             <!-- 高级监察密令模块 -->
                             <div class="sub-section">
-                                <h3 class="sub-title">高级监察密令</h3>
+                                <h3 class="sub-title" style="display: flex; align-items: center; gap: 10px;">
+                                    高级监察密令（大月卡）
+                                    <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                        6.24
+                                    </span>
+                                </h3>
                                 <div class="inspection-order-buttons">
                                     <div v-for="period in inspectionPeriods" :key="period.id" class="inspection-period-btn-wrapper">
                                         <button 
                                             class="inspection-period-btn" 
-                                            :class="{ active: selectedRechargeInspectionPeriod === period.id }"
+                                            :class="{ active: (rechargeInspectionLevels[period.id] || 0) > 0 }"
                                             @click="selectRechargeInspectionPeriod(period.id)">
                                             {{ period.startDate }}到{{ period.endDate }} 
                                             <img :src="crystalIcon" class="resource-icon" alt="异方晶">{{ calculateRechargePeriodCrystal(rechargeInspectionLevels[period.id] || 0) }}
@@ -5230,7 +5213,12 @@
                             <!-- 狄斯盈满钵模块 -->
                             <div class="sub-section">
                                 <h3 class="sub-title" style="display: flex; justify-content: space-between; align-items: center;">
-                                    <span>狄斯盈满钵</span>
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <span>狄斯盈满钵</span>
+                                        <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                            1.64
+                                        </span>
+                                    </div>
                                     <div class="switch-group" style="margin: 0;">
                                         <span class="switch-label" :class="{ active: !disiPrePurchased, inactive: disiPrePurchased }">未预先购买</span>
                                         <label class="switch">
@@ -5292,7 +5280,12 @@
                             <!-- 诡珑珍宝馆模块 -->
                             <div class="sub-section">
                                 <h3 class="sub-title" style="display: flex; justify-content: space-between; align-items: center;">
-                                    <span>诡珑珍宝馆</span>
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <span>诡珑珍宝馆</span>
+                                        <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                            8.8
+                                        </span>
+                                    </div>
                                     <div class="switch-group" style="margin: 0;">
                                         <span class="switch-label" :class="{ active: !treasurePrePurchased, inactive: treasurePrePurchased }">未预先购买</span>
                                         <label class="switch">
@@ -5567,7 +5560,7 @@
                                 <div class="sub-section">
                                     <h3 class="sub-title">限时礼包</h3>
                                     
-                                    <!-- 轮回致意Ⅰ -->
+                                    <!-- 荒旅追踪补给Ⅰ -->
                                     <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box; margin-bottom: 10px;">
                                         <button 
                                             class="training-btn crystal-supply-btn" 
@@ -5579,7 +5572,7 @@
                                                 </span>
                                             </div>
                                             <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
-                                                <span style="font-weight: bold; white-space: nowrap;">轮回致意Ⅰ</span>
+                                                <span style="font-weight: bold; white-space: nowrap;">荒旅追踪补给Ⅰ</span>
                                                 <img :src="crystalIcon" class="resource-icon" alt="异方晶">
                                                 <span style="font-weight: bold; white-space: nowrap;">{{ limitedPackageCycle1.crystal }}</span>
                                                 <img :src="ticketIcon" class="resource-icon" alt="搜索令">
@@ -5605,7 +5598,7 @@
                                         </div>
                                     </div>
 
-                                    <!-- 轮回致意Ⅱ -->
+                                    <!-- 荒旅追踪补给Ⅱ -->
                                     <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box; margin-bottom: 10px;">
                                         <button 
                                             class="training-btn crystal-supply-btn" 
@@ -5617,7 +5610,7 @@
                                                 </span>
                                             </div>
                                             <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
-                                                <span style="font-weight: bold; white-space: nowrap;">轮回致意Ⅱ</span>
+                                                <span style="font-weight: bold; white-space: nowrap;">荒旅追踪补给Ⅱ</span>
                                                 <img :src="ticketIcon" class="resource-icon" alt="搜索令">
                                                 <span style="font-weight: bold; white-space: nowrap;">{{ limitedPackageCycle2.tickets }}</span>
                                             </div>
@@ -5641,7 +5634,7 @@
                                         </div>
                                     </div>
 
-                                    <!-- 轮回致意Ⅲ -->
+                                    <!-- 荒旅追踪补给Ⅲ -->
                                     <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box; margin-bottom: 10px;">
                                         <button 
                                             class="training-btn crystal-supply-btn" 
@@ -5653,7 +5646,7 @@
                                                 </span>
                                             </div>
                                             <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
-                                                <span style="font-weight: bold; white-space: nowrap;">轮回致意Ⅲ</span>
+                                                <span style="font-weight: bold; white-space: nowrap;">荒旅追踪补给Ⅲ</span>
                                                 <img :src="ticketIcon" class="resource-icon" alt="搜索令">
                                                 <span style="font-weight: bold; white-space: nowrap;">{{ limitedPackageCycle3.tickets }}</span>
                                             </div>
@@ -5677,7 +5670,7 @@
                                         </div>
                                     </div>
 
-                                    <!-- 轮回致意Ⅳ -->
+                                    <!-- 荒旅追踪补给Ⅳ -->
                                     <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box; margin-bottom: 10px;">
                                         <button 
                                             class="training-btn crystal-supply-btn" 
@@ -5689,7 +5682,7 @@
                                                 </span>
                                             </div>
                                             <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
-                                                <span style="font-weight: bold; white-space: nowrap;">轮回致意Ⅳ</span>
+                                                <span style="font-weight: bold; white-space: nowrap;">荒旅追踪补给Ⅳ</span>
                                                 <img :src="ticketIcon" class="resource-icon" alt="搜索令">
                                                 <span style="font-weight: bold; white-space: nowrap;">{{ limitedPackageCycle4.tickets }}</span>
                                             </div>
@@ -5816,10 +5809,37 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
+                                    <!-- 荒旅资源补给 -->
+                                    <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box; margin-bottom: 10px;">
+                                        <button 
+                                            class="training-btn crystal-supply-btn" 
+                                            :class="{ active: limitedPackageTravelSupply.active }"
+                                            @click="toggleLimitedPackage('limitedPackageTravelSupply')"
+                                            style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
+                                            <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
+                                                <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                                    {{ (45 / 5).toFixed(2) }}
+                                                </span>
+                                            </div>
+                                            <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
+                                                <span style="font-weight: bold; white-space: nowrap;">荒旅资源补给</span>
+                                                <img :src="ticketIcon" class="resource-icon" alt="搜索令">
+                                                <span style="font-weight: bold; white-space: nowrap;">5</span>
+                                            </div>
+                                        </button>
+                                        <!-- 价格显示 -->
+                                        <div style="display: flex; align-items: center; min-width: 60px; flex-shrink: 0; height: 100%;">
+                                            <div style="text-align: center; font-size: 12px; color: #666; white-space: nowrap;">
+                                                ￥45
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
                         </div>
                     </div>
+                    
                     <!-- 其他（⚠️估算）模块 -->
                     <div class="potential-section card">
                         <h2 @click="toggleSection('otherEstimate')" class="section-header">
@@ -5913,6 +5933,12 @@
                 
                 return {
 
+                    // 旧案归档处数据
+                    oldCaseArchiveCount: savedData?.oldCaseArchiveCount || 0,
+
+                    // 数据间隙数据
+                    dataGapCompleted: savedData?.dataGapCompleted || false,
+
                     // === 新增：常驻礼包数据 ===新人追踪礼包
                     permanentPackage: {
                         active: savedData?.permanentPackageActive || false,
@@ -5951,7 +5977,7 @@
                     ],
 
                     // === 新增：限时礼包数据 ===
-                    // 轮回致意系列（限购2次）
+                    // 荒旅追踪补给系列（限购2次）
                     limitedPackageCycle1: {
                         count: savedData?.limitedPackageCycle1Count || 0,
                         crystal: 60,
@@ -6002,6 +6028,13 @@
                         tickets: 40,
                         price: 328
                     },
+                    // 荒旅资源补给（单次购买）
+                    limitedPackageTravelSupply: {
+                        active: savedData?.limitedPackageTravelSupplyActive || false,
+                        crystal: 0,
+                        tickets: 5,
+                        price: 45
+                    },
 
                     // 监察密令数据
                     selectedInspectionPeriod: savedData?.selectedInspectionPeriod || 1,
@@ -6042,7 +6075,14 @@
                     // 新增：活动角色试用奖励完成状态
                     activityTrialCompleted: savedData?.activityTrialCompleted || {},
                     // 新增：活动复刻模式状态
-                    activityRerunMode: savedData?.activityRerunMode || {},
+                    activityRerunMode: savedData?.activityRerunMode || {
+                        '妄夜迷章': 'crystal',
+                        '主线版本（⚠️估算）': 'crystal', 
+                        '1218-0115活动（⚠️估算）': 'crystal',
+                        '0115-0212活动（⚠️估算）': 'crystal',
+                        '新年活动（⚠️估算）': 'crystal'
+                    },
+                                        
 
                     // 新增：卡池日期 - 改为响应式数据
                     poolDates: {
@@ -6150,23 +6190,6 @@
                     nightmareScore: savedData?.nightmareScore || 0,
                     nightmareSeaCompleted: savedData?.nightmareSeaCompleted || false,
                     nightMazeCompleted: savedData?.nightMazeCompleted || false,
-                    
-                    dataGap: savedData?.dataGap || {
-                        targets: {
-                            missionComplete: false,
-                            missionCount: false,
-                            targetComplete: false
-                        },
-                        ratings: {
-                            healing: false,
-                            shield: false,
-                            controlTime: false,
-                            controlCount: false,
-                            totalDamage: false,
-                            coreDamage: false,
-                            comprehensive: false
-                        }
-                    },
 
                     // 新增模块数据
                     mainStory: savedData?.mainStory || {
@@ -6347,6 +6370,7 @@
                 }
                 
             },
+
             computed: {
                 // 监察密令期数计算
                 inspectionPeriods() {
@@ -6960,7 +6984,12 @@
                 },
                 
                 totalDarkZoneFirst() {
-                    return this.darkZoneFirstCompleted ? 0 : 450;
+                    const crystalPerPeriod = 450;
+                    if (this.darkZoneFirstCompleted) {
+                        return Math.max(0, (this.darkZoneFirstPeriods - 1)) * crystalPerPeriod;
+                    } else {
+                        return this.darkZoneFirstPeriods * crystalPerPeriod;
+                    }
                 },
                 
                 // 计算从现在到目标日期之间的月份数
@@ -7074,11 +7103,21 @@
                 },
                 
                 totalTrackingExchange() {
-                    return this.trackingExchanged ? 0 : 5;
+                    const monthlyReward = 5;
+                    if (this.trackingExchanged) {
+                        return Math.max(0, (this.remainingMonths - 1)) * monthlyReward;
+                    } else {
+                        return this.remainingMonths * monthlyReward;
+                    }
                 },
-                
+
                 totalFriendshipExchange() {
-                    return this.friendshipExchanged ? 0 : 3;
+                    const monthlyReward = 3;
+                    if (this.friendshipExchanged) {
+                        return Math.max(0, (this.remainingMonths - 1)) * monthlyReward;
+                    } else {
+                        return this.remainingMonths * monthlyReward;
+                    }
                 },
                 
                 totalTrackingCertification() {
@@ -7122,24 +7161,6 @@
                         tickets: scoreRewards.tickets,
                         total: scoreRewards.crystal + (scoreRewards.tickets * 180)  // 修改：移除祸海之厄的异方晶
                     };
-                },
-                
-                dataGapRewards() {
-                    let crystal = 0;
-                    
-                    if (this.dataGap.targets.missionComplete) crystal += 300;
-                    if (this.dataGap.targets.missionCount) crystal += 120;
-                    if (this.dataGap.targets.targetComplete) crystal += 140;
-                    
-                    if (this.dataGap.ratings.healing) crystal += 100;
-                    if (this.dataGap.ratings.shield) crystal += 100;
-                    if (this.dataGap.ratings.controlTime) crystal += 100;
-                    if (this.dataGap.ratings.controlCount) crystal += 100;
-                    if (this.dataGap.ratings.totalDamage) crystal += 100;
-                    if (this.dataGap.ratings.coreDamage) crystal += 100;
-                    if (this.dataGap.ratings.comprehensive) crystal += 100;
-                    
-                    return crystal;
                 },
 
                 // 新增模块奖励计算
@@ -7299,7 +7320,6 @@
                         this.ashTideRewards.total; // 新增：灰烬之潮总计
                 },
                 
-                // 分模块计算 - 日常积累
                 dailyAccumulationCrystal() {
                     try {
                         return this.dailyActiveTotal + 
@@ -7310,8 +7330,9 @@
                             this.totalSignInRewardForSummary +
                             this.totalDailyShare +
                             this.nightmareSeaReward +
-                            (this.supervisionHarvestCrystal || 0) +  // 安全访问监管收菜
-                            (this.alloyExchangeCrystal || 0);        // 安全访问合金兑换
+                            (this.supervisionHarvestCrystal || 0) +
+                            (this.alloyExchangeCrystal || 0) +
+                            this.totalDataGapCrystal; // 新增数据间隙异方晶
                     } catch (error) {
                         console.error('日常积累计算错误:', error);
                         return 0;
@@ -7323,7 +7344,7 @@
                     let totalCrystal = 0;
                     this.displayActivities.forEach(activity => {
                         if (this.activityRerunMode[activity.title] === 'crystal') {
-                            totalCrystal += 1000;
+                            totalCrystal += 600;
                         }
                     });
                     return totalCrystal;
@@ -7334,30 +7355,10 @@
                     let totalTickets = 0;
                     this.displayActivities.forEach(activity => {
                         if (this.activityRerunMode[activity.title] === 'crystal') {
-                            totalTickets += 3;
-                        } else if (this.activityRerunMode[activity.title] === 'ticket') {
                             totalTickets += 1;
                         }
                     });
                     return totalTickets;
-                },
-
-                // 单个活动的复刻活动异方晶显示
-                activityRerunCrystalDisplay(activityTitle) {
-                    if (this.activityRerunMode[activityTitle] === 'crystal') {
-                        return 1000;
-                    }
-                    return 0;
-                },
-
-                // 单个活动的复刻活动搜索令显示
-                activityRerunTicketsDisplay(activityTitle) {
-                    if (this.activityRerunMode[activityTitle] === 'crystal') {
-                        return 3;
-                    } else if (this.activityRerunMode[activityTitle] === 'ticket') {
-                        return 1;
-                    }
-                    return 0;
                 },
 
                 // 分模块计算 - 活动奖励
@@ -7430,7 +7431,6 @@
                 otherSystemsCrystal() {
                     return this.trainingRewards.total +
                         this.nightmareRemainingCrystal +
-                        this.dataGapRewards +
                         this.totalNewModuleRewards +
                         this.actionSummaryCrystal +
                         this.memoryReviewCrystal + //：记忆复现
@@ -7560,11 +7560,11 @@
                         this.inspectionOrderTotalTickets; // 添加监察密令搜索令
                 },
 
-                // 分模块计算 - 其他系统搜索令
                 otherSystemsTickets() {
                     return this.trainingRewards.tickets +
                         this.nightmareTotalRewards.tickets +
-                        this.mainStoryRewards.tickets;
+                        this.mainStoryRewards.tickets +
+                        this.oldCaseArchiveTickets; // 新增旧案归档处搜索令
                 },
 
                 // 分模块计算 - 氪金搜索令
@@ -7607,8 +7607,8 @@
                     let totalCardDays = 0;
                     
                     if (this.monthlyCardCount === -1) {
-                        // -1：提前购买，有1张月卡30天
-                        totalCardDays = 30;
+                        // -1：提前购买，使用日常x天的计算方式
+                        totalCardDays = this.selectedDays;
                     } else if (this.monthlyCardCount >= 0) {
                         // 0：购买1张月卡30天，1：购买2张月卡60天，以此类推
                         totalCardDays = 30 * (this.monthlyCardCount + 1);
@@ -7817,12 +7817,17 @@
 
                 // 狄斯盈满钵璀璨晶源计算
                 disiPremiumCrystal() {
-                    // 只要按钮激活就显示980璀璨晶源，预购买只影响费用计算
-                    if (this.disiActive) {
-                        return 980;
+                    // 如果按钮未激活，显示0计入0
+                    if (!this.disiActive) {
+                        return 0;
                     }
-                    return 0;
-                },        
+                    // 如果已预先购买，显示0计入0
+                    if (this.disiPrePurchased) {
+                        return 0;
+                    }
+                    // 否则显示980计入980
+                    return 980;
+                },     
 
                 // 诡珑珍宝馆搜索令计算
                 treasureTickets() {
@@ -7995,7 +8000,8 @@
                         (this.limitedPackageShadow1.active ? this.limitedPackageShadow1.tickets : 0) +
                         (this.limitedPackageShadow2.active ? this.limitedPackageShadow2.tickets : 0) +
                         (this.limitedPackageShadow3.active ? this.limitedPackageShadow3.tickets : 0) +
-                        (this.limitedPackageMystery.active ? this.limitedPackageMystery.tickets : 0);
+                        (this.limitedPackageMystery.active ? this.limitedPackageMystery.tickets : 0) +
+                        (this.limitedPackageTravelSupply.active ? this.limitedPackageTravelSupply.tickets : 0); // 新增荒旅资源补给
                 },
 
                 // 限时礼包总费用
@@ -8007,7 +8013,93 @@
                         (this.limitedPackageShadow1.active ? this.limitedPackageShadow1.price : 0) +
                         (this.limitedPackageShadow2.active ? this.limitedPackageShadow2.price : 0) +
                         (this.limitedPackageShadow3.active ? this.limitedPackageShadow3.price : 0) +
-                        (this.limitedPackageMystery.active ? this.limitedPackageMystery.price : 0);
+                        (this.limitedPackageMystery.active ? this.limitedPackageMystery.price : 0) +
+                        (this.limitedPackageTravelSupply.active ? this.limitedPackageTravelSupply.price : 0); // 新增荒旅资源补给
+                },
+
+                // 数据间隙期数计算
+                dataGapPeriods() {
+                    const firstPeriodStart = new Date(2025, 10, 6); // 2025年11月6日
+                    const periodDuration = 4 * 7 * 24 * 60 * 60 * 1000; // 4周的毫秒数
+                    
+                    // 计算目标日期
+                    let targetDate;
+                    if (this.selectedTime === 'nextVersion') {
+                        targetDate = this.calculateToPoolEnd ? 
+                            new Date(this.poolDates.nextVersion.getTime() + (this.versionWeeks * 7 * 24 * 60 * 60 * 1000)) :
+                            this.poolDates.nextVersion;
+                    } else {
+                        targetDate = this.calculateToPoolEnd ? 
+                            new Date(this.poolDates.newYear.getTime() + (this.versionWeeks * 7 * 24 * 60 * 60 * 1000)) :
+                            this.poolDates.newYear;
+                    }
+                    
+                    let currentPeriodStart = new Date(firstPeriodStart);
+                    let periodCount = 0;
+                    
+                    // 计算在当前日期和目标日期之间的期数
+                    while (currentPeriodStart <= targetDate) {
+                        const periodEnd = new Date(currentPeriodStart.getTime() + periodDuration);
+                        
+                        // 只统计在当前日期之后结束的期数
+                        if (periodEnd > new Date()) {
+                            periodCount++;
+                        }
+                        
+                        currentPeriodStart = new Date(currentPeriodStart.getTime() + periodDuration);
+                    }
+                    
+                    return Math.max(1, periodCount); // 至少1期
+                },
+
+                // 数据间隙总异方晶计算
+                totalDataGapCrystal() {
+                    const crystalPerPeriod = 1260;
+                    if (this.dataGapCompleted) {
+                        return Math.max(0, (this.dataGapPeriods - 1)) * crystalPerPeriod;
+                    } else {
+                        return this.dataGapPeriods * crystalPerPeriod;
+                    }
+                },
+
+                // 首通奖励期数计算
+                darkZoneFirstPeriods() {
+                    const firstPeriodStart = new Date(2025, 9, 20); // 2025年10月20日
+                    const periodDuration = 6 * 7 * 24 * 60 * 60 * 1000; // 6周的毫秒数
+                    
+                    // 计算目标日期
+                    let targetDate;
+                    if (this.selectedTime === 'nextVersion') {
+                        targetDate = this.calculateToPoolEnd ? 
+                            new Date(this.poolDates.nextVersion.getTime() + (this.versionWeeks * 7 * 24 * 60 * 60 * 1000)) :
+                            this.poolDates.nextVersion;
+                    } else {
+                        targetDate = this.calculateToPoolEnd ? 
+                            new Date(this.poolDates.newYear.getTime() + (this.versionWeeks * 7 * 24 * 60 * 60 * 1000)) :
+                            this.poolDates.newYear;
+                    }
+                    
+                    let currentPeriodStart = new Date(firstPeriodStart);
+                    let periodCount = 0;
+                    
+                    // 计算在当前日期和目标日期之间的期数
+                    while (currentPeriodStart <= targetDate) {
+                        const periodEnd = new Date(currentPeriodStart.getTime() + periodDuration);
+                        
+                        // 只统计在当前日期之后结束的期数
+                        if (periodEnd > new Date()) {
+                            periodCount++;
+                        }
+                        
+                        currentPeriodStart = new Date(currentPeriodStart.getTime() + periodDuration);
+                    }
+                    
+                    return Math.max(1, periodCount); // 至少1期
+                },
+
+                // 旧案归档处搜索令计算
+                oldCaseArchiveTickets() {
+                    return this.oldCaseArchiveCount || 0;
                 },
 
             },
@@ -8085,12 +8177,6 @@
                 },
                 nightmareSeaCompleted() {
                     this.saveToLocalStorage();
-                },
-                dataGap: {
-                    handler(newValue) {
-                        this.saveToLocalStorage();
-                    },
-                    deep: true
                 },
                 // 新增模块的watch
                 mainStory: {
@@ -8364,6 +8450,20 @@
                     },
                     deep: true
                 },
+                limitedPackageTravelSupply: {
+                    handler(newValue) {
+                        this.saveToLocalStorage();
+                    },
+                    deep: true
+                },
+
+                dataGapCompleted() {
+                    this.saveToLocalStorage();
+                }, // 数据间隙监听
+
+                oldCaseArchiveCount() {
+                    this.saveToLocalStorage();
+                },// 旧案归档处监听
 
             },
             methods: {
@@ -8391,7 +8491,6 @@
                         trainingModes: this.trainingModes,
                         nightmareScore: this.nightmareScore,
                         nightmareSeaCompleted: this.nightmareSeaCompleted,
-                        dataGap: this.dataGap,
                         mainStory: this.mainStory,
                         darkShadowEx: this.darkShadowEx,
                         memoryStorm: this.memoryStorm,
@@ -8433,6 +8532,7 @@
                         limitedPackageShadow2Active: this.limitedPackageShadow2.active,
                         limitedPackageShadow3Active: this.limitedPackageShadow3.active,
                         limitedPackageMysteryActive: this.limitedPackageMystery.active, // 限时礼包数据保存
+                        limitedPackageTravelSupplyActive: this.limitedPackageTravelSupply.active, //  荒旅资源补给数据保存
                         activityCompleted: this.activityCompleted,//活动数据
                         activityReviewCompleted: this.activityReviewCompleted, // 保存活动审查奖励状态
                         activityTrialCompleted: this.activityTrialCompleted, // 保存活动角色试用奖励状态
@@ -8443,6 +8543,8 @@
                         ashTide: this.ashTide, // 新增：灰烬之潮数据保存
                         selectedInspectionPeriod: this.selectedInspectionPeriod,
                         inspectionLevels: this.inspectionLevels,
+                        dataGapCompleted: this.dataGapCompleted, // 新增：数据间隙数据保存
+                        oldCaseArchiveCount: this.oldCaseArchiveCount, // 新增：旧案归档处数据保存
                     };
                     
                     try {
@@ -8573,13 +8675,11 @@
 
                 // 应用主题样式
                 applyTheme() {
-                    if (this.isDarkMode) {
-                        document.body.classList.remove('light-mode');
-                        document.body.classList.add('dark-mode');
-                    } else {
-                        document.body.classList.remove('dark-mode');
-                        document.body.classList.add('light-mode');
-                    }
+                    // 使用nextTick确保DOM更新后再应用样式
+                    this.$nextTick(() => {
+                        document.body.classList.remove('light-mode', 'dark-mode');
+                        document.body.classList.add(this.isDarkMode ? 'dark-mode' : 'light-mode');
+                    });
                 },
 
                 // 灰烬之潮-重塑切换方法
@@ -9218,8 +9318,8 @@
                     if (this.activityRerunMode[activityTitle] === mode) {
                         this.activityRerunMode[activityTitle] = null;
                     } else {
-                        // 否则设置新的模式
-                        this.activityRerunMode[activityTitle] = mode;
+                        // 否则设置新的模式（现在只有crystal模式）
+                        this.activityRerunMode[activityTitle] = 'crystal';
                     }
                     this.saveToLocalStorage();
                 },
@@ -9276,10 +9376,6 @@
                 
                 toggleTrainingMode(mode) {
                     this.trainingModes[mode] = !this.trainingModes[mode];
-                },
-                
-                toggleDataGap(category, type) {
-                    this.dataGap[category][type] = !this.dataGap[category][type];
                 },
 
                 // 新增模块方法
@@ -9752,7 +9848,7 @@
                             this[packageName].active = true;
                         }
                     } else {
-                        // 其他礼包正常切换
+                        // 其他礼包正常切换（包括荒旅资源补给）
                         this[packageName].active = !this[packageName].active;
                     }
                 },
@@ -9841,7 +9937,6 @@
             },
 
             // 在methods中添加resize处理方法
-            // 在methods对象中添加：
             handleResize() {
                 // 只有在饼状图模块展开时才重新绘制
                 if (this.sections.pullSummary) {
@@ -9850,6 +9945,31 @@
                     });
                 }
             },
+
+            // 旧案归档处输入验证
+            validateOldCaseArchiveInput() {
+                if (this.oldCaseArchiveCount < 0) {
+                    this.oldCaseArchiveCount = 0;
+                }
+                if (this.oldCaseArchiveCount !== null && this.oldCaseArchiveCount !== undefined) {
+                    this.oldCaseArchiveCount = Math.floor(this.oldCaseArchiveCount);
+                }
+            },
+
+            // 当输入框获得焦点时，如果值为0则清空
+            clearOldCaseArchiveIfZero() {
+                if (this.oldCaseArchiveCount === 0) {
+                    this.oldCaseArchiveCount = null;
+                }
+            },
+
+            // 当输入框失去焦点时，如果为空则设置为0
+            setOldCaseArchiveDefaultIfEmpty() {
+                if (this.oldCaseArchiveCount === null || this.oldCaseArchiveCount === '') {
+                    this.oldCaseArchiveCount = 0;
+                }
+            },
+
         })
 
         // 添加错误处理
