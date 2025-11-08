@@ -10,9 +10,57 @@
       gtag('config', 'G-GKVP3QRX9Y');
     </script>
 
+    <!-- 禁止移动端双指放大 -->
+    <script>
+    // 禁止移动端双指缩放
+    document.addEventListener('touchstart', function(event) {
+        if (event.touches.length > 1) {
+            event.preventDefault();
+        }
+    }, { passive: false });
+
+    // 修复滑块操作时的页面滚动问题
+    document.addEventListener('touchstart', function(event) {
+        if (event.target.type === 'range') {
+            // 如果是滑块，阻止默认行为防止页面滚动
+            event.preventDefault();
+        }
+    }, { passive: false });
+
+    document.addEventListener('touchmove', function(event) {
+        if (event.target.type === 'range') {
+            // 如果是滑块移动，阻止默认行为防止页面滚动
+            event.preventDefault();
+        }
+    }, { passive: false });
+
+    // 禁止双指缩放
+    document.addEventListener('gesturestart', function(event) {
+        event.preventDefault();
+    });
+
+    document.addEventListener('gesturechange', function(event) {
+        event.preventDefault();
+    });
+
+    document.addEventListener('gestureend', function(event) {
+        event.preventDefault();
+    });
+
+    // 禁止双击缩放
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function(event) {
+        const now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, false);
+    </script>
+
     
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimum-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimum-scale=1.0, viewport-fit=cover">
     <title>海拉的钱包</title>
     <script src="https://unpkg.com/vue@3.4.21/dist/vue.global.js"></script>
         <style>
@@ -21,6 +69,25 @@
                 background: #1a1a1a;
                 margin: 0;
                 padding: 0;
+            }
+
+            /* 禁止文本选择和缩放 */
+            * {
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            /* 允许输入框文本选择 */
+            input, textarea {
+                -webkit-user-select: text;
+                -moz-user-select: text;
+                -ms-user-select: text;
+                user-select: text;
             }
 
             /* 顶部菜单栏样式 */
@@ -3563,7 +3630,7 @@
                     <!-- 反馈弹窗内容 -->
                     <div v-else-if="currentModal === 'feedback'">
                         <div class="modal-section">
-                            <div class="modal-section-title">🐛 反馈与更新</div>
+                            <div class="modal-section-title">🐛 问题反馈</div>
                             <p>如果局长在使用过程中遇到<strong class="modal-highlight">任何问题或发现BUG</strong>非常欢迎局长通过以下渠道反馈：</p>
                             <ul class="modal-list">
                                 <li>🖥️ 通过B站后台私信@是醉染哦</li>
@@ -3610,7 +3677,7 @@
                             <div class="modal-section-title">⚡ 25.11.05更新日志</div>
                             <ul class="modal-list">
                                 <li>新增<strong class="modal-highlight">晶源特供</strong><br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在可以规划购买晶源特供首次&非首充
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在可以规划购买璀璨晶源首次&非首充
                                 </li>                                            
                             </ul>
                         </div>
@@ -3618,9 +3685,6 @@
                         <div class="modal-section">
                             <div class="modal-section-title">⚡ 25.11.06更新日志</div>
                             <ul class="modal-list">
-                                <li>新增<strong class="modal-highlight">残锋资源</strong><br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在可以在狄斯城（主线）自由选择残锋章节的资源
-                                </li>                                
                                 <li>新增<strong class="modal-highlight">常驻&限时礼包</strong><br>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在可以规划各种礼包
                                 </li>
@@ -3642,22 +3706,8 @@
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在可以正确计算到目标时间会经历的可首通暗域期数
                                 </li> 
                                 <li>修正<strong class="modal-highlight">数据间隙奖励</strong><br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在可以正确计算到目标时间会经历的数据间隙期数
-                                </li> 
-                                <li>修正<strong class="modal-highlight">追踪认证-常规奖励</strong><br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在可以正确计算到目标时间可兑换的追踪认证奖励
-                                </li> 
-                                <li>修正<strong class="modal-highlight">友情兑换奖励</strong><br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在可以正确计算到目标时间可兑换的友情兑换奖励
-                                </li>                                
-                                <li>修正<strong class="modal-highlight">黑钥贵宾（小月卡）计算逻辑</strong><br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在提前购买月卡将默认一直持有月卡
-                                </li>
-                                <li>修正<strong class="modal-highlight">狄斯盈满钵计算逻辑</strong><br>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在预先购买狄斯盈满钵将不再计算红晶
-                                </li> 
-                                <li>修复<strong class="modal-highlight">少量BUG</strong><br>
-                                </li>                                                                                                   
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在可以正确计算到目标时间会经历的可首通暗域期数
+                                </li>                                                     
                             </ul>
                         </div>
 
@@ -4071,32 +4121,26 @@
                                             @click="selectInspectionPeriod(period.id)">
                                             {{ period.startDate }}到{{ period.endDate }} <img :src="ticketIcon" class="resource-icon" alt="搜索令">{{ calculateCurrentPeriodTickets(inspectionLevels[period.id]) }}
                                         </button>
-                                        <div class="inspection-slider-container" v-if="selectedInspectionPeriod === period.id">
-                                            <div class="slider-labels">
-                                                <span>0级</span>
-                                                <span>55级</span>
-                                            </div>
-                                            <input 
-                                                type="range" 
-                                                v-model.number="inspectionLevels[period.id]" 
-                                                min="0" 
-                                                max="55"
-                                                step="1"
-                                                class="inspection-slider"
-                                                @input="snapInspectionLevel(period.id)"
-                                            >
-                                            <div class="slider-value">
-                                                当前等级: {{ inspectionLevels[period.id] }}
-                                            </div>
-                                            <!--div class="reward-info">
-                                                <div class="reward-item" v-for="rewardLevel in [5, 15, 25, 35, 45, 55]" :key="rewardLevel">
-                                                    <span class="reward-label">{{ rewardLevel }}级奖励:</span>
-                                                    <span class="reward-value" :class="{ claimed: inspectionLevels[period.id] >= rewardLevel }">
-                                                        {{ inspectionLevels[period.id] >= rewardLevel ? '已领取' : '未领取' }} 1搜索令
-                                                    </span>
-                                                </div>
-                                            </div -->
-                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 滑块容器移到所有按钮下方 -->
+                                <div class="inspection-slider-container" v-if="selectedInspectionPeriod">
+                                    <div class="slider-labels">
+                                        <span>0级</span>
+                                        <span>55级</span>
+                                    </div>
+                                    <input 
+                                        type="range" 
+                                        :value="rechargeInspectionLevels[selectedRechargeInspectionPeriod] || 0" 
+                                        @input="rechargeInspectionLevels[selectedRechargeInspectionPeriod] = parseInt($event.target.value); snapRechargeInspectionLevel(selectedRechargeInspectionPeriod)"
+                                        min="0" 
+                                        max="55"
+                                        step="1"
+                                        class="inspection-slider"
+                                    >
+                                    <div class="slider-value">
+                                        当前等级: {{ inspectionLevels[selectedInspectionPeriod] }}
                                     </div>
                                 </div>
                             </div>
@@ -5055,7 +5099,15 @@
                                                 class="training-btn" 
                                                 :class="{ active: activityRerunMode[activity.title] === 'crystal' }"
                                                 @click="setActivityRerunMode(activity.title, 'crystal')">
-                                                {{ activity.title === '妄夜迷章' ? '无匪之地' : '复刻活动' }}<img :src="crystalIcon" class="resource-icon" alt="异方晶">{{ activityRerunMode[activity.title] === 'crystal' ? 600 : 0 }}<img :src="ticketIcon" class="resource-icon" alt="搜索令">{{ activityRerunMode[activity.title] === 'crystal' ? 1 : 0 }}
+                                                {{ activity.title === '妄夜迷章' ? '无匪之地' : '复刻活动' }}<img :src="crystalIcon" class="resource-icon" alt="异方晶">{{ activity.title === '妄夜迷章' ? (activityRerunMode[activity.title] === 'crystal' ? 660 : 0) : (activityRerunMode[activity.title] === 'crystal' ? 600 : 0) }}<img :src="ticketIcon" class="resource-icon" alt="搜索令">{{ activityRerunMode[activity.title] === 'crystal' ? 1 : 0 }}
+                                            </button>
+                                            <!-- 新增诡境余音按钮 -->
+                                            <button 
+                                                class="training-btn" 
+                                                :class="{ active: remainingEchoActive }"
+                                                @click="remainingEchoActive = !remainingEchoActive"
+                                                v-if="activity.title === '妄夜迷章'">
+                                                诡境余音<img :src="crystalIcon" class="resource-icon" alt="异方晶">{{ remainingEchoActive ? 900 : 0 }}<img :src="ticketIcon" class="resource-icon" alt="搜索令">{{ remainingEchoActive ? 1 : 0 }}
                                             </button>
                                         </div>
                                     </div>
@@ -5168,44 +5220,26 @@
                                             <img :src="crystalIcon" class="resource-icon" alt="异方晶">{{ calculateRechargePeriodCrystal(rechargeInspectionLevels[period.id] || 0) }}
                                             <img :src="ticketIcon" class="resource-icon" alt="搜索令">{{ calculateRechargePeriodTickets(rechargeInspectionLevels[period.id] || 0) }}
                                         </button>
-                                        <div class="inspection-slider-container" v-if="selectedRechargeInspectionPeriod === period.id">
-                                            <div class="slider-labels">
-                                                <span>0级</span>
-                                                <span>55级</span>
-                                            </div>
-                                            <input 
-                                                type="range" 
-                                                v-model.number="rechargeInspectionLevels[period.id]" 
-                                                min="0" 
-                                                max="55"
-                                                step="1"
-                                                class="inspection-slider"
-                                                @input="snapRechargeInspectionLevel(period.id)"
-                                            >
-                                            <div class="slider-value">
-                                                当前等级: {{ rechargeInspectionLevels[period.id] || 0 }}
-                                            </div>
-                                            <!--div class="reward-info">
-                                                <div class="reward-item" v-for="rewardLevel in [5, 15, 25, 35, 45, 55]" :key="rewardLevel">
-                                                    <span class="reward-label">{{ rewardLevel }}级搜索令奖励:</span>
-                                                    <span class="reward-value" :class="{ claimed: (rechargeInspectionLevels[period.id] || 0) >= rewardLevel }">
-                                                        {{ (rechargeInspectionLevels[period.id] || 0) >= rewardLevel ? '已领取' : '未领取' }} 1搜索令
-                                                    </span>
-                                                </div>
-                                                <div class="reward-item">
-                                                    <span class="reward-label">30级异方晶奖励:</span>
-                                                    <span class="reward-value" :class="{ claimed: (rechargeInspectionLevels[period.id] || 0) >= 30 }">
-                                                        {{ (rechargeInspectionLevels[period.id] || 0) >= 30 ? '已领取' : '未领取' }} 200异方晶
-                                                    </span>
-                                                </div>
-                                                <div class="reward-item">
-                                                    <span class="reward-label">50级异方晶奖励:</span>
-                                                    <span class="reward-value" :class="{ claimed: (rechargeInspectionLevels[period.id] || 0) >= 50 }">
-                                                        {{ (rechargeInspectionLevels[period.id] || 0) >= 50 ? '已领取' : '未领取' }} 680异方晶
-                                                    </span>
-                                                </div>
-                                            </div -->
-                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- 高级监察密令滑块容器移到所有按钮下方 -->
+                                <div class="inspection-slider-container" v-if="selectedRechargeInspectionPeriod">
+                                    <div class="slider-labels">
+                                        <span>0级</span>
+                                        <span>55级</span>
+                                    </div>
+                                    <input 
+                                        type="range" 
+                                        v-model.number="rechargeInspectionLevels[selectedRechargeInspectionPeriod]" 
+                                        min="0" 
+                                        max="55"
+                                        step="1"
+                                        class="inspection-slider"
+                                        @input="snapRechargeInspectionLevel(selectedRechargeInspectionPeriod)"
+                                    >
+                                    <div class="slider-value">
+                                        当前等级: {{ rechargeInspectionLevels[selectedRechargeInspectionPeriod] || 0 }}
                                     </div>
                                 </div>
                             </div>
@@ -5933,6 +5967,9 @@
                 
                 return {
 
+                    // 诡境余音活动状态 - 默认打开
+                    remainingEchoActive: savedData?.remainingEchoActive !== undefined ? savedData.remainingEchoActive : true,
+
                     // 旧案归档处数据
                     oldCaseArchiveCount: savedData?.oldCaseArchiveCount || 0,
 
@@ -6038,7 +6075,16 @@
 
                     // 监察密令数据
                     selectedInspectionPeriod: savedData?.selectedInspectionPeriod || 1,
-                    inspectionLevels: savedData?.inspectionLevels || {},
+                    inspectionLevels: (() => {
+                        const savedLevels = savedData?.inspectionLevels || {};
+                        // 确保所有期数都有默认值0
+                        const defaultLevels = {};
+                        // 预定义可能的期数ID
+                        for (let i = 1; i <= 10; i++) {
+                            defaultLevels[i] = savedLevels[i] !== undefined ? savedLevels[i] : 0;
+                        }
+                        return defaultLevels;
+                    })(),
 
                     // 主题模式
                     isDarkMode: savedData.isDarkMode !== undefined ? savedData.isDarkMode : false,
@@ -6101,7 +6147,7 @@
                     limitedCouponIcon: 'icons/Limitedcoupon.png',
                     alloyIcon: 'icons/Multiplealloys.png',
 
-                    actionSummaryLevel: savedData?.actionSummaryLevel || 0,
+                    actionSummaryLevel: savedData?.actionSummaryLevel || 19,
                     actionSummaryList: [
                         "01·混沌彼岸",
                         "02·混沌彼岸", 
@@ -6138,7 +6184,7 @@
                     },
 
                     // 新增：记忆复习数据
-                    memoryReviewThreshold: savedData?.memoryReviewThreshold || 0,
+                    memoryReviewThreshold: savedData?.memoryReviewThreshold || 10000,
 
                     // 原有数据保持不变
                     resources: savedData.resources || {
@@ -6187,7 +6233,7 @@
                         crazy: false
                     },
                     
-                    nightmareScore: savedData?.nightmareScore || 0,
+                    nightmareScore: savedData?.nightmareScore || 60000,
                     nightmareSeaCompleted: savedData?.nightmareSeaCompleted || false,
                     nightMazeCompleted: savedData?.nightMazeCompleted || false,
 
@@ -6253,10 +6299,10 @@
                     // 新增：派遣声望数据
                     selectedDispatchArea: savedData?.selectedDispatchArea || 'syndicate',
                     dispatchReputation: savedData?.dispatchReputation || {
-                        syndicate: { level: 0, crystal: 0 },
-                        newCity: { level: 0, crystal: 0 },
-                        innerBay: { level: 0, crystal: 0 },
-                        sandSea: { level: 0, crystal: 0 }
+                        syndicate: { level: 10000, crystal: 0 },
+                        newCity: { level: 10000, crystal: 0 },
+                        innerBay: { level: 10000, crystal: 0 },
+                        sandSea: { level: 10000, crystal: 0 }
                     },
         
                     // 新增角色养成模块数据
@@ -6321,7 +6367,16 @@
                    
                     // 高级监察密令数据
                     selectedRechargeInspectionPeriod: savedData?.selectedRechargeInspectionPeriod || 1,
-                    rechargeInspectionLevels: savedData?.rechargeInspectionLevels || {},     
+                    rechargeInspectionLevels: (() => {
+                        const savedLevels = savedData?.rechargeInspectionLevels || {};
+                        // 确保所有期数都有默认值0
+                        const defaultLevels = {};
+                        // 预定义可能的期数ID
+                        for (let i = 1; i <= 10; i++) {
+                            defaultLevels[i] = savedLevels[i] !== undefined ? savedLevels[i] : 0;
+                        }
+                        return defaultLevels;
+                    })(),  
                     
                     // 狄斯盈满钵数据
                     disiLevel: savedData?.disiLevel || 0,
@@ -7347,6 +7402,10 @@
                             totalCrystal += 600;
                         }
                     });
+                    // 添加诡境余音的异方晶
+                    if (this.remainingEchoActive) {
+                        totalCrystal += 900;
+                    }
                     return totalCrystal;
                 },
 
@@ -7358,6 +7417,10 @@
                             totalTickets += 1;
                         }
                     });
+                    // 添加诡境余音的搜索令
+                    if (this.remainingEchoActive) {
+                        totalTickets += 1;
+                    }
                     return totalTickets;
                 },
 
@@ -8102,6 +8165,8 @@
                     return this.oldCaseArchiveCount || 0;
                 },
 
+
+                
             },
             watch: {
                 resources: {
@@ -8463,7 +8528,14 @@
 
                 oldCaseArchiveCount() {
                     this.saveToLocalStorage();
-                },// 旧案归档处监听
+                }, // 旧案归档处监听
+                
+                activityCompleted: {
+                    handler(newValue) {
+                        this.saveToLocalStorage();
+                    },
+                    deep: true
+                }, // 新增：诡境余音状态监听
 
             },
             methods: {
@@ -8537,6 +8609,7 @@
                         activityReviewCompleted: this.activityReviewCompleted, // 保存活动审查奖励状态
                         activityTrialCompleted: this.activityTrialCompleted, // 保存活动角色试用奖励状态
                         activityRerunMode: this.activityRerunMode, // 保存活动复刻模式状态
+                        remainingEchoActive: this.remainingEchoActive, // 保存诡境余音状态
                         memoryReviewThreshold: this.memoryReviewThreshold,//保持记忆复现状态
                         alloyCount: this.alloyCount,
                         useAlloyExchange: this.useAlloyExchange,//保存监管状态
@@ -8643,10 +8716,6 @@
                 // 选择密令期数
                 selectInspectionPeriod(periodId) {
                     this.selectedInspectionPeriod = periodId;
-                    // 如果该期数还没有设置等级，初始化为0
-                    if (this.inspectionLevels[periodId] === undefined) {
-                        this.$set(this.inspectionLevels, periodId, 0);
-                    }
                 },
 
                 // 计算当前期数的搜索令数量
