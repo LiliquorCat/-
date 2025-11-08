@@ -19,43 +19,6 @@
         }
     }, { passive: false });
 
-    // 修复滑块操作时的页面滚动问题 - 改进版本
-    let isSliding = false;
-    let startX = 0;
-    let startY = 0;
-
-    document.addEventListener('touchstart', function(event) {
-        if (event.target.type === 'range') {
-            // 记录触摸开始位置
-            startX = event.touches[0].clientX;
-            startY = event.touches[0].clientY;
-            isSliding = true;
-            
-            // 不阻止默认行为，允许滑块正常响应
-        }
-    }, { passive: true });
-
-    document.addEventListener('touchmove', function(event) {
-        if (event.target.type === 'range' && isSliding) {
-            const currentX = event.touches[0].clientX;
-            const currentY = event.touches[0].clientY;
-            
-            // 计算移动距离
-            const deltaX = Math.abs(currentX - startX);
-            const deltaY = Math.abs(currentY - startY);
-            
-            // 如果是水平移动（滑块操作），阻止页面滚动
-            if (deltaX > deltaY && deltaX > 5) {
-                event.preventDefault();
-            }
-            // 如果是垂直移动，允许页面滚动
-        }
-    }, { passive: false });
-
-    document.addEventListener('touchend', function() {
-        isSliding = false;
-    }, { passive: true });
-
     // 禁止双指缩放
     document.addEventListener('gesturestart', function(event) {
         event.preventDefault();
@@ -1697,13 +1660,6 @@
                 max-width: 100% !important;
             }
             
-            /* 确保按钮和输入框在移动端正常显示 */
-            .crystal-supply-btn-wrapper > div {
-                flex-wrap: nowrap !important;
-                max-width: 100% !important;
-                align-items: center !important; /* 保持垂直居中 */
-            }
-            
             .training-btn.crystal-supply-btn {
                 min-width: 0 !important;
                 flex: 1 !important;
@@ -1726,6 +1682,12 @@
                 font-size: 11px !important; /* 稍微缩小价格字体 */
                 margin-top: 4px !important;
                 line-height: 1.2 !important;
+            }
+            
+            /* 新增：修复氪金资源模块在移动端变宽的问题 */
+            .crystal-supply-btn-wrapper > div {
+                max-width: 100% !important;
+                box-sizing: border-box !important;
             }
 
         }
@@ -1768,6 +1730,22 @@
             .crystal-supply-btn-wrapper > div > div:last-child > div:last-child {
                 font-size: 10px !important;
             }      
+
+            /* 新增：修复小屏幕上氪金资源模块的布局 */
+            .crystal-supply-btn-wrapper > div {
+                flex-wrap: wrap !important;
+                justify-content: space-between !important;
+            }
+            
+            .training-btn.crystal-supply-btn {
+                min-width: 120px !important;
+                flex: none !important;
+            }
+            
+            .crystal-supply-btn-wrapper > div > div:last-child {
+                min-width: 60px !important;
+                flex-shrink: 0 !important;
+            }
 
         }
 
