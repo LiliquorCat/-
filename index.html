@@ -49,6 +49,7 @@
     <title>海拉的钱包</title>
     <script src="https://unpkg.com/vue@3.4.21/dist/vue.global.js"></script>
         <style>
+
             /* 设置整个网页背景 */
             body {
                 background: #1a1a1a;
@@ -424,6 +425,26 @@
 
         /* 移动端弹窗适配 */
         @media (max-width: 768px) {
+            /* 防止移动端布局溢出 */            
+            .potential-section.card {
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+                overflow: hidden !important;
+            }
+            
+            .section-content {
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            
+            /* 确保所有子元素不超出容器 */
+            .section-content > * {
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
             .modal-content {
                 width: 95%;
                 max-height: 85vh;
@@ -1642,6 +1663,30 @@
 
         /* 移动端适配 */
         @media (max-width: 768px) {
+            .card {
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            
+            .section-content {
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
+                overflow: hidden !important;
+            }
+            
+            /* 防止flex布局导致溢出 */
+            .calculator-layout {
+                min-width: 0 !important;
+                max-width: 100% !important;
+            }
+            
+            .right-panel {
+                min-width: 0 !important;
+                max-width: 100% !important;
+            }
+
             .zero-mirror-columns {
                 grid-template-columns: 1fr;
             }
@@ -1654,21 +1699,28 @@
             .crystal-supply-buttons {
                 grid-template-columns: 1fr !important;
                 gap: 8px !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                box-sizing: border-box !important;
             }
             
             .crystal-supply-btn-wrapper {
                 max-width: 100% !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
             }
             
             .training-btn.crystal-supply-btn {
                 min-width: 0 !important;
                 flex: 1 !important;
+                max-width: calc(100% - 70px) !important; /* 为输入框留出空间 */
             }
             
             /* 晶源特供按钮移动端适配 */
             .crystal-supply-left,
             .crystal-supply-right {
                 min-width: 0 !important;
+                flex-shrink: 1 !important;
             }
             
             .crystal-supply-left .price-tag,
@@ -1679,15 +1731,32 @@
             
             /* 只调整价格字体大小，保持原有布局 */
             .crystal-supply-btn-wrapper > div > div:last-child > div:last-child {
-                font-size: 11px !important; /* 稍微缩小价格字体 */
+                font-size: 11px !important;
                 margin-top: 4px !important;
                 line-height: 1.2 !important;
             }
             
-            /* 新增：修复氪金资源模块在移动端变宽的问题 */
+            /* 修复氪金资源模块在移动端变宽的问题 */
             .crystal-supply-btn-wrapper > div {
                 max-width: 100% !important;
+                width: 100% !important;
                 box-sizing: border-box !important;
+                display: flex !important;
+                align-items: stretch !important;
+                flex-wrap: nowrap !important;
+            }
+            
+            /* 确保输入框容器固定宽度 */
+            .crystal-supply-btn-wrapper > div > div:last-child {
+                min-width: 60px !important;
+                max-width: 60px !important;
+                flex-shrink: 0 !important;
+            }
+            
+            /* 新增：防止flex子元素溢出 */
+            .crystal-supply-btn-wrapper > div > * {
+                flex-shrink: 1 !important;
+                min-width: 0 !important;
             }
 
         }
@@ -1731,20 +1800,39 @@
                 font-size: 10px !important;
             }      
 
-            /* 新增：修复小屏幕上氪金资源模块的布局 */
+            /* 修复小屏幕上氪金资源模块的布局 */
             .crystal-supply-btn-wrapper > div {
-                flex-wrap: wrap !important;
+                flex-wrap: nowrap !important;
                 justify-content: space-between !important;
+                gap: 6px !important;
             }
             
             .training-btn.crystal-supply-btn {
-                min-width: 120px !important;
-                flex: none !important;
+                min-width: 0 !important;
+                flex: 1 !important;
+                max-width: calc(100% - 66px) !important;
+                padding: 10px 6px !important;
             }
             
             .crystal-supply-btn-wrapper > div > div:last-child {
                 min-width: 60px !important;
+                max-width: 60px !important;
                 flex-shrink: 0 !important;
+            }
+            
+            /* 新增：强制限制文本不换行 */
+            .crystal-supply-left .price-tag,
+            .crystal-supply-right span {
+                font-size: 10px !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+            }
+            
+            /* 新增：确保按钮内容不溢出 */
+            .training-btn.crystal-supply-btn {
+                white-space: nowrap !important;
+                overflow: hidden !important;
             }
 
         }
