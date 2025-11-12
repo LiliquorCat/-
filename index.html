@@ -5182,10 +5182,10 @@
                             <!-- 黑钥贵宾 -->
                             <div class="sub-section">
                                 <h3 class="sub-title" style="display: flex; align-items: center; gap: 10px;">
-                                    黑钥贵宾（小月卡）
                                     <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
                                         2.57
                                     </span>
+                                    黑钥贵宾（小月卡）
                                 </h3>
                                 
                                 <div class="resource-input-vertical" style="margin-bottom: 15px;">
@@ -5217,10 +5217,10 @@
                             <!-- 高级监察密令 -->
                             <div class="sub-section">
                                 <h3 class="sub-title" style="display: flex; align-items: center; gap: 10px;">
-                                    高级监察密令（大月卡）
                                     <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
                                         6.24
                                     </span>
+                                    高级监察密令（大月卡）
                                 </h3>
                                 <!-- 高级监察密令期数 -->
                                 <div class="inspection-order-buttons">
@@ -5260,10 +5260,10 @@
                             <div class="sub-section">
                                 <h3 class="sub-title" style="display: flex; justify-content: space-between; align-items: center;">
                                     <div style="display: flex; align-items: center; gap: 10px;">
-                                        <span>狄斯盈满钵</span>
                                         <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
                                             1.64
                                         </span>
+                                        <span>狄斯盈满钵</span>
                                     </div>
                                     <div class="switch-group" style="margin: 0;">
                                         <span class="switch-label" :class="{ active: !disiPrePurchased, inactive: disiPrePurchased }">未预先购买</span>
@@ -5327,10 +5327,10 @@
                             <div class="sub-section">
                                 <h3 class="sub-title" style="display: flex; justify-content: space-between; align-items: center;">
                                     <div style="display: flex; align-items: center; gap: 10px;">
-                                        <span>诡珑珍宝馆</span>
                                         <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
                                             8.8
                                         </span>
+                                        <span>诡珑珍宝馆</span>
                                     </div>
                                     <div class="switch-group" style="margin: 0;">
                                         <span class="switch-label" :class="{ active: !treasurePrePurchased, inactive: treasurePrePurchased }">未预先购买</span>
@@ -5849,7 +5849,7 @@
                                         style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
                                         <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
                                             <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
-                                                {{ (limitedPackageMystery.price / limitedPackageMystery.tickets).toFixed(2) }}
+                                                {{ (limitedPackageMystery.price / 50).toFixed(2) }}
                                             </span>
                                         </div>
                                         <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
@@ -5898,7 +5898,7 @@
                     <!-- 其他（⚠️估算） -->
                     <div class="potential-section card">
                         <h2 @click="toggleSection('otherEstimate')" class="section-header">
-                            📝 其他资源（⚠️估算）
+                            📝 其他资源
                             <span class="collapse-icon">{{ sections.otherEstimate ? '−' : '+' }}</span>
                         </h2>
                         <div v-if="sections.otherEstimate" class="section-content">
