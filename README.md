@@ -1,4 +1,4 @@
-<img width="219" height="514" alt="image" src="https://github.com/user-attachments/assets/6d6e1fe5-c4ac-43ae-952a-cfad513bdeff" /><img width="219" height="514" alt="image" src="https://github.com/user-attachments/assets/5b20a052-d0c4-4e6b-9651-0939d9e1a3e0" />项目简介
+项目简介
 海拉的钱包 是一个专为《无期迷途》游戏设计的抽卡资源计算器，帮助玩家科学规划抽卡资源，避免资源浪费。该工具可以全面统计玩家当前拥有的抽卡资源，并预估未来可获得的各类资源，让玩家能够合理规划抽卡策略。
 
 功能特点
