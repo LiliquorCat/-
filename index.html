@@ -48,48 +48,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimum-scale=1.0, viewport-fit=cover">
     <title>海拉的钱包</title>
     <script src="https://unpkg.com/vue@3.4.21/dist/vue.global.js"></script>
-        <style>
+    <style>
+        /* 设置整个网页背景 */
+        body {
+            background: #1a1a1a;
+            margin: 0;
+            padding: 0;
+        }
 
-            /* 设置整个网页背景 */
-            body {
-                background: #1a1a1a;
-                margin: 0;
-                padding: 0;
-            }
+        /* 禁止文本选择和缩放 */
+        * {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -khtml-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
 
-            /* 禁止文本选择和缩放 */
-            * {
-                -webkit-touch-callout: none;
-                -webkit-user-select: none;
-                -khtml-user-select: none;
-                -moz-user-select: none;
-                -ms-user-select: none;
-                user-select: none;
-                -webkit-tap-highlight-color: transparent;
-            }
+        /* 允许输入框文本选择 */
+        input, textarea {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
 
-            /* 允许输入框文本选择 */
-            input, textarea {
-                -webkit-user-select: text;
-                -moz-user-select: text;
-                -ms-user-select: text;
-                user-select: text;
-            }
-
-            /* 顶部菜单栏样式 */
-            .top-menu-bar {
-            background: #2a2a2a;
-            border-bottom: 2px solid #8B0000;
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 10000;
+        /* 顶部菜单栏样式 */
+        .top-menu-bar {
+        background: #2a2a2a;
+        border-bottom: 2px solid #8B0000;
+        padding: 12px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 10000;
         }
 
         /* 弹窗模态框样式 */
@@ -3639,7 +3638,6 @@
             color: #2c3e50 !important;
             font-weight: 500;
         }
-
     </style>
 </head>
 <body class="light-mode">
@@ -5104,22 +5102,56 @@
                                 <!-- 复刻活动 -->
                                 <div class="accumulation-item">
                                     <div class="item-info">
-                                        <div class="training-buttons" style="margin-top: 10px;">
-                                            <button 
-                                                class="training-btn" 
-                                                :class="{ active: activityRerunMode[activity.title] === 'crystal' }"
-                                                @click="setActivityRerunMode(activity.title, 'crystal')">
-                                                {{ activity.title === '妄夜迷章' ? '无匪之地' : '复刻活动' }}<img :src="crystalIcon" class="resource-icon" alt="异方晶">{{ activity.title === '妄夜迷章' ? (activityRerunMode[activity.title] === 'crystal' ? 660 : 0) : (activityRerunMode[activity.title] === 'crystal' ? 600 : 0) }}<img :src="ticketIcon" class="resource-icon" alt="搜索令">{{ activityRerunMode[activity.title] === 'crystal' ? 1 : 0 }}
-                                            </button>
-                                            <!-- 诡境余音按钮 -->
-                                            <button 
-                                                class="training-btn" 
-                                                :class="{ active: remainingEchoActive }"
-                                                @click="remainingEchoActive = !remainingEchoActive"
-                                                v-if="activity.title === '妄夜迷章'">
-                                                诡境余音<img :src="crystalIcon" class="resource-icon" alt="异方晶">{{ remainingEchoActive ? 900 : 0 }}<img :src="ticketIcon" class="resource-icon" alt="搜索令">{{ remainingEchoActive ? 1 : 0 }}
-                                            </button>
-                                        </div>
+                                        <span class="item-title">{{ activity.title === '妄夜迷章' ? '无匪之地' : '复刻活动' }}：</span>
+                                        <span class="item-value">
+                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶"> 
+                                            {{ !activityRerunMode[activity.title] ? (activity.title === '妄夜迷章' ? 660 : 600) : 0 }}
+                                            <img :src="ticketIcon" class="resource-icon" alt="搜索令"> 
+                                            {{ !activityRerunMode[activity.title] ? 1 : 0 }}
+                                        </span>
+                                    </div>
+                                    <div class="switch-group small">
+                                        <label class="switch">
+                                            <input type="checkbox" v-model="activityRerunMode[activity.title]">
+                                            <span class="slider"></span>
+                                        </label>
+                                        <span class="switch-label">本期已完成</span>
+                                    </div>
+                                </div>
+
+                                <!-- 诡境余音 -->
+                                <div class="accumulation-item" v-if="activity.title === '妄夜迷章'">
+                                    <div class="item-info">
+                                        <span class="item-title">诡境余音：</span>
+                                        <span class="item-value">
+                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ !remainingEchoActive ? 900 : 0 }}
+                                            <img :src="ticketIcon" class="resource-icon" alt="搜索令"> {{ !remainingEchoActive ? 1 : 0 }}
+                                        </span>
+                                    </div>
+                                    <div class="switch-group small">
+                                        <label class="switch">
+                                            <input type="checkbox" v-model="remainingEchoActive">
+                                            <span class="slider"></span>
+                                        </label>
+                                        <span class="switch-label">本期已完成</span>
+                                    </div>
+                                </div>
+
+                                <!-- 碎晶之梦 -->
+                                <div class="accumulation-item" v-if="activity.title === '妄夜迷章'">
+                                    <div class="item-info">
+                                        <span class="item-title">碎晶之梦：</span>
+                                        <span class="item-value">
+                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶"> {{ !crystalDreamActive ? 360 : 0 }}
+                                            <img :src="ticketIcon" class="resource-icon" alt="搜索令"> {{ !crystalDreamActive ? 1 : 0 }}
+                                        </span>
+                                    </div>
+                                    <div class="switch-group small">
+                                        <label class="switch">
+                                            <input type="checkbox" v-model="crystalDreamActive">
+                                            <span class="slider"></span>
+                                        </label>
+                                        <span class="switch-label">本期已完成</span>
                                     </div>
                                 </div>
 
@@ -6263,7 +6295,7 @@
                         maxReverbB: 0,
                         reviewS: 0,
                         reviewA: 0,
-                        haylaReviewed: false
+                        haylaReviewed: true
                     },
                     
                     // 梦境&人格色谱数据
@@ -6294,14 +6326,16 @@
                     activityTrialCompleted: savedData?.activityTrialCompleted || {},
                     // 活动复刻模式状态
                     activityRerunMode: savedData?.activityRerunMode || {
-                        '妄夜迷章': 'crystal',
-                        '歧行至破晓（⚠️估算）': 'crystal', 
-                        '1218-0115活动（⚠️估算）': 'crystal',
-                        '0115-0212活动（⚠️估算）': 'crystal',
-                        '新年活动（⚠️估算）': 'crystal'
+                        '妄夜迷章': false,
+                        '歧行至破晓（⚠️估算）': false, 
+                        '1218-0115活动（⚠️估算）': false,
+                        '0115-0212活动（⚠️估算）': false,
+                        '新年活动（⚠️估算）': false
                     },
                     // 诡境余音
-                    remainingEchoActive: savedData?.remainingEchoActive !== undefined ? savedData.remainingEchoActive : true,
+                    remainingEchoActive: savedData?.remainingEchoActive !== undefined ? savedData.remainingEchoActive : false,
+                    // 碎晶之梦
+                    crystalDreamActive: savedData?.crystalDreamActive !== undefined ? savedData.crystalDreamActive : false,
 
                     monthlyCardCount: savedData?.monthlyCardCount || 0, // 额外购买月卡数量
                     monthlyCardActive: savedData?.monthlyCardActive || false, // 月卡是否激活
@@ -6744,7 +6778,7 @@
                     return activityCrystal + 
                         activityReviewCrystal + 
                         activityTrialCrystal +
-                        this.activityRerunCrystal; // 新增：复刻活动异方晶
+                        this.activityRerunCrystal; // 复刻活动异方晶
                 },
 
                 // 分模块计算 - 活动搜索令
@@ -7510,13 +7544,16 @@
                 activityRerunCrystal() {
                     let totalCrystal = 0;
                     this.displayActivities.forEach(activity => {
-                        if (this.activityRerunMode[activity.title] === 'crystal') {
-                            totalCrystal += 600;
+                        if (!this.activityRerunMode[activity.title]) {
+                            totalCrystal += activity.title === '妄夜迷章' ? 660 : 600;
                         }
                     });
-                    // 添加诡境余音的异方晶
-                    if (this.remainingEchoActive) {
+                    // 诡境余音和碎晶之梦
+                    if (!this.remainingEchoActive) {
                         totalCrystal += 900;
+                    }
+                    if (!this.crystalDreamActive) {
+                        totalCrystal += 360;
                     }
                     return totalCrystal;
                 },
@@ -7525,12 +7562,15 @@
                 activityRerunTickets() {
                     let totalTickets = 0;
                     this.displayActivities.forEach(activity => {
-                        if (this.activityRerunMode[activity.title] === 'crystal') {
+                        if (!this.activityRerunMode[activity.title]) {
                             totalTickets += 1;
                         }
                     });
-                    // 添加诡境余音的搜索令
-                    if (this.remainingEchoActive) {
+                    // 诡境余音和碎晶之梦
+                    if (!this.remainingEchoActive) {
+                        totalTickets += 1;
+                    }
+                    if (!this.crystalDreamActive) {
                         totalTickets += 1;
                     }
                     return totalTickets;
@@ -8188,6 +8228,13 @@
                     },
                     deep: true
                 },
+                // 深度监听碎晶之梦活动状态变化并保存数据
+                crystalDreamActive: {
+                    handler(newValue) {
+                        this.saveToLocalStorage();
+                    },
+                    deep: true
+                },
                 // 监听额外购买月卡数量变化并保存数据
                 monthlyCardCount() {
                     this.saveToLocalStorage();
@@ -8373,7 +8420,8 @@
                         activityReviewCompleted: this.activityReviewCompleted, // 各活动审查奖励完成状态
                         activityTrialCompleted: this.activityTrialCompleted, // 各活动角色试用奖励完成状态
                         activityRerunMode: this.activityRerunMode, // 各活动复刻模式选择状态
-                        remainingEchoActive: this.remainingEchoActive, // 诡境余音活动状态                        
+                        remainingEchoActive: this.remainingEchoActive, // 诡境余音活动状态
+                        crystalDreamActive: this.crystalDreamActive, // 碎晶之梦活动状态                        
 
                         monthlyCardCount: this.monthlyCardCount, // 额外购买月卡数量
                         monthlyCardActive: this.monthlyCardActive, // 月卡激活状态
@@ -9224,14 +9272,13 @@
                     }
                 },
 
-                // 设置活动复刻模式
-                setActivityRerunMode(activityTitle, mode) {
-                    // 如果点击已经激活的按钮，则取消选择
-                    if (this.activityRerunMode[activityTitle] === mode) {
-                        this.activityRerunMode[activityTitle] = null;
-                    } else {
-                        // 否则设置新的模式（现在只有crystal模式）
+                // 切换活动复刻模式
+                toggleActivityRerunMode(activityTitle) {
+                    // 如果开关打开，设置为'crystal'模式，否则设置为null
+                    if (this.activityRerunMode[activityTitle]) {
                         this.activityRerunMode[activityTitle] = 'crystal';
+                    } else {
+                        this.activityRerunMode[activity.title] = null;
                     }
                     this.saveToLocalStorage();
                 },
