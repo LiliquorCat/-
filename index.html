@@ -9769,6 +9769,12 @@
                 // 初始化主题
                 this.applyTheme();
 
+                // 确保弹窗不会自动显示
+                this.$nextTick(() => {
+                    this.showModal = false;
+                    this.currentModal = null;
+                });
+
                 // 精简版监听 - 只监听核心总计数据
                 this.$watch(() => [
                     this.totalModulePulls,           // 总抽数
