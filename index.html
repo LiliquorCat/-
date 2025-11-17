@@ -3744,7 +3744,12 @@
                                 <li><strong class="modal-highlight">25.11.11</strong><br>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;优化<strong class="modal-highlight">用户体验</strong><br>
                                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;修正<strong class="modal-highlight">少量计算BUG</strong>
-                                </li>                                                                                                                                                                                    
+                                </li>  
+                                <li><strong class="modal-highlight">25.11.17</strong><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;新增<strong class="modal-highlight">时尚巡回庆典（付费&非付费）、公会战、绝密行动</strong>奖励计算<br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;修正<strong class="modal-highlight">少量计算BUG</strong><br>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;时尚巡回庆典（付费）可以正常影响皮肤预留红晶数量（正确扣减300）
+                                </li>                                                                                                                                                                                                                   
                             </ul>
                         </div>
                     </div>
@@ -4108,6 +4113,23 @@
                                             <span class="slider"></span>
                                         </label>
                                         <span class="switch-label">使用合金兑换</span>
+                                    </div>
+                                </div>
+
+                                <!-- 基础时尚巡回庆典 -->
+                                <div class="accumulation-item">
+                                    <div class="item-info">
+                                        <span class="item-title">基础时尚巡回庆典{{ fashionTourCompleted ? (fashionTourPeriods - 1) : fashionTourPeriods }}期：</span>
+                                        <span class="item-value">
+                                            <img :src="ticketIcon" class="resource-icon" alt="搜索令"> {{ totalFashionTourTickets }}
+                                        </span>
+                                    </div>
+                                    <div class="switch-group small">
+                                        <label class="switch">
+                                            <input type="checkbox" v-model="fashionTourCompleted">
+                                            <span class="slider"></span>
+                                        </label>
+                                        <span class="switch-label">本周已领取</span>
                                     </div>
                                 </div>
                             </div>
@@ -5099,6 +5121,44 @@
                                     </div>
                                 </div>
                                 
+                                <!-- 绝密行动奖励（仅限歧行至破晓） -->
+                                <div class="accumulation-item" v-if="activity.title === '歧行至破晓（⚠️估算）'">
+                                    <div class="item-info">
+                                        <span class="item-title">绝密行动：</span>
+                                        <span class="item-value">
+                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶"> 
+                                            {{ activitySecretOperationCompleted[activity.title] ? 0 : 300 }}
+                                        </span>
+                                    </div>
+                                    <div class="switch-group small">
+                                        <label class="switch">
+                                            <input type="checkbox" v-model="activitySecretOperationCompleted[activity.title]"
+                                                @change="toggleActivitySecretOperationCompletion(activity.title)">
+                                            <span class="slider"></span>
+                                        </label>
+                                        <span class="switch-label">本期已完成</span>
+                                    </div>
+                                </div>
+
+                                <!-- 公会战奖励（仅限歧行至破晓） -->
+                                <div class="accumulation-item" v-if="activity.title === '歧行至破晓（⚠️估算）'">
+                                    <div class="item-info">
+                                        <span class="item-title">公会战奖励：</span>
+                                        <span class="item-value">
+                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶"> 
+                                            {{ activityGuildWarCompleted[activity.title] ? 0 : 1100 }}
+                                        </span>
+                                    </div>
+                                    <div class="switch-group small">
+                                        <label class="switch">
+                                            <input type="checkbox" v-model="activityGuildWarCompleted[activity.title]"
+                                                @change="toggleActivityGuildWarCompletion(activity.title)">
+                                            <span class="slider"></span>
+                                        </label>
+                                        <span class="switch-label">本期已完成</span>
+                                    </div>
+                                </div>
+
                                 <!-- 复刻活动 -->
                                 <div class="accumulation-item">
                                     <div class="item-info">
@@ -5382,6 +5442,73 @@
                                     诡珑珍宝馆 
                                     <img :src="ticketIcon" class="resource-icon" alt="搜索令"> {{ treasureTickets }}
                                 </button>
+                            </div>
+
+                            <!-- 特惠时尚巡回庆典 -->
+                            <div class="sub-section">
+                                <h3 class="sub-title" style="display: flex; justify-content: space-between; align-items: center;">
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                            6.21
+                                        </span>
+                                        <span>特惠时尚巡回庆典</span>
+                                    </div>
+                                    <!-- 新增预购买开关 -->
+                                    <div class="switch-group" style="margin: 0;">
+                                        <label class="switch">
+                                            <input type="checkbox" v-model="specialFashionTour.prePurchased" :disabled="!specialFashionTour.active">
+                                            <span class="slider"></span>
+                                        </label>
+                                        <span class="switch-label" :class="{ active: specialFashionTour.prePurchased, inactive: !specialFashionTour.prePurchased }">已预先购买</span>
+                                    </div>
+                                </h3>
+                                
+                                <!-- 按钮和优惠次数调节在同一行 -->
+                                <div style="display: flex; align-items: center; gap: 15px; width: 100%; margin: 0 0 15px 0;">
+                                    <button 
+                                        class="training-btn" 
+                                        :class="{ active: specialFashionTour.active }"
+                                        @click="toggleSpecialFashionTour"
+                                        style="flex: 1; min-width: 0;">
+                                        时尚巡回庆典 
+                                        <img :src="premiumCrystalIcon" class="resource-icon" alt="璀璨晶源"> {{ specialFashionTourPremiumCrystal }} 
+                                        <img :src="ticketIcon" class="resource-icon" alt="搜索令"> {{ specialFashionTourTickets }}
+                                    </button>
+                                    
+                                    <!-- 优惠次数调节在按钮右侧 -->
+                                    <div style="display: flex; align-items: center; gap: 8px; flex-shrink: 0;">
+                                        <span style="font-size: 12px; color: #CCCCCC; white-space: nowrap;">优惠:</span>
+                                        <input 
+                                            type="number" 
+                                            v-model.number="specialFashionTour.maxDiscounts" 
+                                            @input="validateDiscountCount"
+                                            @focus="clearDiscountIfZero"
+                                            @blur="setDiscountDefaultIfEmpty"
+                                            min="0" 
+                                            max="4"
+                                            style="width: 35px; padding: 4px; border: 1px solid #555555; border-radius: 4px; text-align: center; background: #333333; color: #FFFFFF; font-size: 14px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);">
+                                        <span style="font-size: 11px; color: #999; white-space: nowrap;">次</span>
+                                    </div>
+                                </div>
+
+                                <!-- 优惠使用情况和搜索令开关在同一行 -->
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; width: 100%;">
+                                    <!-- 左侧：优惠使用情况（与按钮左对齐） -->
+                                    <div style="font-size: 12px; color: #666;">
+                                        优惠最多4次，已用{{ specialFashionTour.usedDiscounts }}次，剩余{{ remainingDiscounts }}次
+                                    </div>
+                                    
+                                    <!-- 右侧：搜索令本周已领取开关 -->
+                                    <div style="display: flex; align-items: center; gap: 8px;">
+                                        <label class="switch">
+                                            <input type="checkbox" v-model="specialFashionTour.completed" :disabled="!specialFashionTour.active">
+                                            <span class="slider"></span>
+                                        </label>
+                                        <span class="switch-label" :class="{ active: specialFashionTour.completed, inactive: !specialFashionTour.completed }">
+                                            搜索令本周已领取
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- 晶源特供（首充） -->
@@ -6086,6 +6213,7 @@
                     signInRewardCompleted: savedData?.signInRewardCompleted || false, // 本月签到开关数据
                     alloyCount: savedData.alloyCount || 0, // 多项合金兑换输入框数据
                     useAlloyExchange: savedData.useAlloyExchange || false, // 多项合金兑换开关数据
+                    fashionTourCompleted: savedData?.fashionTourCompleted || false,
                     trackingExchanged: savedData?.trackingExchanged || false, // 本月追踪认证开关数据
                     trackingCertificationCount: savedData?.trackingCertificationCount || 0, // 拥有的黄票数量
                     useTrackingCertification: savedData?.useTrackingCertification || false, // 是否使用黄票兑换
@@ -6336,6 +6464,10 @@
                     remainingEchoActive: savedData?.remainingEchoActive !== undefined ? savedData.remainingEchoActive : false,
                     // 碎晶之梦
                     crystalDreamActive: savedData?.crystalDreamActive !== undefined ? savedData.crystalDreamActive : false,
+                    // 活动公会战完成状态
+                    activityGuildWarCompleted: savedData?.activityGuildWarCompleted || {},
+                    // 活动绝密行动完成状态
+                    activitySecretOperationCompleted: savedData?.activitySecretOperationCompleted || {},
 
                     monthlyCardCount: savedData?.monthlyCardCount || 0, // 额外购买月卡数量
                     monthlyCardActive: savedData?.monthlyCardActive || false, // 月卡是否激活
@@ -6364,6 +6496,16 @@
                     // 诡珑珍宝馆数据
                     treasureActive: savedData?.treasureActive || false,
                     treasurePrePurchased: savedData?.treasurePrePurchased || false,
+
+                    // 特惠时尚巡回庆典
+                    specialFashionTour: {
+                        active: savedData?.specialFashionTour?.active || false,
+                        completed: savedData?.specialFashionTour?.completed || false,
+                        usedDiscounts: savedData?.specialFashionTour?.usedDiscounts || 0,
+                        maxDiscounts: savedData?.specialFashionTour?.maxDiscounts !== undefined ? 
+                                    savedData.specialFashionTour.maxDiscounts : 4,  // 默认4次，可用户调节
+                        prePurchased: savedData?.specialFashionTour?.prePurchased || false  // 新增预购买状态
+                    },
 
                     // 晶源特供（首充）
                     crystalSupplyButtons: [
@@ -6506,6 +6648,7 @@
                     return this.monthlyCardCost +                         // 小月卡（黑钥贵宾）费用
                         this.disiCost +                                   // 狄斯盈满钵费用
                         this.treasureCost +                               // 诡珑珍宝馆费用
+                        this.specialFashionTourCost +  // 特惠时尚巡回庆典费用
                         this.advancedInspectionOrderCost +                // 高级监察密令（大月卡）费用
                         this.crystalSupplyTotalCost +                     // 晶源特供（首充）费用
                         this.nonFirstCrystalSupplyTotalCost +             // 晶源特供（非首充）费用
@@ -6535,6 +6678,7 @@
                 },
 
                 // 统计所有模块的璀璨晶源（用于顶部资源显示）
+                /*
                 totalAllPremiumCrystal() {
                     const basePremiumCrystal = this.resources.premiumCrystal || 0;                    // 当前库存璀璨晶源
                     const monthlyCardPremium = this.monthlyCardPremiumCrystal;                        // 月卡立即获得的璀璨晶源
@@ -6547,6 +6691,24 @@
                     const availablePremiumCrystal = this.usePremiumCrystal ? basePremiumCrystal : 0;
                     
                     return availablePremiumCrystal + monthlyCardPremium + disiPremium + crystalSupplyPremium + nonFirstCrystalSupplyPremium + permanentPackagePremium - this.totalSkinReserve;
+                    // 总计 = 所有璀璨晶源来源相加 - 皮肤预留的璀璨晶源
+                },
+                */
+
+                // 统计所有模块的璀璨晶源（用于顶部资源显示，特惠时尚巡回庆典）
+                totalAllPremiumCrystal() {
+                    const basePremiumCrystal = this.resources.premiumCrystal || 0;                    // 当前库存璀璨晶源
+                    const monthlyCardPremium = this.monthlyCardPremiumCrystal;                        // 月卡立即获得的璀璨晶源
+                    const disiPremium = this.disiPremiumCrystal;                                      // 狄斯盈满钵璀璨晶源
+                    const crystalSupplyPremium = this.crystalSupplyTotalPremiumCrystal;               // 晶源特供（首充）璀璨晶源
+                    const nonFirstCrystalSupplyPremium = this.nonFirstCrystalSupplyTotalPremiumCrystal; // 晶源特供（非首充）璀璨晶源
+                    const permanentPackagePremium = this.permanentPackageTotalPremiumCrystal;         // 新人追踪礼包璀璨晶源
+                    const specialFashionTourPremium = this.specialFashionTourPremiumCrystal;          // 特惠时尚巡回庆典璀璨晶源
+                    
+                    // 只有当启用璀璨晶源抽卡时，璀璨晶源才计入总计
+                    const availablePremiumCrystal = this.usePremiumCrystal ? basePremiumCrystal : 0;
+                    
+                    return availablePremiumCrystal + monthlyCardPremium + disiPremium + crystalSupplyPremium + nonFirstCrystalSupplyPremium + permanentPackagePremium + specialFashionTourPremium - this.totalSkinReserve;
                     // 总计 = 所有璀璨晶源来源相加 - 皮肤预留的璀璨晶源
                 },
 
@@ -6576,10 +6738,14 @@
                     const baseCrystal = this.resources.crystal || 0;
                     const basePremiumCrystal = this.usePremiumCrystal ? (this.resources.premiumCrystal || 0) : 0;
                     const baseTickets = this.resources.tickets || 0;
-                    
+
                     // 计算实际可用的异方晶（考虑扣减）
                     let availableCrystal = baseCrystal - this.totalSkinReserve;
-                    
+
+                    // 计算实际可用的璀璨晶源（考虑皮肤预留扣减）
+                    const availablePremiumCrystal = this.usePremiumCrystal ? 
+                        Math.max(0, basePremiumCrystal - this.totalSkinReserve) : 0;
+
                     // 应用异方晶修正，但限制扣减不超过当前库存
                     if (this.customAdjustment < 0) {
                         const maxDeduction = baseCrystal; // 最大扣减量为当前库存
@@ -6587,9 +6753,9 @@
                     } else {
                         availableCrystal += this.customAdjustment;
                     }
-                    
+
                     const currentCrystalPulls = Math.floor(Math.max(0, availableCrystal) / 180);
-                    const currentPremiumCrystalPulls = Math.floor(basePremiumCrystal / 180);
+                    const currentPremiumCrystalPulls = Math.floor(availablePremiumCrystal / 180); // 使用扣减后的值
                     const currentTicketPulls = baseTickets;
                     const currentPulls = currentCrystalPulls + currentPremiumCrystalPulls + currentTicketPulls;
                     
@@ -6619,6 +6785,7 @@
                     // 璀璨晶源部分（付费获得的璀璨晶源）
                     const rechargePremiumCrystal = this.monthlyCardPremiumCrystal +                   // 月卡立即获得的璀璨晶源
                         this.disiPremiumCrystal +                                                     // 狄斯盈满钵璀璨晶源
+                        this.specialFashionTourPremiumCrystal +                                        // 特惠时尚巡回庆典璀璨晶源
                         this.crystalSupplyTotalPremiumCrystal +                                       // 晶源特供（首充）璀璨晶源
                         this.nonFirstCrystalSupplyTotalPremiumCrystal +                               // 晶源特供（非首充）璀璨晶源
                         this.permanentPackageTotalPremiumCrystal;                                     // 新人追踪礼包璀璨晶源
@@ -6634,6 +6801,7 @@
                     // 搜索令部分（付费获得的搜索令）
                     const rechargeTicketPulls = this.advancedInspectionOrderTickets +                 // 高级监察密令搜索令
                         this.treasureTickets +                                                        // 诡珑珍宝馆搜索令
+                        this.specialFashionTourTickets +                                              // 特惠时尚巡回庆典搜索令
                         this.permanentPackageTotalTickets +                                           // 新人追踪礼包搜索令
                         this.weeklyTrackingPackageTotalTickets +                                      // 每周追踪礼包搜索令
                         this.monthlyTrackingPackage1TotalTickets +                                    // 月度追踪礼包Ⅰ搜索令
@@ -6707,6 +6875,7 @@
                         this.totalFriendshipExchange +                  // 友情兑换搜索令（每月3张）
                         this.totalEmotionDetectionTickets +             // 情绪检测月度搜索令（每月1张）
                         this.totalSignInRewardTickets +                 // 签到奖励搜索令（每月1张）
+                        this.totalFashionTourTickets +                  // 基础时尚巡回庆典搜索令
                         this.totalTrackingCertificationTickets +        // 追踪认证-机密兑换搜索令（黄票兑换）
                         this.inspectionOrderTotalTickets;               // 监察密令搜索令奖励
                 },
@@ -6744,6 +6913,9 @@
                     let activityTickets = 0;
                     let activityReviewCrystal = 0;
                     let activityTrialCrystal = 0;
+                    let activityGuildWarCrystal = 0;
+                    let activitySecretOperationCrystal = 0;
+                    
                     // 计算所有未完成活动的奖励
                     this.displayActivities.forEach(activity => {
                         if (!this.activityCompleted[activity.title]) {
@@ -6753,6 +6925,16 @@
                             } else if (activity.title === '歧行至破晓（⚠️估算）') {
                                 activityCrystal += 2000;
                                 activityTickets += 5;
+                                
+                                // 公会战奖励计算
+                                if (!this.activityGuildWarCompleted[activity.title]) {
+                                    activityGuildWarCrystal += 1100;
+                                }
+                                
+                                // 新增：绝密行动奖励计算
+                                if (!this.activitySecretOperationCompleted[activity.title]) {
+                                    activitySecretOperationCrystal += 300;
+                                }
                             } else {
                                 activityCrystal += 1000;
                                 activityTickets += 3;
@@ -6775,10 +6957,13 @@
                             }
                         }
                     });
+                    
                     return activityCrystal + 
                         activityReviewCrystal + 
                         activityTrialCrystal +
-                        this.activityRerunCrystal; // 复刻活动异方晶
+                        activityGuildWarCrystal +
+                        activitySecretOperationCrystal +
+                        this.activityRerunCrystal;
                 },
 
                 // 分模块计算 - 活动搜索令
@@ -6795,7 +6980,7 @@
                             }
                         }                        
                     });
-                    return activityTickets + activitySignInTickets + this.activityRerunTickets; // 新增：复刻活动搜索令
+                    return activityTickets + activitySignInTickets + this.activityRerunTickets; // 复刻活动搜索令
                 },
 
                 // 分模块计算 - 氪金资源异方晶统计
@@ -6809,14 +6994,64 @@
                 rechargeTickets() {
                     return this.advancedInspectionOrderTickets +        // 高级监察密令搜索令奖励
                         this.treasureTickets +                          // 诡珑珍宝馆搜索令奖励
+                        this.specialFashionTourTickets +                // 特惠时尚巡回庆典搜索令奖励
                         this.limitedPackageTotalTickets;                // 限时礼包搜索令奖励
                 },   
 
                 // 皮肤预留红晶的璀璨晶源总计
+                /*
                 totalSkinReserve() {
                     return (this.skinReserve.skin880 * 880) + 
                            (this.skinReserve.skin1280 * 1280) + 
                            (this.skinReserve.skin2580 * 2580);
+                },
+                */
+               
+                totalSkinReserve() {
+                    // 先检查库存是否足够
+                    const availablePremiumCrystal = this.resources.premiumCrystal || 0;
+                    
+                    if (!this.specialFashionTour.active) {
+                        // 原价计算逻辑
+                        const calculatedReserve = (this.skinReserve.skin880 * 880) + 
+                            (this.skinReserve.skin1280 * 1280) + 
+                            (this.skinReserve.skin2580 * 2580);
+                        
+                        // 确保预留不超过库存
+                        return Math.min(calculatedReserve, availablePremiumCrystal);
+                    }
+                    
+                    // 特惠折扣计算逻辑
+                    let total = 0;
+                    const discountPerSkin = 300;
+                    
+                    // 计算总折扣次数（前4次享受折扣）
+                    const totalSkinCount = this.skinReserve.skin880 + this.skinReserve.skin1280;
+                    const discountCount = Math.min(totalSkinCount, this.specialFashionTour.maxDiscounts);
+                    
+                    // 计算享受折扣的总金额
+                    let discountedTotal = 0;
+                    let remainingDiscounts = discountCount;
+                    
+                    // 先计算880皮肤的折扣
+                    const skin880Discount = Math.min(this.skinReserve.skin880, remainingDiscounts);
+                    discountedTotal += skin880Discount * (880 - discountPerSkin);
+                    remainingDiscounts -= skin880Discount;
+                    
+                    // 再计算1280皮肤的折扣
+                    const skin1280Discount = Math.min(this.skinReserve.skin1280, remainingDiscounts);
+                    discountedTotal += skin1280Discount * (1280 - discountPerSkin);
+                    
+                    // 计算原价部分
+                    const fullPriceTotal = 
+                        (this.skinReserve.skin880 - skin880Discount) * 880 +
+                        (this.skinReserve.skin1280 - skin1280Discount) * 1280;
+                    
+                    // 2580皮肤不享受折扣
+                    const calculatedReserve = discountedTotal + fullPriceTotal + (this.skinReserve.skin2580 * 2580);
+                    
+                    // 确保预留不超过库存
+                    return Math.min(calculatedReserve, availablePremiumCrystal);
                 },
 
                 // 计算到"歧行至破晓"还有多少天
@@ -7052,6 +7287,50 @@
                     const crystals = exchanges * crystalsPerExchange;
                     
                     return crystals;
+                },
+
+                // 基础时尚巡回庆典期数计算
+                fashionTourPeriods() {
+                    const tourPeriods = [
+                        { start: new Date(2025, 10, 20), end: new Date(2025, 10, 23) },   // 11月20-11月23
+                        { start: new Date(2025, 10, 24), end: new Date(2025, 10, 30) },   // 11月24-11月30
+                        { start: new Date(2025, 11, 1), end: new Date(2025, 11, 7) },     // 12月1-12月7
+                        { start: new Date(2025, 11, 8), end: new Date(2025, 11, 14) },    // 12月8-12月14
+                        { start: new Date(2025, 11, 15), end: new Date(2025, 11, 21) },   // 12月15-12月21
+                        { start: new Date(2025, 11, 22), end: new Date(2025, 11, 28) },   // 12月22-12月28
+                        { start: new Date(2025, 11, 29), end: new Date(2026, 0, 4) },     // 12月29-1月4
+                        { start: new Date(2026, 0, 5), end: new Date(2026, 0, 11) }       // 1月5-1月11
+                    ];
+                    
+                    const today = new Date();
+                    let targetDate;
+                    if (this.selectedTime === 'nextVersion') {
+                        targetDate = this.calculateToPoolEnd ? 
+                            new Date(this.poolDates.nextVersion.getTime() + (this.versionWeeks * 7 * 24 * 60 * 60 * 1000)) :
+                            this.poolDates.nextVersion;
+                    } else {
+                        targetDate = this.calculateToPoolEnd ? 
+                            new Date(this.poolDates.newYear.getTime() + (this.versionWeeks * 7 * 24 * 60 * 60 * 1000)) :
+                            this.poolDates.newYear;
+                    }
+                    
+                    let periodCount = 0;
+                    for (const period of tourPeriods) {
+                        // 只统计在当前日期和目标日期之间的期数，且开始时间在当前日期之后或正在进行中
+                        if (period.end > today && period.start <= targetDate) {
+                            periodCount++;
+                        }
+                    }
+                    
+                    return Math.max(0, periodCount);
+                },
+                // 基础时尚巡回庆典总搜索令计算
+                totalFashionTourTickets() {
+                    if (this.fashionTourCompleted) {
+                        return Math.max(0, (this.fashionTourPeriods - 1));
+                    } else {
+                        return this.fashionTourPeriods;
+                    }
                 },
 
                 // 监察密令期数计算
@@ -7666,6 +7945,39 @@
                     return 0;
                 },  
 
+                // 特惠时尚巡回庆典期数（复用基础时尚巡回庆典的期数计算）
+                specialFashionTourPeriods() {
+                    return this.fashionTourPeriods;
+                },
+                // 特惠时尚巡回庆典搜索令计算
+                specialFashionTourTickets() {
+                    if (!this.specialFashionTour.active) {
+                        return 0;
+                    }
+                    if (this.specialFashionTour.completed) {
+                        return Math.max(0, (this.specialFashionTourPeriods - 1));
+                    } else {
+                        return this.specialFashionTourPeriods;
+                    }
+                },
+                // 特惠时尚巡回庆典璀璨晶源计算
+                specialFashionTourPremiumCrystal() {
+                    // 只有当按钮激活且未预购买时才计入300璀璨晶源
+                    return (this.specialFashionTour.active && !this.specialFashionTour.prePurchased) ? 300 : 0;
+                },
+                // 剩余优惠次数计算
+                remainingDiscounts() {
+                    if (!this.specialFashionTour.active) {
+                        return 0;
+                    }
+                    return Math.max(0, this.specialFashionTour.maxDiscounts - this.specialFashionTour.usedDiscounts);
+                },
+                // 特惠时尚巡回庆典费用计算
+                specialFashionTourCost() {
+                    // 只有当按钮激活且未预购买时才计入60RMB
+                    return (this.specialFashionTour.active && !this.specialFashionTour.prePurchased) ? 60 : 0;
+                },
+
                 // 晶源特供（首充）计算
                 // 计算每个按钮的单价（x = 价格 / (璀璨晶源数量 / 180)）
                 crystalSupplyUnitPrices() {
@@ -7855,19 +8167,19 @@
                             };
                         }
                         
-                        if (!this.calculateToPoolEnd) {
-                            // 计算到卡池开放当天：3搜索令 + 10限定券
-                            return {
-                                tickets: 3,
-                                limitedCoupons: 10
-                            };
-                        } else {
-                            // 计算到卡池结束当天：14搜索令 + 10限定券
-                            return {
-                                tickets: 14,
-                                limitedCoupons: 10
-                            };
-                        }
+                    if (!this.calculateToPoolEnd) {
+                        // 计算到卡池开放当天：13限定券
+                        return {
+                            tickets: 0,
+                            limitedCoupons: 13
+                        };
+                    } else {
+                        // 计算到卡池结束当天：24限定券
+                        return {
+                            tickets: 0,
+                            limitedCoupons: 24
+                        };
+                    }
                     } else {
                         // 新年版本
                         let baseTickets = 0;
@@ -7991,7 +8303,19 @@
                     this.saveToLocalStorage();
                 },
                 // 监听是否使用璀璨晶源抽卡设置变化并保存数据和更新饼状图
-                usePremiumCrystal() {
+                usePremiumCrystal(newValue, oldValue) {
+                    // 当关闭使用璀璨晶源抽卡时，重置皮肤预留红晶
+                    if (oldValue === true && newValue === false) {
+                        this.skinReserve = {
+                            skin880: 0,
+                            skin1280: 0,
+                            skin2580: 0
+                        };
+                        // 同时重置特惠时尚巡回庆典的已使用折扣次数
+                        if (this.specialFashionTour.active) {
+                            this.specialFashionTour.usedDiscounts = 0;
+                        }
+                    }
                     this.saveToLocalStorage();
                     // 强制更新饼状图
                     this.$nextTick(() => {
@@ -8001,9 +8325,27 @@
                     });
                 },
                 // 深度监听皮肤预留红晶数量变化并保存数据
+                /*
                 skinReserve: {
                     handler(newValue) {
                         this.saveToLocalStorage();
+                    },
+                    deep: true
+                },
+                */               
+                // 深度监听皮肤预留红晶数量变化并保存数据和更新饼状图
+                skinReserve: {
+                    handler(newValue) {
+                        // 重新计算已使用的折扣次数
+                        this.calculateUsedDiscounts();
+                        this.saveToLocalStorage();
+                        
+                        // 强制更新饼状图
+                        this.$nextTick(() => {
+                            if (this.sections.pullSummary) {
+                                this.updatePieChart();
+                            }
+                        });
                     },
                     deep: true
                 },
@@ -8033,6 +8375,10 @@
                 },
                 // 监听是否使用合金兑换设置变化并保存数据
                 useAlloyExchange() {
+                    this.saveToLocalStorage();
+                },
+                // 监听基础时尚巡回庆典完成状态变化并保存数据
+                fashionTourCompleted() {
                     this.saveToLocalStorage();
                 },
                 // 监听监察密令期数选择变化并保存数据
@@ -8235,6 +8581,20 @@
                     },
                     deep: true
                 },
+                // 深度监听活动公会战奖励完成状态变化并保存数据
+                activityGuildWarCompleted: {
+                    handler(newValue) {
+                        this.saveToLocalStorage();
+                    },
+                    deep: true
+                },
+                // 深度监听活动绝密行动奖励完成状态变化并保存数据
+                activitySecretOperationCompleted: {
+                    handler(newValue) {
+                        this.saveToLocalStorage();
+                    },
+                    deep: true
+                },
                 // 监听额外购买月卡数量变化并保存数据
                 monthlyCardCount() {
                     this.saveToLocalStorage();
@@ -8284,6 +8644,13 @@
                 // 监听诡珑珍宝馆预购买状态变化并保存数据
                 treasurePrePurchased() {
                     this.saveToLocalStorage();
+                },
+                // 深度监听特惠时尚巡回庆典状态变化并保存数据
+                specialFashionTour: {
+                    handler(newValue) {
+                        this.saveToLocalStorage();
+                    },
+                    deep: true
                 },
                 // 深度监听晶源特供(首充)购买状态变化并保存数据
                 crystalSupplyButtons: {
@@ -8384,6 +8751,7 @@
                         signInRewardCompleted: this.signInRewardCompleted, // 本月签到奖励完成状态
                         alloyCount: this.alloyCount, // 多项合金数量
                         useAlloyExchange: this.useAlloyExchange, // 是否使用合金兑换异方晶
+                        fashionTourCompleted: this.fashionTourCompleted, // 基础时尚巡回庆典完成状态
                         inspectionLevels: this.inspectionLevels, // 监察密令各期数等级
                         selectedInspectionPeriod: this.selectedInspectionPeriod, // 选择的监察密令期数
                         trackingExchanged: this.trackingExchanged, // 本月追踪认证常规兑换状态
@@ -8421,7 +8789,9 @@
                         activityTrialCompleted: this.activityTrialCompleted, // 各活动角色试用奖励完成状态
                         activityRerunMode: this.activityRerunMode, // 各活动复刻模式选择状态
                         remainingEchoActive: this.remainingEchoActive, // 诡境余音活动状态
-                        crystalDreamActive: this.crystalDreamActive, // 碎晶之梦活动状态                        
+                        crystalDreamActive: this.crystalDreamActive, // 碎晶之梦活动状态 
+                        activityGuildWarCompleted: this.activityGuildWarCompleted, // 活动公会战完成状态 
+                        activitySecretOperationCompleted: this.activitySecretOperationCompleted, // 活动绝密行动完成状态                      
 
                         monthlyCardCount: this.monthlyCardCount, // 额外购买月卡数量
                         monthlyCardActive: this.monthlyCardActive, // 月卡激活状态
@@ -8432,6 +8802,7 @@
                         disiPrePurchased: this.disiPrePurchased, // 狄斯盈满钵预购买状态
                         treasureActive: this.treasureActive, // 诡珑珍宝馆激活状态
                         treasurePrePurchased: this.treasurePrePurchased, // 诡珑珍宝馆预购买状态
+                        specialFashionTour: this.specialFashionTour, // 特惠时尚巡回庆典状态
                         crystalSupplyPurchased: this.crystalSupplyButtons.map(button => button.purchased), // 晶源特供（首充）各档位购买状态
                         nonFirstCrystalSupplyCounts: this.nonFirstCrystalSupplyButtons.map(button => button.count), // 晶源特供（非首充）各档位购买数量
                         permanentPackageActive: this.permanentPackage.active, // 新人追踪礼包购买状态
@@ -9302,6 +9673,16 @@
                     this.saveToLocalStorage();
                 },
 
+                // 活动公会战奖励完成状态切换方法
+                toggleActivityGuildWarCompletion(activityTitle) {
+                    this.saveToLocalStorage();
+                },
+
+                // 活动绝密行动奖励完成状态切换方法
+                toggleActivitySecretOperationCompletion(activityTitle) {
+                    this.saveToLocalStorage();
+                },
+
                 // 切换模块的显示状态
                 toggleSection(section) {
                     this.sections[section] = !this.sections[section];
@@ -9314,6 +9695,7 @@
                 },
                 
                 // 皮肤预留红晶数量的调整功能
+                /*
                 adjustSkinCount(price, change) {
                     const skinKey = `skin${price}`;
                     if (this.skinReserve[skinKey] !== undefined) {
@@ -9321,6 +9703,87 @@
                         if (newValue >= 0) {
                             this.skinReserve[skinKey] = newValue;
                         }
+                    }
+                },
+                */
+
+                adjustSkinCount(price, change) {
+                    const skinKey = `skin${price}`;
+                    if (this.skinReserve[skinKey] !== undefined) {
+                        // 计算当前已预留的总璀璨晶源
+                        const currentReserved = this.totalSkinReserve;
+                        // 获取当前可用的璀璨晶源库存
+                        const availablePremiumCrystal = this.resources.premiumCrystal || 0;
+                        
+                        // 如果要增加皮肤数量，检查库存是否足够
+                        if (change > 0) {
+                            // 计算增加这个皮肤需要多少璀璨晶源
+                            const costForThisSkin = price;
+                            // 检查增加后总预留是否会超过库存
+                            if (currentReserved + costForThisSkin > availablePremiumCrystal) {
+                                this.showAutoCloseAlert("璀璨晶源不足，无法预留更多皮肤");
+                                return; // 直接返回，不执行增加操作
+                            }
+                        }
+                        
+                        // 执行增减操作
+                        const newValue = this.skinReserve[skinKey] + change;
+                        if (newValue >= 0) {
+                            this.skinReserve[skinKey] = newValue;
+                            
+                            // 自动重新计算已使用的折扣次数
+                            this.calculateUsedDiscounts();
+                        }
+                    }
+                },
+                // 计算已使用的折扣次数
+                calculateUsedDiscounts() {
+                    if (!this.specialFashionTour.active) {
+                        this.specialFashionTour.usedDiscounts = 0;
+                        return;
+                    }
+                    
+                    // 计算总皮肤数量（880和1280）
+                    const totalSkinCount = this.skinReserve.skin880 + this.skinReserve.skin1280;
+                    
+                    // 已使用的折扣次数就是总皮肤数量，但不超过最大次数
+                    this.specialFashionTour.usedDiscounts = Math.min(totalSkinCount, this.specialFashionTour.maxDiscounts);
+                },
+                // 验证优惠次数输入
+                validateDiscountCount() {
+                    this.$nextTick(() => {
+                        if (this.specialFashionTour.maxDiscounts !== null && this.specialFashionTour.maxDiscounts !== undefined && this.specialFashionTour.maxDiscounts !== '') {
+                            // 限制在 0-4 之间
+                            if (this.specialFashionTour.maxDiscounts < 0) {
+                                this.specialFashionTour.maxDiscounts = 0;
+                            } else if (this.specialFashionTour.maxDiscounts > 4) {
+                                this.specialFashionTour.maxDiscounts = 4;
+                            } else {
+                                this.specialFashionTour.maxDiscounts = Math.floor(this.specialFashionTour.maxDiscounts);
+                            }
+                            
+                            // 如果减少了最大次数，需要调整已使用次数
+                            if (this.specialFashionTour.usedDiscounts > this.specialFashionTour.maxDiscounts) {
+                                this.specialFashionTour.usedDiscounts = this.specialFashionTour.maxDiscounts;
+                            }
+                            
+                            // 重新计算皮肤折扣
+                            this.calculateUsedDiscounts();
+                        }
+                    });
+                },
+
+                // 清空输入框（如果为0）
+                clearDiscountIfZero() {
+                    if (this.specialFashionTour.maxDiscounts === 0) {
+                        this.specialFashionTour.maxDiscounts = null;
+                    }
+                },
+
+                // 设置默认值（如果为空）
+                setDiscountDefaultIfEmpty() {
+                    if (this.specialFashionTour.maxDiscounts === null || this.specialFashionTour.maxDiscounts === '') {
+                        this.specialFashionTour.maxDiscounts = 0;
                     }
                 },
 
@@ -9587,6 +10050,21 @@
                         this.treasurePrePurchased = false;
                     }
                 },                
+
+                // 切换特惠时尚巡回庆典激活状态
+                toggleSpecialFashionTour() {
+                    this.specialFashionTour.active = !this.specialFashionTour.active;
+                    if (!this.specialFashionTour.active) {
+                        // 如果关闭按钮，重置所有相关状态
+                        this.specialFashionTour.completed = false;
+                        this.specialFashionTour.usedDiscounts = 0;
+                        this.specialFashionTour.prePurchased = false;
+                        this.specialFashionTour.maxDiscounts = 0;
+                    } else {
+                        // 如果打开按钮，设置默认优惠次数为4
+                        this.specialFashionTour.maxDiscounts = 4;
+                    }
+                },
 
                 // === 新增：晶源特供（首充）方法 ===
                 // 切换晶源特供按钮购买状态
