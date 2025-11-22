@@ -44,7 +44,7 @@
     </script>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimum-scale=1.0, viewport-fit=cover">
     <title>海拉的钱包</title>
     <script src="https://unpkg.com/vue@3.4.21/dist/vue.global.js"></script>
     <style>
@@ -2003,7 +2003,7 @@
         .package-card {
             display: flex;
             background: #333333;
-            border-radius: 8px 8px 8px 08px; /* 只有顶部圆角 */
+            border-radius: 8px 8px 8px 8px; /* 只有顶部圆角 */
             border: 2px solid #444444;
             border-bottom: none; /* 去掉底部边框 */
             padding: 20px;
@@ -4572,8 +4572,24 @@
                 width: 100% !important;
                 max-width: 100% !important;
                 box-sizing: border-box !important;
+                min-width: 0 !important;
             }
             
+            /* 复氪金模块父容器 */
+            .potential-section.card .section-content {
+                width: 100% !important;
+                max-width: 100% !important;
+                overflow-x: hidden !important;
+                /* 关键：防止内容溢出影响其他模块 */
+                contain: layout !important;
+            }
+
+            /* 确保所有氪金子模块不溢出 */
+            .recharge .sub-section {
+                max-width: 100% !important;
+                overflow: hidden !important;
+            }            
+
             .crystal-supply-btn-wrapper {
                 max-width: 100% !important;
                 width: 100% !important;
@@ -4785,17 +4801,17 @@
             .package-grid {
                 grid-template-columns: 1fr;
                 gap: 6px;
-                padding: 0 8px; /* 调整内边距 */
-                box-sizing: border-box;
-                width: 100%;
-                margin: 0;
+                padding: 0 8px;
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
             }
             
-            /* 修复：礼包卡片容器 */
             .package-container {
                 margin-bottom: 6px;
                 width: 100%;
                 box-sizing: border-box;
+                overflow: hidden !important;
             }
             
             /* 礼包卡片保持水平排列 */
@@ -4807,6 +4823,7 @@
                 width: 100%;
                 box-sizing: border-box;
                 margin: 0;
+                min-width: 0 !important;
             }
             
             /* 图片区域缩小 */
@@ -4814,6 +4831,7 @@
                 width: 70px;
                 height: 70px;
                 flex-shrink: 0;
+                min-width: 0 !important;
             }
             
             .package-name-overlay {
@@ -4827,9 +4845,8 @@
                 text-align: left;
                 gap: 6px;
                 flex: 1;
-                min-width: 0;
-                padding: 0;
-                margin: 0;
+                min-width: 0 !important; /* 关键：允许缩小 */
+                overflow: hidden !important;
             }
             
             .package-stats {
@@ -4840,12 +4857,9 @@
             }
             
             .package-name {
-                font-size: 12px;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                margin: 0;
-                line-height: 1.2;
             }
             
             .stat-item {
@@ -4876,11 +4890,12 @@
             
             /* 条形图区域进一步缩小 */
             .package-chart {
-                width: 100px; /* 进一步缩小宽度 */
+                width: 100px !important;
                 flex-shrink: 0;
                 gap: 6px;
                 padding: 0;
                 margin: 0;
+                min-width: 0 !important;
             }
             
             .chart-item {
