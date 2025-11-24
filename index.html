@@ -5392,6 +5392,60 @@
             }
         }
 
+        @media (max-width: 480px) {
+            .modal-content {
+                max-height: 75vh;
+                width: 90%;
+                margin: 5px;
+            }
+            
+            .modal-body {
+                max-height: calc(75vh - 110px);
+                padding: 12px;
+            }
+            
+            .modal-header {
+                padding: 12px 15px;
+            }
+            
+            .modal-title {
+                font-size: 16px;
+            }
+            
+            .modal-close {
+                width: 28px;
+                height: 28px;
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 430px) {
+            .modal-content {
+                max-height: 65vh;
+                width: 90%;
+                margin: 2px;
+            }
+            
+            .modal-body {
+                max-height: calc(65vh - 100px);
+                padding: 10px;
+            }
+            
+            .modal-header {
+                padding: 10px 12px;
+            }
+            
+            .modal-title {
+                font-size: 15px;
+            }
+            
+            /* 确保关闭按钮始终可见 */
+            .modal-close {
+                position: relative;
+                z-index: 11;
+            }
+        }
+
         /* === 监察密令移动端适配 === */
         @media (max-width: 768px) {
             .inspection-period-btn {
@@ -6969,7 +7023,7 @@
                                                     <span class="item-title">绝密行动：</span>
                                                     <span class="item-value">
                                                         <img :src="crystalIcon" class="resource-icon" alt="异方晶"> 
-                                                        {{ activitySecretOperationCompleted[activity.title] ? 0 : 300 }}
+                                                        {{ activitySecretOperationCompleted[activity.title] ? 0 : 200 }}
                                                     </span>
                                                 </div>
                                                 <div class="switch-group small">
@@ -7432,31 +7486,33 @@
                                         <div class="sub-section">
                                             <h3 class="sub-title">常驻礼包</h3>
                                             <!-- 新人追踪礼包 === -->                                
-                                            <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box;margin-bottom: 10px;">
-                                                <button 
-                                                    class="training-btn crystal-supply-btn" 
-                                                    :class="{ active: permanentPackage.active && permanentPackage.price > 0 }"
-                                                    @click="togglePermanentPackage"
-                                                    style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
-                                                    <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
-                                                        <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
-                                                            {{ (permanentPackage.price / ((permanentPackage.premiumCrystal + permanentPackage.tickets * 180) / 180)).toFixed(2) }}
-                                                        </span>
+                                            <div class="crystal-supply-btn-wrapper" style="margin-bottom: 10px;">
+                                                <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box;">
+                                                    <button 
+                                                        class="training-btn crystal-supply-btn" 
+                                                        :class="{ active: permanentPackage.active && permanentPackage.price > 0 }"
+                                                        @click="togglePermanentPackage"
+                                                        style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
+                                                        <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
+                                                            <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                                                {{ (permanentPackage.price / ((permanentPackage.premiumCrystal + permanentPackage.tickets * 180) / 180)).toFixed(2) }}
+                                                            </span>
+                                                        </div>
+                                                        <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
+                                                            <span style="font-weight: bold; white-space: nowrap;">新人追踪礼包</span>
+                                                            <img :src="premiumCrystalIcon" class="resource-icon" alt="璀璨晶源">
+                                                            <span style="font-weight: bold; white-space: nowrap;">{{ permanentPackage.premiumCrystal }}</span>
+                                                            <img :src="ticketIcon" class="resource-icon" alt="搜索令">
+                                                            <span style="font-weight: bold; white-space: nowrap;">{{ permanentPackage.tickets }}</span>
+                                                        </div>
+                                                    </button>
+                                                    <!-- 价格显示 -->
+                                                    <div style="display: flex; align-items: center; min-width: 60px; flex-shrink: 0; height: 100%;">
+                                                        <div style="text-align: center; font-size: 12px; color: #666; white-space: nowrap;">
+                                                            ￥{{ permanentPackage.price }}
+                                                        </div>
                                                     </div>
-                                                    <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
-                                                        <span style="font-weight: bold; white-space: nowrap;">新人追踪礼包</span>
-                                                        <img :src="premiumCrystalIcon" class="resource-icon" alt="璀璨晶源">
-                                                        <span style="font-weight: bold; white-space: nowrap;">{{ permanentPackage.premiumCrystal }}</span>
-                                                        <img :src="ticketIcon" class="resource-icon" alt="搜索令">
-                                                        <span style="font-weight: bold; white-space: nowrap;">{{ permanentPackage.tickets }}</span>
-                                                    </div>
-                                                </button>
-                                                <!-- 价格显示 -->
-                                                <div style="display: flex; align-items: center; min-width: 60px; flex-shrink: 0; height: 100%;">
-                                                    <div style="text-align: center; font-size: 12px; color: #666; white-space: nowrap;">
-                                                        ￥{{ permanentPackage.price }}
-                                                    </div>
-                                                </div>
+                                                </div>    
                                             </div>
                                             <!-- 每周追踪礼包 === -->  
                                             <div class="crystal-supply-btn-wrapper" style="margin-bottom: 10px;">
@@ -7660,7 +7716,8 @@
                                             </div>
 
                                             <!-- 白鸽巡礼系列（互斥选择） -->
-                                            <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px;">
+                                            <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px;"
+                                                class="crystal-supply-btn-wrapper" style="margin-bottom: 10px;">
                                                 <div v-for="(item, index) in dovePackages" :key="'dove' + index" 
                                                     style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box;">
                                                     <button 
@@ -7696,86 +7753,13 @@
 
                                             <!-- 单个礼包 -->
                                             <div v-for="(item, index) in singlePackages" :key="'single' + index" 
-                                                style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box; margin-bottom: 10px;">
-                                                <button 
-                                                    class="training-btn crystal-supply-btn" 
-                                                    :class="{ active: item.active }"
-                                                    @click="toggleLimitedPackage(item.id)"
-                                                    style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
-                                                    <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
-                                                        <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
-                                                            {{ item.tag }}
-                                                        </span>
-                                                    </div>
-                                                    <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
-                                                        <span style="font-weight: bold; white-space: nowrap;">{{ item.name }}</span>
-                                                        <template v-if="item.crystal > 0">
-                                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶">
-                                                            <span style="font-weight: bold; white-space: nowrap;">{{ item.crystal }}</span>
-                                                        </template>
-                                                        <template v-if="item.premiumCrystal > 0">
-                                                            <img :src="premiumCrystalIcon" class="resource-icon" alt="璀璨晶源">
-                                                            <span style="font-weight: bold; white-space: nowrap;">{{ item.premiumCrystal }}</span>
-                                                        </template>
-                                                        <template v-if="item.tickets > 0">
-                                                            <img :src="ticketIcon" class="resource-icon" alt="搜索令">
-                                                            <span style="font-weight: bold; white-space: nowrap;">{{ item.tickets }}</span>
-                                                        </template>
-                                                        <template v-if="item.limitedCoupons > 0">
-                                                            <img :src="limitedCouponIcon" class="resource-icon" alt="限定券">
-                                                            <span style="font-weight: bold; white-space: nowrap;">{{ item.limitedCoupons }}</span>
-                                                        </template>
-                                                    </div>
-                                                </button>
-                                                <!-- 价格显示 -->
-                                                <div style="display: flex; align-items: center; min-width: 60px; flex-shrink: 0; height: 100%;">
-                                                    <div style="text-align: center; font-size: 12px; color: #666; white-space: nowrap;">
-                                                        ￥{{ item.price }}
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <!-- 特供系列和组合购买 -->
-                                            <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 10px;">
-                                                <!-- 组合购买 -->
+                                                class="crystal-supply-btn-wrapper" style="margin-bottom: 10px;">
                                                 <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box;">
                                                     <button 
                                                         class="training-btn crystal-supply-btn" 
-                                                        :class="{ active: limitedPackageCombo.active }"
-                                                        @click="toggleComboPackage()"
-                                                        style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
-                                                        <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
-                                                            <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
-                                                                5.06
-                                                            </span>
-                                                        </div>
-                                                        <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
-                                                            <span style="font-weight: bold; white-space: nowrap;">组合购买</span>
-                                                            <img :src="premiumCrystalIcon" class="resource-icon" alt="璀璨晶源">
-                                                            <span style="font-weight: bold; white-space: nowrap;">180</span>
-                                                            <img :src="crystalIcon" class="resource-icon" alt="异方晶">
-                                                            <span style="font-weight: bold; white-space: nowrap;">100</span>
-                                                            <img :src="ticketIcon" class="resource-icon" alt="搜索令">
-                                                            <span style="font-weight: bold; white-space: nowrap;">2</span>
-                                                        </div>
-                                                    </button>
-                                                    <!-- 价格显示 -->
-                                                    <div style="display: flex; align-items: center; min-width: 60px; flex-shrink: 0; height: 100%;">
-                                                        <div style="text-align: center; font-size: 12px; color: #666; white-space: nowrap;">
-                                                            ￥18
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <!-- 特供系列 -->
-                                                <div v-for="(item, index) in supplyPackages" :key="'supply' + index" 
-                                                    style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box;">
-                                                    <button 
-                                                        class="training-btn crystal-supply-btn" 
-                                                        :class="{ active: item.active && !limitedPackageCombo.active }"
+                                                        :class="{ active: item.active }"
                                                         @click="toggleLimitedPackage(item.id)"
-                                                        :disabled="limitedPackageCombo.active"
-                                                        style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0; opacity: limitedPackageCombo.active ? 0.5 : 1;">
+                                                        style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
                                                         <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
                                                             <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
                                                                 {{ item.tag }}
@@ -7795,45 +7779,127 @@
                                                                 <img :src="ticketIcon" class="resource-icon" alt="搜索令">
                                                                 <span style="font-weight: bold; white-space: nowrap;">{{ item.tickets }}</span>
                                                             </template>
+                                                            <template v-if="item.limitedCoupons > 0">
+                                                                <img :src="limitedCouponIcon" class="resource-icon" alt="限定券">
+                                                                <span style="font-weight: bold; white-space: nowrap;">{{ item.limitedCoupons }}</span>
+                                                            </template>
                                                         </div>
                                                     </button>
                                                     <!-- 价格显示 -->
                                                     <div style="display: flex; align-items: center; min-width: 60px; flex-shrink: 0; height: 100%;">
                                                         <div style="text-align: center; font-size: 12px; color: #666; white-space: nowrap;">
                                                             ￥{{ item.price }}
+                                                        </div>
+                                                    </div>
+                                                </div>    
+                                            </div>
+
+                                            <!-- 特供系列和组合购买 -->
+                                            <div style="display: flex; flex-direction: column; gap: 0px; margin-bottom: 10px;">
+                                                <!-- 组合购买 -->
+                                                <div class="crystal-supply-btn-wrapper" style="margin-bottom: 10px;">
+                                                    <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box;">
+                                                        <button 
+                                                            class="training-btn crystal-supply-btn" 
+                                                            :class="{ active: limitedPackageCombo.active }"
+                                                            @click="toggleComboPackage()"
+                                                            style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
+                                                            <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
+                                                                <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                                                    5.06
+                                                                </span>
+                                                            </div>
+                                                            <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
+                                                                <span style="font-weight: bold; white-space: nowrap;">组合购买</span>
+                                                                <img :src="premiumCrystalIcon" class="resource-icon" alt="璀璨晶源">
+                                                                <span style="font-weight: bold; white-space: nowrap;">180</span>
+                                                                <img :src="crystalIcon" class="resource-icon" alt="异方晶">
+                                                                <span style="font-weight: bold; white-space: nowrap;">100</span>
+                                                                <img :src="ticketIcon" class="resource-icon" alt="搜索令">
+                                                                <span style="font-weight: bold; white-space: nowrap;">2</span>
+                                                            </div>
+                                                        </button>
+                                                        <!-- 价格显示 -->
+                                                        <div style="display: flex; align-items: center; min-width: 60px; flex-shrink: 0; height: 100%;">
+                                                            <div style="text-align: center; font-size: 12px; color: #666; white-space: nowrap;">
+                                                                ￥18
+                                                            </div>
+                                                        </div>
+                                                    </div>    
+                                                </div>
+
+                                                <!-- 特供系列 -->
+                                                <div v-for="(item, index) in supplyPackages" :key="'supply' + index" 
+                                                    class="crystal-supply-btn-wrapper" 
+                                                    :style="{ marginBottom: index === supplyPackages.length - 1 ? '0px' : '10px' }">
+                                                    <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box;">
+                                                        <button 
+                                                            class="training-btn crystal-supply-btn" 
+                                                            :class="{ active: item.active && !limitedPackageCombo.active }"
+                                                            @click="toggleLimitedPackage(item.id)"
+                                                            :disabled="limitedPackageCombo.active"
+                                                            style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0; opacity: limitedPackageCombo.active ? 0.5 : 1;">
+                                                            <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
+                                                                <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                                                    {{ item.tag }}
+                                                                </span>
+                                                            </div>
+                                                            <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
+                                                                <span style="font-weight: bold; white-space: nowrap;">{{ item.name }}</span>
+                                                                <template v-if="item.crystal > 0">
+                                                                    <img :src="crystalIcon" class="resource-icon" alt="异方晶">
+                                                                    <span style="font-weight: bold; white-space: nowrap;">{{ item.crystal }}</span>
+                                                                </template>
+                                                                <template v-if="item.premiumCrystal > 0">
+                                                                    <img :src="premiumCrystalIcon" class="resource-icon" alt="璀璨晶源">
+                                                                    <span style="font-weight: bold; white-space: nowrap;">{{ item.premiumCrystal }}</span>
+                                                                </template>
+                                                                <template v-if="item.tickets > 0">
+                                                                    <img :src="ticketIcon" class="resource-icon" alt="搜索令">
+                                                                    <span style="font-weight: bold; white-space: nowrap;">{{ item.tickets }}</span>
+                                                                </template>
+                                                            </div>
+                                                        </button>
+                                                        <!-- 价格显示 -->
+                                                        <div style="display: flex; align-items: center; min-width: 60px; flex-shrink: 0; height: 100%;">
+                                                            <div style="text-align: center; font-size: 12px; color: #666; white-space: nowrap;">
+                                                                ￥{{ item.price }}
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <!-- 跃升补给系列 -->
-                                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                                            <div style="display: flex; flex-direction: column; gap: 0px;">
                                                 <div v-for="(item, index) in upgradePackages" :key="'upgrade' + index" 
-                                                    style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box;">
-                                                    <button 
-                                                        class="training-btn crystal-supply-btn" 
-                                                        :class="{ active: item.active }"
-                                                        @click="toggleLimitedPackage(item.id)"
-                                                        style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
-                                                        <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
-                                                            <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
-                                                                {{ item.tag }}
-                                                            </span>
+                                                    class="crystal-supply-btn-wrapper" style="margin-bottom: 10px;">
+                                                    <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box;">
+                                                        <button 
+                                                            class="training-btn crystal-supply-btn" 
+                                                            :class="{ active: item.active }"
+                                                            @click="toggleLimitedPackage(item.id)"
+                                                            style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
+                                                            <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
+                                                                <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                                                    {{ item.tag }}
+                                                                </span>
+                                                            </div>
+                                                            <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
+                                                                <span style="font-weight: bold; white-space: nowrap;">{{ item.name }}</span>
+                                                                <img :src="premiumCrystalIcon" class="resource-icon" alt="璀璨晶源">
+                                                                <span style="font-weight: bold; white-space: nowrap;">{{ item.premiumCrystal }}</span>
+                                                                <img :src="ticketIcon" class="resource-icon" alt="搜索令">
+                                                                <span style="font-weight: bold; white-space: nowrap;">{{ item.tickets }}</span>
+                                                            </div>
+                                                        </button>
+                                                        <!-- 价格显示 -->
+                                                        <div style="display: flex; align-items: center; min-width: 60px; flex-shrink: 0; height: 100%;">
+                                                            <div style="text-align: center; font-size: 12px; color: #666; white-space: nowrap;">
+                                                                ￥{{ item.price }}
+                                                            </div>
                                                         </div>
-                                                        <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
-                                                            <span style="font-weight: bold; white-space: nowrap;">{{ item.name }}</span>
-                                                            <img :src="premiumCrystalIcon" class="resource-icon" alt="璀璨晶源">
-                                                            <span style="font-weight: bold; white-space: nowrap;">{{ item.premiumCrystal }}</span>
-                                                            <img :src="ticketIcon" class="resource-icon" alt="搜索令">
-                                                            <span style="font-weight: bold; white-space: nowrap;">{{ item.tickets }}</span>
-                                                        </div>
-                                                    </button>
-                                                    <!-- 价格显示 -->
-                                                    <div style="display: flex; align-items: center; min-width: 60px; flex-shrink: 0; height: 100%;">
-                                                        <div style="text-align: center; font-size: 12px; color: #666; white-space: nowrap;">
-                                                            ￥{{ item.price }}
-                                                        </div>
-                                                    </div>
+                                                    </div>    
                                                 </div>
                                             </div>
                                         </div>
@@ -7996,133 +8062,143 @@
                                             </div>
 
                                             <!-- 绰影夜话Ⅰ -->
-                                            <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box; margin-bottom: 10px;">
-                                                <button 
-                                                    class="training-btn crystal-supply-btn" 
-                                                    :class="{ active: limitedPackageShadow1.active }"
-                                                    @click="toggleLimitedPackage('limitedPackageShadow1')"
-                                                    style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
-                                                    <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
-                                                        <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
-                                                            {{ (limitedPackageShadow1.price / limitedPackageShadow1.tickets).toFixed(2) }}
-                                                        </span>
+                                            <div class="crystal-supply-btn-wrapper" style="margin-bottom: 10px;">
+                                                <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box;">
+                                                    <button 
+                                                        class="training-btn crystal-supply-btn" 
+                                                        :class="{ active: limitedPackageShadow1.active }"
+                                                        @click="toggleLimitedPackage('limitedPackageShadow1')"
+                                                        style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
+                                                        <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
+                                                            <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                                                {{ (limitedPackageShadow1.price / limitedPackageShadow1.tickets).toFixed(2) }}
+                                                            </span>
+                                                        </div>
+                                                        <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
+                                                            <span style="font-weight: bold; white-space: nowrap;">绰影夜话Ⅰ</span>
+                                                            <img :src="ticketIcon" class="resource-icon" alt="搜索令">
+                                                            <span style="font-weight: bold; white-space: nowrap;">{{ limitedPackageShadow1.tickets }}</span>
+                                                        </div>
+                                                    </button>
+                                                    <!-- 价格显示 -->
+                                                    <div style="display: flex; align-items: center; min-width: 60px; flex-shrink: 0; height: 100%;">
+                                                        <div style="text-align: center; font-size: 12px; color: #666; white-space: nowrap;">
+                                                            ￥{{ limitedPackageShadow1.price }}
+                                                        </div>
                                                     </div>
-                                                    <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
-                                                        <span style="font-weight: bold; white-space: nowrap;">绰影夜话Ⅰ</span>
-                                                        <img :src="ticketIcon" class="resource-icon" alt="搜索令">
-                                                        <span style="font-weight: bold; white-space: nowrap;">{{ limitedPackageShadow1.tickets }}</span>
-                                                    </div>
-                                                </button>
-                                                <!-- 价格显示 -->
-                                                <div style="display: flex; align-items: center; min-width: 60px; flex-shrink: 0; height: 100%;">
-                                                    <div style="text-align: center; font-size: 12px; color: #666; white-space: nowrap;">
-                                                        ￥{{ limitedPackageShadow1.price }}
-                                                    </div>
-                                                </div>
+                                                </div>    
                                             </div>
 
                                             <!-- 绰影夜话Ⅱ -->
-                                            <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box; margin-bottom: 10px;">
-                                                <button 
-                                                    class="training-btn crystal-supply-btn" 
-                                                    :class="{ active: limitedPackageShadow2.active }"
-                                                    @click="toggleLimitedPackage('limitedPackageShadow2')"
-                                                    style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
-                                                    <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
-                                                        <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
-                                                            {{ (limitedPackageShadow2.price / limitedPackageShadow2.tickets).toFixed(2) }}
-                                                        </span>
+                                            <div class="crystal-supply-btn-wrapper" style="margin-bottom: 10px;">
+                                                <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box;">
+                                                    <button 
+                                                        class="training-btn crystal-supply-btn" 
+                                                        :class="{ active: limitedPackageShadow2.active }"
+                                                        @click="toggleLimitedPackage('limitedPackageShadow2')"
+                                                        style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
+                                                        <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
+                                                            <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                                                {{ (limitedPackageShadow2.price / limitedPackageShadow2.tickets).toFixed(2) }}
+                                                            </span>
+                                                        </div>
+                                                        <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
+                                                            <span style="font-weight: bold; white-space: nowrap;">绰影夜话Ⅱ</span>
+                                                            <img :src="ticketIcon" class="resource-icon" alt="搜索令">
+                                                            <span style="font-weight: bold; white-space: nowrap;">{{ limitedPackageShadow2.tickets }}</span>
+                                                        </div>
+                                                    </button>
+                                                    <!-- 价格显示 -->
+                                                    <div style="display: flex; align-items: center; min-width: 60px; flex-shrink: 0; height: 100%;">
+                                                        <div style="text-align: center; font-size: 12px; color: #666; white-space: nowrap;">
+                                                            ￥{{ limitedPackageShadow2.price }}
+                                                        </div>
                                                     </div>
-                                                    <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
-                                                        <span style="font-weight: bold; white-space: nowrap;">绰影夜话Ⅱ</span>
-                                                        <img :src="ticketIcon" class="resource-icon" alt="搜索令">
-                                                        <span style="font-weight: bold; white-space: nowrap;">{{ limitedPackageShadow2.tickets }}</span>
-                                                    </div>
-                                                </button>
-                                                <!-- 价格显示 -->
-                                                <div style="display: flex; align-items: center; min-width: 60px; flex-shrink: 0; height: 100%;">
-                                                    <div style="text-align: center; font-size: 12px; color: #666; white-space: nowrap;">
-                                                        ￥{{ limitedPackageShadow2.price }}
-                                                    </div>
-                                                </div>
+                                                </div>    
                                             </div>
 
                                             <!-- 绰影夜话Ⅲ -->
-                                            <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box; margin-bottom: 10px;">
-                                                <button 
-                                                    class="training-btn crystal-supply-btn" 
-                                                    :class="{ active: limitedPackageShadow3.active }"
-                                                    @click="toggleLimitedPackage('limitedPackageShadow3')"
-                                                    style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
-                                                    <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
-                                                        <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
-                                                            {{ (limitedPackageShadow3.price / limitedPackageShadow3.tickets).toFixed(2) }}
-                                                        </span>
+                                            <div class="crystal-supply-btn-wrapper" style="margin-bottom: 10px;">
+                                                <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box;">
+                                                    <button 
+                                                        class="training-btn crystal-supply-btn" 
+                                                        :class="{ active: limitedPackageShadow3.active }"
+                                                        @click="toggleLimitedPackage('limitedPackageShadow3')"
+                                                        style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
+                                                        <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
+                                                            <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                                                {{ (limitedPackageShadow3.price / limitedPackageShadow3.tickets).toFixed(2) }}
+                                                            </span>
+                                                        </div>
+                                                        <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
+                                                            <span style="font-weight: bold; white-space: nowrap;">绰影夜话Ⅲ</span>
+                                                            <img :src="ticketIcon" class="resource-icon" alt="搜索令">
+                                                            <span style="font-weight: bold; white-space: nowrap;">{{ limitedPackageShadow3.tickets }}</span>
+                                                        </div>
+                                                    </button>
+                                                    <!-- 价格显示 -->
+                                                    <div style="display: flex; align-items: center; min-width: 60px; flex-shrink: 0; height: 100%;">
+                                                        <div style="text-align: center; font-size: 12px; color: #666; white-space: nowrap;">
+                                                            ￥{{ limitedPackageShadow3.price }}
+                                                        </div>
                                                     </div>
-                                                    <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
-                                                        <span style="font-weight: bold; white-space: nowrap;">绰影夜话Ⅲ</span>
-                                                        <img :src="ticketIcon" class="resource-icon" alt="搜索令">
-                                                        <span style="font-weight: bold; white-space: nowrap;">{{ limitedPackageShadow3.tickets }}</span>
-                                                    </div>
-                                                </button>
-                                                <!-- 价格显示 -->
-                                                <div style="display: flex; align-items: center; min-width: 60px; flex-shrink: 0; height: 100%;">
-                                                    <div style="text-align: center; font-size: 12px; color: #666; white-space: nowrap;">
-                                                        ￥{{ limitedPackageShadow3.price }}
-                                                    </div>
-                                                </div>
+                                                </div>    
                                             </div>
 
                                             <!-- 诡事断章 -->
-                                            <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box; margin-bottom: 10px;">
-                                                <button 
-                                                    class="training-btn crystal-supply-btn" 
-                                                    :class="{ active: limitedPackageMystery.active }"
-                                                    @click="toggleLimitedPackage('limitedPackageMystery')"
-                                                    style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
-                                                    <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
-                                                        <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
-                                                            {{ (limitedPackageMystery.price / 50).toFixed(2) }}
-                                                        </span>
+                                            <div class="crystal-supply-btn-wrapper" style="margin-bottom: 10px;">
+                                                <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box;">
+                                                    <button 
+                                                        class="training-btn crystal-supply-btn" 
+                                                        :class="{ active: limitedPackageMystery.active }"
+                                                        @click="toggleLimitedPackage('limitedPackageMystery')"
+                                                        style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
+                                                        <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
+                                                            <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                                                {{ (limitedPackageMystery.price / 50).toFixed(2) }}
+                                                            </span>
+                                                        </div>
+                                                        <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
+                                                            <span style="font-weight: bold; white-space: nowrap;">诡事断章</span>
+                                                            <img :src="ticketIcon" class="resource-icon" alt="搜索令">
+                                                            <span style="font-weight: bold; white-space: nowrap;">{{ limitedPackageMystery.tickets }}</span>
+                                                        </div>
+                                                    </button>
+                                                    <!-- 价格显示 -->
+                                                    <div style="display: flex; align-items: center; min-width: 60px; flex-shrink: 0; height: 100%;">
+                                                        <div style="text-align: center; font-size: 12px; color: #666; white-space: nowrap;">
+                                                            ￥{{ limitedPackageMystery.price }}
+                                                        </div>
                                                     </div>
-                                                    <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
-                                                        <span style="font-weight: bold; white-space: nowrap;">诡事断章</span>
-                                                        <img :src="ticketIcon" class="resource-icon" alt="搜索令">
-                                                        <span style="font-weight: bold; white-space: nowrap;">{{ limitedPackageMystery.tickets }}</span>
-                                                    </div>
-                                                </button>
-                                                <!-- 价格显示 -->
-                                                <div style="display: flex; align-items: center; min-width: 60px; flex-shrink: 0; height: 100%;">
-                                                    <div style="text-align: center; font-size: 12px; color: #666; white-space: nowrap;">
-                                                        ￥{{ limitedPackageMystery.price }}
-                                                    </div>
-                                                </div>
+                                                </div>    
                                             </div>
 
                                             <!-- 荒旅资源补给 -->
-                                            <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box; margin-bottom: 10px;">
-                                                <button 
-                                                    class="training-btn crystal-supply-btn" 
-                                                    :class="{ active: limitedPackageTravelSupply.active }"
-                                                    @click="toggleLimitedPackage('limitedPackageTravelSupply')"
-                                                    style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
-                                                    <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
-                                                        <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
-                                                            9.00
-                                                        </span>
+                                            <div class="crystal-supply-btn-wrapper" style="margin-bottom: 10px;">
+                                                <div style="display: flex; align-items: center; gap: 8px; max-width: 100%; box-sizing: border-box;">
+                                                    <button 
+                                                        class="training-btn crystal-supply-btn" 
+                                                        :class="{ active: limitedPackageTravelSupply.active }"
+                                                        @click="toggleLimitedPackage('limitedPackageTravelSupply')"
+                                                        style="display: flex; gap: 15px; align-items: center; padding: 12px 8px; flex: 1; min-width: 0;">
+                                                        <div class="crystal-supply-left" style="display: flex; align-items: center; min-width: 50px;justify-content: flex-start;">
+                                                            <span class="price-tag" style="background: #8B0000; color: white; padding: 2px 6px; border-radius: 4px; font-size: 12px; font-weight: bold; white-space: nowrap;">
+                                                                9.00
+                                                            </span>
+                                                        </div>
+                                                        <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
+                                                            <span style="font-weight: bold; white-space: nowrap;">荒旅资源补给</span>
+                                                            <img :src="ticketIcon" class="resource-icon" alt="搜索令">
+                                                            <span style="font-weight: bold; white-space: nowrap;">5</span>
+                                                        </div>
+                                                    </button>
+                                                    <!-- 价格显示 -->
+                                                    <div style="display: flex; align-items: center; min-width: 60px; flex-shrink: 0; height: 100%;">
+                                                        <div style="text-align: center; font-size: 12px; color: #666; white-space: nowrap;">
+                                                            ￥45
+                                                        </div>
                                                     </div>
-                                                    <div class="crystal-supply-right" style="display: flex; align-items: center; min-width: 0; gap: 8px;flex: 1; justify-content: flex-start;">
-                                                        <span style="font-weight: bold; white-space: nowrap;">荒旅资源补给</span>
-                                                        <img :src="ticketIcon" class="resource-icon" alt="搜索令">
-                                                        <span style="font-weight: bold; white-space: nowrap;">5</span>
-                                                    </div>
-                                                </button>
-                                                <!-- 价格显示 -->
-                                                <div style="display: flex; align-items: center; min-width: 60px; flex-shrink: 0; height: 100%;">
-                                                    <div style="text-align: center; font-size: 12px; color: #666; white-space: nowrap;">
-                                                        ￥45
-                                                    </div>
-                                                </div>
+                                                </div>    
                                             </div>
                                         </div>
                                     </div>
@@ -9472,10 +9548,10 @@
                     // 活动排期数据
                     activitySchedule: [
                         { start: '2025-10-23', end: '2025-11-20', title: '妄夜迷章' },
-                        { start: '2025-11-20', end: '2025-12-18', title: '歧行至破晓（⚠️估算）' },
-                        { start: '2025-12-18', end: '2026-01-15', title: '1218-0115活动（⚠️估算）' },
-                        { start: '2026-01-15', end: '2026-02-12', title: '0115-0212活动（⚠️估算）' },
-                        { start: '2026-02-12', end: '2026-03-12', title: '新年活动（⚠️估算）' }
+                        { start: '2025-11-20', end: '2025-12-18', title: '歧行至破晓' },
+                        { start: '2025-12-18', end: '2026-01-15', title: '猫眼三姐妹联动' },
+                        { start: '2026-01-15', end: '2026-02-12', title: '无尽梦魇版本' },
+                        { start: '2026-02-12', end: '2026-03-12', title: '新年版本' }
                     ],
                     // 活动完成奖励
                     activityCompleted: savedData?.activityCompleted || {},
@@ -10034,7 +10110,7 @@
                                 
                                 // 新增：绝密行动奖励计算
                                 if (!this.activitySecretOperationCompleted[activity.title]) {
-                                    activitySecretOperationCrystal += 300;
+                                    activitySecretOperationCrystal += 200;
                                 }
                             } else {
                                 activityCrystal += 1000;
