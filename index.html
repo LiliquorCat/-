@@ -2103,21 +2103,6 @@
             object-fit: cover;
         }
 
-        /* 图片上的名称覆盖层 */
-        /* 覆盖在图片上的礼包名称：绝对定位，红色醒目文字 */
-        .package-name-overlay {
-            position: absolute;
-            top: 5px;
-            right: 5px;
-            color: #ffffff;
-            font-size: 12px;
-            font-weight: bold;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.8); /* 添加文字阴影让文字更清晰 */
-            max-width: 80%;
-            word-break: break-word;
-            text-align: right; /* 右对齐 */
-        }
-
         /* 礼包信息 */
         /* 主要信息区域：弹性填充剩余空间，垂直排列 */
         .package-info {
@@ -4036,6 +4021,79 @@
             }
         }
 
+        /* === 超小屏幕适配 === */
+        @media (max-width: 430px) {
+            .resource-vertical {
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 4px !important;
+            }
+            
+            .resource-input-vertical {
+                padding: 4px !important;
+                gap: 4px !important;
+            }
+            
+            .resource-input-vertical label {
+                font-size: 11px !important;
+            }
+            
+            .resource-input-vertical input {
+                width: 60px !important;
+                max-width: 60px !important;
+                padding: 4px !important;
+                font-size: 13px !important;
+            }
+            
+            .sub-title-wrapper .sub-title {
+                font-size: 14px !important;
+                max-width: 50% !important;
+            }
+            
+            .switch-group .switch-label {
+                font-size: 11px !important;
+            }
+            
+            /* 皮肤预留区域在超小屏幕适配 */
+            .skin-reserve-row {
+                grid-template-columns: 1fr 1fr 1fr !important;
+                gap: 4px !important;
+            }
+            
+            .skin-item.compact {
+                padding: 6px 4px !important;
+            }
+            
+            .skin-info .skin-price {
+                font-size: 10px !important;
+            }
+            
+            .skin-controls {
+                gap: 4px !important;
+            }
+            
+            .skin-btn {
+                width: 22px !important;
+                height: 22px !important;
+                font-size: 12px !important;
+            }
+            
+            .skin-count {
+                font-size: 11px !important;
+                min-width: 30px !important;
+            }
+            
+            /* 异方晶修正输入框适配 */
+            .custom-adjust .resource-input input {
+                max-width: 90px !important;
+                font-size: 13px !important;
+            }
+            
+            .custom-adjust .resource-input label {
+                font-size: 13px !important;
+                min-width: 120px !important;
+            }
+        }
+
         /* === 角色养成模块移动端适配 === */
         @media (max-width: 768px) {
             .character-development-input {
@@ -4782,6 +4840,76 @@
             }
         }
 
+        /* === 超小屏幕适配 === */
+        @media (max-width: 430px) {
+            .crystal-supply-buttons {
+                gap: 4px !important;
+            }
+            
+            .crystal-supply-btn-wrapper > div {
+                gap: 4px !important;
+            }
+            
+            .training-btn.crystal-supply-btn {
+                padding: 8px 4px !important;
+                font-size: 12px !important;
+            }
+            
+            .crystal-supply-left .price-tag,
+            .crystal-supply-right span {
+                font-size: 9px !important;
+            }
+            
+            /* 输入框在超小屏幕上进一步缩小 */
+            .crystal-supply-btn-wrapper input[type="number"] {
+                width: 40px !important;
+                padding: 4px 2px !important;
+                font-size: 12px !important;
+            }
+            
+            .crystal-supply-btn-wrapper > div > div:last-child {
+                min-width: 50px !important;
+                max-width: 50px !important;
+            }
+            
+            /* 超小屏幕价格字体进一步缩小 */
+            .crystal-supply-btn-wrapper > div > div:last-child > div:last-child {
+                font-size: 9px !important;
+            }
+            
+            .training-btn.crystal-supply-btn {
+                max-width: calc(100% - 54px) !important;
+                padding: 8px 4px !important;
+            }
+            
+            /* 资源图标在超小屏幕上缩小 */
+            .crystal-supply-btn-wrapper .resource-icon {
+                width: 16px !important;
+                height: 16px !important;
+            }
+            
+            /* 确保所有文本内容不换行且不溢出 */
+            .crystal-supply-left,
+            .crystal-supply-right {
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+            }
+            
+            /* 强制按钮内容单行显示 */
+            .training-btn.crystal-supply-btn > div {
+                display: flex !important;
+                align-items: center !important;
+                gap: 2px !important;
+                overflow: hidden !important;
+            }
+            
+            /* 价格标签进一步优化 */
+            .price-tag {
+                font-size: 8px !important;
+                padding: 1px 4px !important;
+            }
+        }
+
         /* === 礼包性价比页面移动端适配 === */
         @media (max-width: 768px) {
             /* 礼包性价比页面整体调整 */
@@ -4907,11 +5035,6 @@
                 height: 70px;
                 flex-shrink: 0;
                 min-width: 0;
-            }
-            
-            .package-name-overlay {
-                font-size: 9px;
-                max-width: 65%;
             }
             
             /* === 礼包信息区域 === */
@@ -5068,6 +5191,85 @@
                 margin-bottom: 10px;
                 padding-bottom: 5px;
                 padding: 0 8px;
+            }
+        }
+
+        /* === 超小屏幕适配 === */
+        @media (max-width: 430px) {
+            .package-card {
+                padding: 6px;
+                gap: 4px;
+            }
+            
+            /* 缩小图片区域 */
+            .package-image {
+                width: 50px;
+                height: 50px;
+                min-width: 50px;
+            }
+            
+            /* 缩小信息区域 */
+            .package-info {
+                gap: 4px;
+                min-width: 0;
+                flex: 1;
+            }
+            
+            .package-stats {
+                gap: 2px;
+            }
+            
+            .package-name {
+                font-size: 11px;
+            }
+            
+            .stat-item {
+                gap: 3px;
+            }
+            
+            .stat-value {
+                font-size: 10px;
+            }
+            
+            .stat-label {
+                font-size: 9px;
+            }
+            
+            .price-tag {
+                font-size: 9px;
+                padding: 1px 4px;
+            }
+            
+            /* 大幅缩小条形图区域 */
+            .package-chart {
+                gap: 4px;
+                min-width: 80px;
+                max-width: 80px;
+                flex-shrink: 0;
+            }
+            
+            .chart-item {
+                gap: 3px;
+            }
+            
+            .chart-label {
+                font-size: 8px;
+                width: 25px;
+            }
+            
+            .chart-bar-container {
+                height: 12px;
+                min-width: 40px;
+            }
+            
+            .chart-bar {
+                min-width: 15px;
+            }
+            
+            .chart-percentage {
+                font-size: 7px;
+                margin-left: 2px;
+                min-width: 18px;
             }
         }
 
@@ -5384,7 +5586,10 @@
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;现在可以使用左侧菜单栏在「攒抽计算器」与「礼包性价比」页面来回切换<br>                                          
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;修正<strong class="modal-highlight">大量计算BUG</strong><br>
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;优化<strong class="modal-highlight">移动端显示</strong><br>                                            
-                                        </li>                                                                                                                                                                                                                                                               
+                                        </li> 
+                                        <li><strong class="modal-highlight">25.11.22</strong><br>
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;优化页面图片<strong class="modal-highlight">加载速度</strong><br>                                        
+                                        </li>                                                                                                                                                                                                                                                                                                        
                                     </ul>
                                 </div>
                             </div>
@@ -8070,7 +8275,6 @@
                                         <!-- 左侧：礼包图片 -->
                                         <div class="package-image">
                                             <img :src="pkg.image" :alt="pkg.name" class="package-img" loading="lazy">
-                                            <div class="package-name-overlay">{{ pkg.name }}</div>
                                         </div>
                                         <!-- 中间：文本信息 -->
                                         <div class="package-info">
