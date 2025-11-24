@@ -48,6 +48,72 @@
     <title>海拉的钱包</title>
     <script src="https://unpkg.com/vue@3.4.21/dist/vue.global.js"></script>
     <style>
+        /* ==================== 雪碧图样式 - 中文类名 ==================== */
+
+        .resource-sprites {
+            background-image: url('icons/Css-sprites.png');
+            background-repeat: no-repeat;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        /* 尺寸变体 */
+        .resource-sprites.标准尺寸 { width: 80px; height: 80px; }
+        .resource-sprites.中等尺寸 { width: 48px; height: 48px; background-size: 480px 480px; }
+        .resource-sprites.小尺寸 { width: 32px; height: 32px; background-size: 480px 480px; }
+        .resource-sprites.超小尺寸 { width: 24px; height: 24px; background-size: 480px 480px; }
+        .resource-sprites.微型尺寸 { width: 16px; height: 16px; background-size: 480px 480px; }
+
+        /* ==================== 图标位置 - 中文类名 ==================== */
+
+        /* 第一行 */
+        .sprite-异方晶 { background-position: 0 0; }
+        .sprite-璀璨晶源 { background-position: -80px 0; }
+        .sprite-搜索令 { background-position: -160px 0; }
+        .sprite-限定券 { background-position: -240px 0; }
+        .sprite-都市搜索令 { background-position: -320px 0; }
+        .sprite-统合十连搜索令 { background-position: -400px 0; }
+
+        /* 第二行 */
+        .sprite-双轨搜索令 { background-position: 0 -80px; }
+        .sprite-多项合金 { background-position: -80px -80px; }
+        .sprite-黄票 { background-position: -160px -80px; }
+        .sprite-狄斯币 { background-position: -240px -80px; }
+        .sprite-狂乱精粹 { background-position: -320px -80px; }
+        .sprite-超阶材料补给箱 { background-position: -400px -80px; }
+
+        /* 第三行 */
+        .sprite-高阶材料补给箱 { background-position: 0 -160px; }
+        .sprite-中阶材料补给箱 { background-position: -80px -160px; }
+        .sprite-低阶材料补给箱 { background-position: -160px -160px; }
+        .sprite-一阶源素补给箱 { background-position: -240px -160px; }
+        .sprite-二阶源液补给箱 { background-position: -320px -160px; }
+        .sprite-三阶源质补给箱 { background-position: -400px -160px; }
+
+        /* 第四行 */
+        .sprite-狂级魂识印记 { background-position: 0 -240px; }
+        .sprite-危级魂识印记 { background-position: -80px -240px; }
+        .sprite-普级魂识印记 { background-position: -160px -240px; }
+        .sprite-狂级思感精粹 { background-position: -240px -240px; }
+        .sprite-危级思感精粹 { background-position: -320px -240px; }
+        .sprite-普级思感精粹 { background-position: -400px -240px; }
+
+        /* 第五行 */
+        .sprite-核心重构碎片 { background-position: 0 -320px; }
+        .sprite-边界重构碎片 { background-position: -80px -320px; }
+        .sprite-技能模组Ⅳ { background-position: -160px -320px; }
+        .sprite-技能模组Ⅲ { background-position: -240px -320px; }
+        .sprite-技能模组Ⅱ { background-position: -320px -320px; }
+        .sprite-技能模组Ⅰ { background-position: -400px -320px; }
+
+        /* 第六行 */
+        .sprite-名片 { background-position: 0 -400px; }
+        .sprite-留影胶片 { background-position: -80px -400px; }
+        .sprite-体力 { background-position: -160px -400px; }
+        .sprite-异色思感精粹 { background-position: -240px -400px; }
+        .sprite-狂级跃升指令 { background-position: -320px -400px; }
+        .sprite-危级跃升指令 { background-position: -400px -400px; }
+
         /* ==================== 基础样式设置 ==================== */
         
         /* 设置整个网页背景 */
@@ -4749,6 +4815,7 @@
         }
 
         @media (max-width: 480px) {
+            /* === 页面整体布局调整 === */
             .value-analysis-page {
                 padding: 5px;
                 margin-top: 55px;
@@ -4771,23 +4838,27 @@
                 padding: 12px 8px;
             }
             
-            /* 修复：礼包容器区域的内边距 */
+            /* === 礼包容器区域 === */
             .package-section {
-                padding: 15px 0; /* 减少上下内边距 */
+                padding: 15px 0;
                 margin: 0 auto 20px;
-                width: 100%; /* 确保宽度100% */
+                width: 100%;
                 box-sizing: border-box;
             }
             
-            /* 修复：排序控制容器 */
+            /* === 排序控制区域 - 确保与礼包卡片宽度一致 === */
             .sort-controls-container {
                 margin-bottom: 12px;
-                padding: 0 8px; /* 添加内边距 */
+                padding: 0 8px;
+                width: 100%;
                 box-sizing: border-box;
             }
             
             .sort-buttons {
                 gap: 3px;
+                width: 100%;
+                padding: 0;
+                margin: 0;
             }
             
             .sort-btn {
@@ -4797,41 +4868,45 @@
                 line-height: 1.2;
             }
             
-            /* 修复：礼包网格容器 */
+            /* === 礼包网格和卡片布局 - 关键修改 === */
             .package-grid {
                 grid-template-columns: 1fr;
                 gap: 6px;
                 padding: 0 8px;
-                width: 100% !important;
-                max-width: 100% !important;
-                min-width: 0 !important;
+                width: 100%;
+                max-width: 100%;
+                min-width: 0;
+                box-sizing: border-box;
             }
             
             .package-container {
                 margin-bottom: 6px;
                 width: 100%;
                 box-sizing: border-box;
-                overflow: hidden !important;
+                overflow: hidden;
+                padding: 0;
             }
             
             /* 礼包卡片保持水平排列 */
             .package-card {
                 flex-direction: row;
                 padding: 8px;
-                gap: 8px;
+                gap: 4px;
                 align-items: center;
                 width: 100%;
                 box-sizing: border-box;
                 margin: 0;
-                min-width: 0 !important;
+                min-width: 0;
+                justify-content: space-between;
+                overflow: hidden;
             }
             
-            /* 图片区域缩小 */
+            /* === 礼包图片区域 === */
             .package-image {
                 width: 70px;
                 height: 70px;
                 flex-shrink: 0;
-                min-width: 0 !important;
+                min-width: 0;
             }
             
             .package-name-overlay {
@@ -4839,14 +4914,16 @@
                 max-width: 65%;
             }
             
-            /* 信息区域调整 */
+            /* === 礼包信息区域 === */
             .package-info {
                 align-items: flex-start;
                 text-align: left;
                 gap: 6px;
                 flex: 1;
-                min-width: 0 !important; /* 关键：允许缩小 */
-                overflow: hidden !important;
+                min-width: 0;
+                overflow: hidden;
+                margin-right: 0;
+                padding-right: 0;
             }
             
             .package-stats {
@@ -4888,14 +4965,15 @@
                 white-space: nowrap;
             }
             
-            /* 条形图区域进一步缩小 */
+            /* === 条形图区域 === */
             .package-chart {
-                width: 100px !important;
-                flex-shrink: 0;
-                gap: 6px;
+                flex-shrink: 1;
+                gap: 10px;
                 padding: 0;
                 margin: 0;
-                min-width: 0 !important;
+                min-width: 0;
+                margin-left: 0;
+                padding-left: 0;
             }
             
             .chart-item {
@@ -4906,14 +4984,14 @@
             
             .chart-label {
                 font-size: 9px;
-                width: 32px; /* 进一步缩小 */
+                width: 32px;
                 text-align: left;
                 white-space: nowrap;
             }
             
             .chart-bar-container {
                 height: 14px;
-                min-width: 55px; /* 调整最小宽度 */
+                min-width: 55px;
             }
             
             .chart-bar {
@@ -4926,9 +5004,9 @@
                 white-space: nowrap;
             }
             
-            /* 详情区域 */
+            /* === 详情区域 === */
             .package-detail {
-                width: calc(100% - 16px); /* 根据容器调整宽度 */
+                width: calc(100% - 16px);
                 margin: 0 auto;
                 padding: 10px 6px 6px;
                 box-sizing: border-box;
@@ -4984,12 +5062,12 @@
                 flex-shrink: 0;
             }
             
-            /* 分区标题 */
+            /* === 分区标题 === */
             .section-title {
                 font-size: 14px;
                 margin-bottom: 10px;
                 padding-bottom: 5px;
-                padding: 0 8px; /* 添加内边距 */
+                padding: 0 8px;
             }
         }
 
@@ -7991,7 +8069,7 @@
                                     <div class="package-card" @click="togglePackageDetail(pkg.id)">
                                         <!-- 左侧：礼包图片 -->
                                         <div class="package-image">
-                                            <img :src="pkg.image" :alt="pkg.name" class="package-img">
+                                            <img :src="pkg.image" :alt="pkg.name" class="package-img" loading="lazy">
                                             <div class="package-name-overlay">{{ pkg.name }}</div>
                                         </div>
                                         <!-- 中间：文本信息 -->
@@ -8297,8 +8375,8 @@
                                 {
                                     title: '固定商品',
                                     items: [
-                                        { name: '璀璨晶源', icon: 'icons/premium_crystal.png', quantity: 300, value: 300, percentage: 80 },
-                                        { name: '异方晶', icon: 'icons/crystal.png', quantity: 1800, value: 1800, percentage: 481 },
+                                        { name: '璀璨晶源', icon: 'icons/璀璨晶源.png', quantity: 300, value: 300, percentage: 80 },
+                                        { name: '异方晶', icon: 'icons/异方晶.png', quantity: 1800, value: 1800, percentage: 481 },
                                         { name: '体力', icon: 'icons/体力.png', quantity: 3000, value: 1200, percentage: 321 }
                                     ]
                                 },
@@ -8320,9 +8398,9 @@
                                 {
                                     title: '固定商品',
                                     items: [
-                                        { name: '璀璨晶源', icon: 'icons/premium_crystal.png', quantity: 180, value: 180, percentage: 80 },
-                                        { name: '异方晶', icon: 'icons/crystal.png', quantity: 100, value: 100, percentage: 45 },
-                                        { name: '搜索令', icon: 'icons/ticket.png', quantity: 2, value: 360, percentage: 160 }
+                                        { name: '璀璨晶源', icon: 'icons/璀璨晶源.png', quantity: 180, value: 180, percentage: 80 },
+                                        { name: '异方晶', icon: 'icons/异方晶.png', quantity: 100, value: 100, percentage: 45 },
+                                        { name: '搜索令', icon: 'icons/搜索令.png', quantity: 2, value: 360, percentage: 160 }
                                     ]
                                 },
                             ],
@@ -8343,7 +8421,7 @@
                                 {
                                     title: '固定商品',
                                     items: [
-                                        { name: '异方晶', icon: 'icons/crystal.png', quantity: 100, value: 100, percentage: 267 },
+                                        { name: '异方晶', icon: 'icons/异方晶.png', quantity: 100, value: 100, percentage: 267 },
                                     ]
                                 },
                             ],
@@ -8364,7 +8442,7 @@
                                 {
                                     title: '固定商品',
                                     items: [
-                                        { name: '搜索令', icon: 'icons/ticket.png', quantity: 1, value: 180, percentage: 241 }
+                                        { name: '搜索令', icon: 'icons/搜索令.png', quantity: 1, value: 180, percentage: 241 }
                                     ]
                                 },
                             ],
@@ -8385,8 +8463,8 @@
                                 {
                                     title: '固定商品',
                                     items: [
-                                        { name: '璀璨晶源', icon: 'icons/premium_crystal.png', quantity: 180, value: 180, percentage: 80 },
-                                        { name: '搜索令', icon: 'icons/ticket.png', quantity: 1, value: 180, percentage: 80 }
+                                        { name: '璀璨晶源', icon: 'icons/璀璨晶源.png', quantity: 180, value: 180, percentage: 80 },
+                                        { name: '搜索令', icon: 'icons/搜索令.png', quantity: 1, value: 180, percentage: 80 }
                                     ]
                                 },
                             ],
@@ -8686,15 +8764,15 @@
                                 {
                                     title: '可选商品1（2选1）',
                                     items: [
-                                        { name: '搜索令', icon: 'icons/ticket.png', quantity: 6, value: 1080, percentage: 44 },
-                                        { name: '璀璨晶源', icon: 'icons/premium_crystal.png', quantity: 540, value: 540, percentage: 22 },
+                                        { name: '搜索令', icon: 'icons/搜索令.png', quantity: 6, value: 1080, percentage: 44 },
+                                        { name: '璀璨晶源', icon: 'icons/璀璨晶源.png', quantity: 540, value: 540, percentage: 22 },
                                     ]
                                 },
                                 {
                                     title: '可选商品2（2选1）',
                                     items: [
-                                        { name: '搜索令', icon: 'icons/ticket.png', quantity: 6, value: 1080, percentage: 44 },
-                                        { name: '璀璨晶源', icon: 'icons/premium_crystal.png', quantity: 540, value: 540, percentage: 22 },
+                                        { name: '搜索令', icon: 'icons/搜索令.png', quantity: 6, value: 1080, percentage: 44 },
+                                        { name: '璀璨晶源', icon: 'icons/璀璨晶源.png', quantity: 540, value: 540, percentage: 22 },
                                     ]
                                 },
                             ],
@@ -8721,15 +8799,15 @@
                                 {
                                     title: '可选商品1（2选1）',
                                     items: [
-                                        { name: '搜索令', icon: 'icons/ticket.png', quantity: 4, value: 720, percentage: 45 },
-                                        { name: '璀璨晶源', icon: 'icons/premium_crystal.png', quantity: 360, value: 360, percentage: 23 },
+                                        { name: '搜索令', icon: 'icons/搜索令.png', quantity: 4, value: 720, percentage: 45 },
+                                        { name: '璀璨晶源', icon: 'icons/璀璨晶源.png', quantity: 360, value: 360, percentage: 23 },
                                     ]
                                 },
                                 {
                                     title: '可选商品2（2选1）',
                                     items: [
-                                        { name: '搜索令', icon: 'icons/ticket.png', quantity: 4, value: 720, percentage: 45 },
-                                        { name: '璀璨晶源', icon: 'icons/premium_crystal.png', quantity: 360, value: 360, percentage: 23 },
+                                        { name: '搜索令', icon: 'icons/搜索令.png', quantity: 4, value: 720, percentage: 45 },
+                                        { name: '璀璨晶源', icon: 'icons/璀璨晶源.png', quantity: 360, value: 360, percentage: 23 },
                                     ]
                                 },
                             ],
@@ -8750,9 +8828,9 @@
                                 {
                                     title: '固定商品',
                                     items: [
-                                        { name: '搜索令', icon: 'icons/ticket.png', quantity: 1, value: 180, percentage: 241 },
+                                        { name: '搜索令', icon: 'icons/搜索令.png', quantity: 1, value: 180, percentage: 241 },
                                         { name: '都市搜索令', icon: 'icons/都市搜索令.png', quantity: 1, value: 180, percentage: 241 },
-                                        { name: '异方晶', icon: 'icons/crystal.png', quantity: 60, value: 60, percentage: 80 },                                
+                                        { name: '异方晶', icon: 'icons/异方晶.png', quantity: 60, value: 60, percentage: 80 },                                
                                         { name: '狄斯币', icon: 'icons/狄斯币.png', quantity: 10000, value: 8, percentage: 11 },
                                     ]
                                 },
@@ -8774,7 +8852,7 @@
                                 {
                                     title: '固定商品',
                                     items: [
-                                        { name: '搜索令', icon: 'icons/ticket.png', quantity: 10, value: 1800, percentage: 148 },
+                                        { name: '搜索令', icon: 'icons/搜索令.png', quantity: 10, value: 1800, percentage: 148 },
                                         { name: '都市搜索令', icon: 'icons/都市搜索令.png', quantity: 10, value: 1800, percentage: 148 },
                                     ]
                                 },
@@ -8796,7 +8874,7 @@
                                 {
                                     title: '固定商品',
                                     items: [
-                                        { name: '搜索令', icon: 'icons/ticket.png', quantity: 3, value: 540, percentage: 96 },
+                                        { name: '搜索令', icon: 'icons/搜索令.png', quantity: 3, value: 540, percentage: 96 },
                                         { name: '名片', icon: 'icons/名片.png', quantity: 10, value: '无法衡量', percentage: '-' },
                                     ]
                                 },
@@ -8840,7 +8918,7 @@
                                 {
                                     title: '固定商品',
                                     items: [
-                                        { name: '搜索令', icon: 'icons/ticket.png', quantity: 10, value: 1800, percentage: 212 },
+                                        { name: '搜索令', icon: 'icons/搜索令.png', quantity: 10, value: 1800, percentage: 212 },
                                     ]
                                 },
                             ],
@@ -8861,7 +8939,7 @@
                                 {
                                     title: '固定商品',
                                     items: [
-                                        { name: '搜索令', icon: 'icons/ticket.png', quantity: 15, value: 2700, percentage: 169 },
+                                        { name: '搜索令', icon: 'icons/搜索令.png', quantity: 15, value: 2700, percentage: 169 },
                                         { name: '狄斯币', icon: 'icons/狄斯币.png', quantity: 200000, value: 160, percentage: 10 },
                                         { name: '狂乱精粹', icon: 'icons/狂乱精粹.png', quantity: 200000, value: 160, percentage: 10 },
                                         { name: '超阶材料补给箱', icon: 'icons/超阶材料补给箱.png', quantity: 10, value: 216, percentage: 14 },
@@ -8887,7 +8965,7 @@
                                 {
                                     title: '固定商品',
                                     items: [
-                                        { name: '搜索令', icon: 'icons/ticket.png', quantity: 20, value: 3600, percentage: 146 },
+                                        { name: '搜索令', icon: 'icons/搜索令.png', quantity: 20, value: 3600, percentage: 146 },
                                         { name: '狄斯币', icon: 'icons/狄斯币.png', quantity: 200000, value: 160, percentage: 6 },
                                         { name: '狂乱精粹', icon: 'icons/狂乱精粹.png', quantity: 200000, value: 160, percentage: 6 },
                                         { name: '超阶材料补给箱', icon: 'icons/超阶材料补给箱.png', quantity: 10, value: 216, percentage: 9 },
@@ -8906,14 +8984,14 @@
                     ],
 
                     // 图片路径 - 使用绝对路径
-                    crystalIcon: 'icons/crystal.png',
-                    ticketIcon: 'icons/ticket.png',
-                    redCrystalIcon: 'icons/red_crystal.png',
-                    premiumCrystalIcon: 'icons/premium_crystal.png',
-                    yellowTicketIcon: 'icons/yellow_ticket.png',
+                    crystalIcon: 'icons/异方晶.png',
+                    ticketIcon: 'icons/搜索令.png',
+                    redCrystalIcon: 'icons/璀璨晶源.png',
+                    premiumCrystalIcon: 'icons/璀璨晶源.png',
+                    yellowTicketIcon: 'icons/黄票.png',
                     hlIcon:'icons/hl.gif',
-                    limitedCouponIcon: 'icons/Limitedcoupon.png',
-                    alloyIcon: 'icons/Multiplealloys.png',
+                    limitedCouponIcon: 'icons/限定券.png',
+                    alloyIcon: 'icons/多项合金.png',
 
                     // 各模块的展开/折叠状态
                     sections: savedData.sections || {
@@ -11703,6 +11781,24 @@
                 },
             },
             methods: {
+                preloadCriticalImages() {
+                    // 预加载核心资源图标
+                    const criticalImages = [
+                        'icons/异方晶.png',
+                        'icons/璀璨晶源.png', 
+                        'icons/搜索令.png',
+                        'icons/限定券.png',
+                        'icons/璀璨晶源.png',
+                        'icons/黄票.png',
+                        'icons/多项合金.png'
+                    ];
+                    
+                    criticalImages.forEach(src => {
+                        const img = new Image();
+                        img.src = src;
+                    });
+                },
+
                 // 礼包排序方法
                 sortPackages(type) {
                     this.sortType = type;
@@ -13413,6 +13509,8 @@
 
             },
             mounted() {
+                this.preloadCriticalImages();
+
                 // 初始化饼状图
                 this.updatePieChart();
                 
