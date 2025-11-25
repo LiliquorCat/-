@@ -7002,9 +7002,9 @@
                                                     <span class="item-title">活动奖励：</span>
                                                     <span class="item-value">
                                                         <img :src="crystalIcon" class="resource-icon" alt="异方晶"> 
-                                                        {{ activityCompleted[activity.title] ? 0 : (activity.title === '妄夜迷章' ? 1070 : (activity.title === '歧行至破晓（⚠️估算）' ? 2000 : 1000)) }}
+                                                        {{ activityCompleted[activity.title] ? 0 : (activity.title === '妄夜迷章' ? 1070 : (activity.title === '歧行至破晓' ? 2000 : 1000)) }}
                                                         <img :src="ticketIcon" class="resource-icon" alt="搜索令"> 
-                                                        {{ activityCompleted[activity.title] ? 0 : (activity.title === '歧行至破晓（⚠️估算）' ? 5 : 3) }}
+                                                        {{ activityCompleted[activity.title] ? 0 : (activity.title === '歧行至破晓' ? 5 : 3) }}
                                                     </span>
                                                 </div>
                                                 <div class="switch-group small">
@@ -7018,7 +7018,7 @@
                                             </div>
                                             
                                             <!-- 绝密行动奖励（仅限歧行至破晓） -->
-                                            <div class="accumulation-item" v-if="activity.title === '歧行至破晓（⚠️估算）'">
+                                            <div class="accumulation-item" v-if="activity.title === '歧行至破晓'">
                                                 <div class="item-info">
                                                     <span class="item-title">绝密行动：</span>
                                                     <span class="item-value">
@@ -7037,7 +7037,7 @@
                                             </div>
 
                                             <!-- 公会战奖励（仅限歧行至破晓） -->
-                                            <div class="accumulation-item" v-if="activity.title === '歧行至破晓（⚠️估算）'">
+                                            <div class="accumulation-item" v-if="activity.title === '歧行至破晓'">
                                                 <div class="item-info">
                                                     <span class="item-title">公会战奖励：</span>
                                                     <span class="item-value">
@@ -7135,7 +7135,7 @@
                                                     <span class="item-title">角色试用：</span>
                                                     <span class="item-value">
                                                         <img :src="crystalIcon" class="resource-icon" alt="异方晶"> 
-                                                        {{ activityTrialCompleted[activity.title] ? 0 : (activity.title === '歧行至破晓（⚠️估算）' || activity.title === '新年活动（⚠️估算）' ? 70 : 40) }}
+                                                        {{ activityTrialCompleted[activity.title] ? 0 : (activity.title === '歧行至破晓' || activity.title === '新年活动（⚠️估算）' ? 70 : 40) }}
                                                     </span>
                                                 </div>
                                                 <div class="switch-group small">
@@ -9562,7 +9562,7 @@
                     // 活动复刻模式状态
                     activityRerunMode: savedData?.activityRerunMode || {
                         '妄夜迷章': false,
-                        '歧行至破晓（⚠️估算）': false, 
+                        '歧行至破晓': false, 
                         '1218-0115活动（⚠️估算）': false,
                         '0115-0212活动（⚠️估算）': false,
                         '新年活动（⚠️估算）': false
@@ -10099,7 +10099,7 @@
                             if (activity.title === '妄夜迷章') {
                                 activityCrystal += 1070;
                                 activityTickets += 3;
-                            } else if (activity.title === '歧行至破晓（⚠️估算）') {
+                            } else if (activity.title === '歧行至破晓') {
                                 activityCrystal += 2000;
                                 activityTickets += 5;
                                 
@@ -10127,7 +10127,7 @@
                         }
                         // 计算角色试用奖励
                         if (!this.activityTrialCompleted[activity.title]) {
-                            if (activity.title === '歧行至破晓（⚠️估算）' || activity.title === '新年活动（⚠️估算）') {
+                            if (activity.title === '歧行至破晓' || activity.title === '新年活动（⚠️估算）') {
                                 activityTrialCrystal += 70;
                             } else {
                                 activityTrialCrystal += 40;
@@ -10150,7 +10150,7 @@
                     // 计算所有未完成活动的搜索令
                     this.displayActivities.forEach(activity => {
                         if (!this.activityCompleted[activity.title]) {
-                            if (activity.title === '歧行至破晓（⚠️估算）') {
+                            if (activity.title === '歧行至破晓') {
                                 activityTickets += 5;
                             } else {
                                 activityTickets += 3;
